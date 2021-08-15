@@ -1,55 +1,37 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:flutter/services.dart';
 import 'package:http/http.dart';
 
-enum PaymentMode { test, live }
-enum BrandType { visa, mastercard, mada, stcpay, applepay }
+import 'package:hyperpay/brands.dart';
+import 'package:hyperpay/payment_mode.dart';
+import 'package:hyperpay/models/checkout_settings.dart';
+import 'package:hyperpay/models/payment_settings.dart';
+import 'package:hyperpay/models/card_info.dart';
 
-class Brand {
-  BrandType type;
-  String entityID;
-
-  Brand({required this.type, required this.entityID});
-}
-
-class CheckoutSettings {
-  CheckoutSettings({
-    required this.brand,
-    required this.host,
-    required this.path,
-    required this.amount,
-    this.additionalParams = const {},
-  });
-
-  Brand brand;
-  String host;
-  String path;
-  double amount;
-  Map<String, dynamic> additionalParams;
-}
-
-extension on PaymentMode {
-  String get string {
-    switch (this) {
-      case PaymentMode.live:
-        return 'LIVE';
-      case PaymentMode.test:
-        return 'TEST';
-    }
-  }
-}
+export 'package:hyperpay/brands.dart';
+export 'package:hyperpay/formatters.dart';
+export 'package:hyperpay/payment_mode.dart';
+export 'package:hyperpay/models/checkout_settings.dart';
+export 'package:hyperpay/models/payment_settings.dart';
+export 'package:hyperpay/models/card_info.dart';
 
 class HyperpayPlugin {
-  HyperpayPlugin({required this.mode, required this.checkoutSettings});
+  HyperpayPlugin({
+    required this.mode,
+    required this.checkoutSettings,
+    required this.paymentSettings,
+  });
 
   final PaymentMode mode;
   final CheckoutSettings checkoutSettings;
+  final PaymentSettings paymentSettings;
 
   static const MethodChannel _channel = const MethodChannel('hyperpay');
 
-  Future<String?> get checkoutID async {
+  Future<String> get getCheckoutID async {
     try {
       Uri url = Uri(
         scheme: 'https',
@@ -76,7 +58,55 @@ class HyperpayPlugin {
         throw Exception();
       }
 
+      log(_checkoutID, name: "HyperpayPlugin/getCheckoutID");
+
       return _checkoutID;
+    } catch (exception) {
+      rethrow;
+    }
+  }
+
+  Future<String?> pay(String checkotuID, CardInfo card) async {
+    try {
+      final result = await _channel.invokeMethod(
+        'hyperpay',
+        {
+          'checkoutID': checkotuID,
+          'brand': checkoutSettings.brand.type.asString,
+          'mode': mode.string,
+          'card': card.toMap(),
+        },
+      );
+
+      print(result);
+
+      return result;
+    } catch (e) {
+      log('$e');
+    }
+  }
+
+  Future<String> paymentStatus(String checkoutID) async {
+    try {
+      Uri url = Uri(
+        scheme: 'https',
+        host: paymentSettings.host,
+        path: paymentSettings.path,
+      );
+
+      final Response response = await post(
+        url,
+        body: {
+          'entityId': checkoutSettings.brand.entityID,
+          'checkoutId': checkoutID,
+        },
+      );
+
+      final Map<String, dynamic> _resBody = json.decode(response.body);
+
+      log(_resBody.values.join(','), name: "HyperpayPlugin/checkPaymentStatus");
+
+      return _resBody.values.join(',');
     } catch (exception) {
       rethrow;
     }
