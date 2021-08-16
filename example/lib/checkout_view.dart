@@ -126,6 +126,7 @@ class _CheckoutViewState extends State<CheckoutView> {
                                   setState(() {
                                     isLoading = true;
                                   });
+
                                   // Make a CardInfo from the controllers
                                   CardInfo card = CardInfo(
                                     holder: holderNameController.text,
@@ -135,10 +136,7 @@ class _CheckoutViewState extends State<CheckoutView> {
                                     expiryYear: '20' + expiryController.text.split('/')[1],
                                   );
 
-                                  initPaymentSession(
-                                    brandType,
-                                    10.0,
-                                  );
+                                  initPaymentSession(brandType, 10.0);
 
                                   try {
                                     // Start transaction
