@@ -1,30 +1,15 @@
 import 'package:flutter/material.dart';
-import 'dart:async';
 
-import 'package:flutter/services.dart';
 import 'package:hyperpay/hyperpay.dart';
-import 'package:hyperpay_example/checkout_view.dart';
 import 'package:hyperpay_example/constants.dart';
+import 'package:hyperpay_example/endpoint_setup.dart';
+import 'package:hyperpay_example/checkout_view.dart';
 
 void main() {
-  // Setup using your own endpoints.
-  // https://wordpresshyperpay.docs.oppwa.com/tutorials/mobile-sdk/integration/server.
-  String _host = 'YOUR_HOST';
-  Uri _checkoutEndpoint = Uri(
-    scheme: 'https',
-    host: _host,
-    path: '',
-  );
-  Uri _statusEndpoint = Uri(
-    scheme: 'https',
-    host: _host,
-    path: '',
-  );
-
   HyperpayPlugin.instance.setup(
     config: TestConfig(),
-    checkoutEndpoint: _checkoutEndpoint,
-    statusEndpoint: _statusEndpoint,
+    checkoutEndpoint: checkoutEndpoint,
+    statusEndpoint: statusEndpoint,
   );
 
   runApp(MyApp());

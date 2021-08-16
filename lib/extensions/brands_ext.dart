@@ -5,7 +5,7 @@ import 'package:hyperpay/hyperpay.dart';
 // These expressions were chosen according to this article.
 // https://uxplanet.org/streamlining-the-checkout-experience-4-4-6793dad81360
 
-RegExp _visaRegExp = RegExp(r'^4[0–9]{6,}$');
+RegExp _visaRegExp = RegExp(r'^4[0-9]{12}(?:[0-9]{3})?$');
 RegExp _mastercardRegExp = RegExp(r'^5[1-5][0-9]{5,}$');
 RegExp _madaRegExpV = RegExp(
     r'4(0(0861|1757|7(197|395)|9201)|1(0685|7633|9593)|2(281(7|8|9)|8(331|67(1|2|3)))|3(1361|2328|4107|9954)|4(0(533|647|795)|5564|6(393|404|672))|5(5(036|708)|7865|8456)|6(2220|854(0|1|2|3))|8(301(0|1|2)|4783|609(4|5|6)|931(7|8|9))|93428)');
