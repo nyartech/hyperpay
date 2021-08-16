@@ -1,3 +1,12 @@
 export 'package:hyperpay/extensions/payment_status_ext.dart';
 
-enum PaymentStatus { successful, pending, rejected }
+/// Any transaction would have 3 possible group states.
+///
+/// See [PaymentStatusFromRegExp]
+enum PaymentStatus {
+  successful,
+
+  pending,
+
+  rejected,
+}

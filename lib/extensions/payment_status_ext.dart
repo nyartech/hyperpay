@@ -1,5 +1,10 @@
 import 'package:hyperpay/enums/payment_status.dart';
 
+/// Uses Regular Expressions to define the group
+/// of a transaction result code.
+///
+/// Refer to [API Result Codes](https://wordpresshyperpay.docs.oppwa.com/reference/resultCodes)
+/// for more information on what each group includes.
 extension PaymentStatusFromRegExp on String {
   PaymentStatus get paymentStatus {
     final successRegExp = RegExp(r"^(000\.000\.|000\.100\.1|000\.[36]|000\.400\.0[^3]|000\.400\.[0-1]{2}0)");

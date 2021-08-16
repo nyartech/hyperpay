@@ -27,8 +27,11 @@ export 'package:hyperpay/models/checkout_settings.dart';
 /// The interface for Hyperpay SDK.
 /// To use this plugin, you will need to have 2 endpoints on your server.
 ///
-/// Please check [the guide to setup your server](https://wordpresshyperpay.docs.oppwa.com/tutorials/mobile-sdk/integration/server).
+/// Please check
+/// [the guide to setup your server](https://wordpresshyperpay.docs.oppwa.com/tutorials/mobile-sdk/integration/server).
 ///
+/// Refer to [HyperPay API](https://wordpresshyperpay.docs.oppwa.com/reference/parameters)
+/// for more information on Test/Live systems
 class HyperpayPlugin {
   HyperpayPlugin._();
   static HyperpayPlugin instance = HyperpayPlugin._();
@@ -40,20 +43,28 @@ class HyperpayPlugin {
   late final Uri _statusEndpoint;
 
   CheckoutSettings? _checkoutSettings;
+
+  /// Read the configurations used to setup this instance of HyperPay.
   HyperpayConfig get config => _config;
 
+  /// Setup HyperPay plugin with the required stuff to make a successful
+  /// payment transaction.
+  ///
+  /// See [HyperpayConfig], [PaymentMode]
   void setup({
     required Uri checkoutEndpoint,
     required Uri statusEndpoint,
     required HyperpayConfig config,
   }) {
-    _clearSession();
     _checkoutEndpoint = checkoutEndpoint;
     _statusEndpoint = statusEndpoint;
     _config = config;
   }
 
+  /// Instantiate a checkout session.
   void initSession({required CheckoutSettings checkoutSetting}) async {
+    // ensure anything from previous session is cleaned up.
+    _clearSession();
     _checkoutSettings = checkoutSetting;
   }
 
@@ -65,6 +76,7 @@ class HyperpayPlugin {
     }
   }
 
+  /// A call to the endpoint on your server to get a checkout ID.
   Future<String> get getCheckoutID async {
     try {
       final Response response = await post(
@@ -114,6 +126,11 @@ class HyperpayPlugin {
     }
   }
 
+  /// Perform the transaction using iOS/Android HyperPay SDK.
+  ///
+  /// It's highly recommended to setup a listner using
+  /// [HyperPay webhooks](https://wordpresshyperpay.docs.oppwa.com/tutorials/webhooks),
+  /// and perform the requird action after payment (e.g. issue receipt) on your server.
   Future<void> pay(CardInfo card) async {
     try {
       final checkoutID = await HyperpayPlugin.instance.getCheckoutID;
@@ -143,13 +160,15 @@ class HyperpayPlugin {
     }
   }
 
+  /// Check for payment status using a checkout ID, this method is called
+  /// once right after a transaction.
   Future<Map<String, dynamic>> paymentStatus(String checkoutID) async {
     try {
       final Response response = await post(
         _statusEndpoint,
         body: {
-          'entityId': _checkoutSettings?.brand.entityID,
-          'checkoutId': checkoutID,
+          'entityID': _checkoutSettings?.brand.entityID,
+          'checkoutID': checkoutID,
         },
       );
 
