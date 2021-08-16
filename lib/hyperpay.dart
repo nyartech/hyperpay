@@ -6,17 +6,21 @@ import 'dart:io';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart';
 
-import 'package:hyperpay/extensions/brands_ext.dart';
-import 'package:hyperpay/enums/payment_status.dart';
+import 'package:hyperpay/hyperpay_config.dart';
 import 'package:hyperpay/hyperpay_exception.dart';
+import 'package:hyperpay/enums/payment_status.dart';
 import 'package:hyperpay/enums/payment_mode.dart';
+import 'package:hyperpay/enums/brand_type.dart';
+import 'package:hyperpay/extensions/brands_ext.dart';
 import 'package:hyperpay/models/card_info.dart';
 import 'package:hyperpay/models/checkout_settings.dart';
 
+export 'package:hyperpay/hyperpay_config.dart';
 export 'package:hyperpay/hyperpay_exception.dart';
 export 'package:hyperpay/extensions/brands_ext.dart';
 export 'package:hyperpay/ui_utils/formatters.dart';
 export 'package:hyperpay/enums/payment_mode.dart';
+export 'package:hyperpay/enums/brand_type.dart';
 export 'package:hyperpay/models/card_info.dart';
 export 'package:hyperpay/models/checkout_settings.dart';
 
@@ -31,23 +35,19 @@ class HyperpayPlugin {
 
   static const MethodChannel _channel = const MethodChannel('hyperpay');
 
-  late PaymentMode _mode;
   late HyperpayConfig _config;
   late final Uri _checkoutEndpoint;
   late final Uri _statusEndpoint;
 
   CheckoutSettings? _checkoutSettings;
-  BrandType? get brandType => _checkoutSettings?.brand;
   HyperpayConfig get config => _config;
 
   void setup({
-    required PaymentMode mode,
     required Uri checkoutEndpoint,
     required Uri statusEndpoint,
     required HyperpayConfig config,
   }) {
     _clearSession();
-    _mode = mode;
     _checkoutEndpoint = checkoutEndpoint;
     _statusEndpoint = statusEndpoint;
     _config = config;
@@ -60,7 +60,6 @@ class HyperpayPlugin {
   /// Used to clear any lefovers from previous session
   /// before starting a new one.
   void _clearSession() {
-    _mode = PaymentMode.none;
     if (_checkoutSettings != null) {
       _checkoutSettings?.clear();
     }
@@ -123,7 +122,7 @@ class HyperpayPlugin {
         {
           'checkoutID': checkoutID,
           'brand': _checkoutSettings?.brand.asString,
-          'mode': _mode.string,
+          'mode': _config.paymentMode.string,
           'card': card.toMap(),
         },
       );

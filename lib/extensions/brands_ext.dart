@@ -1,3 +1,4 @@
+import 'package:hyperpay/enums/brand_type.dart';
 import 'package:hyperpay/hyperpay.dart';
 
 extension DetectBrand on String {
@@ -21,16 +22,9 @@ extension DetectBrand on String {
   }
 }
 
-enum BrandType {
-  visa,
-  mastercard,
-  mada,
-  none,
-}
-
 // Regular experessions for each brand
 RegExp _visaRegExp = RegExp(r'^4[0-9]{12}(?:[0-9]{3})?$');
-RegExp _mastercardRegExp = RegExp(r'^5[1-5][0-9]{14}|^(222[1-9]|22[3-9]\\d|2[3-6]\\d{2}|27[0-1]\\d|2720)[0-9]{12}$');
+RegExp _mastercardRegExp = RegExp(r'^5[1-5][0-9]{14}');
 RegExp _madaRegExpV = RegExp(
     r'4(0(0861|1757|7(197|395)|9201)|1(0685|7633|9593)|2(281(7|8|9)|8(331|67(1|2|3)))|3(1361|2328|4107|9954)|4(0(533|647|795)|5564|6(393|404|672))|5(5(036|708)|7865|8456)|6(2220|854(0|1|2|3))|8(301(0|1|2)|4783|609(4|5|6)|931(7|8|9))|93428)');
 RegExp _madaRegExpM = RegExp(
@@ -124,9 +118,4 @@ extension BrandTypeExtension on BrandType {
         return 20;
     }
   }
-}
-
-class HyperpayConfig {
-  String? creditcardEntityID;
-  String? madaEntityID;
 }

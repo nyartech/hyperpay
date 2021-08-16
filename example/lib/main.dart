@@ -22,7 +22,6 @@ void main() {
   );
 
   HyperpayPlugin.instance.setup(
-    mode: PaymentMode.test,
     config: TestConfig(),
     checkoutEndpoint: _checkoutEndpoint,
     statusEndpoint: _statusEndpoint,
@@ -37,25 +36,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  Future<void> getCheckoutID(BuildContext context) async {
-    try {
-      try {
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            fullscreenDialog: true,
-            builder: (_) => CheckoutView(),
-          ),
-        );
-      } catch (e) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Error'),
-          ),
-        );
-      }
-    } on PlatformException {}
-  }
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

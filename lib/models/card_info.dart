@@ -1,9 +1,10 @@
 class CardInfo {
-  String holder;
-  String cardNumber;
-  String cvv;
-  String expiryMonth;
-  String expiryYear;
+  final String holder;
+  final String cardNumber;
+  final String cvv;
+  final String expiryMonth;
+  final String expiryYear;
+
   CardInfo({
     required this.holder,
     required this.cardNumber,
@@ -12,7 +13,7 @@ class CardInfo {
     required this.expiryYear,
   });
 
-  toMap() {
+  Map<String, String> toMap() {
     return {
       'holder': holder,
       'number': cardNumber.replaceAll(' ', ''),

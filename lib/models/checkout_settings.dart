@@ -1,4 +1,4 @@
-import 'package:hyperpay/extensions/brands_ext.dart';
+import 'package:hyperpay/enums/brand_type.dart';
 
 /// This class wraps the required params to get a `checkoutID`
 /// from HyperPay **server-to-server**, meaning that these params
@@ -6,16 +6,6 @@ import 'package:hyperpay/extensions/brands_ext.dart';
 /// to your server.
 ///
 /// See [HyperpayPlugin]
-///
-/// @params
-///
-
-///
-/// `additionalParams`: HyperPay allows sending additional params
-/// to help you identify payments on your own DB.
-/// Insert them as key/valye pairs.
-///
-/// Check [here](https://wordpresshyperpay.docs.oppwa.com/reference/parameters#customer) for full list of allowed parameters.
 ///
 class CheckoutSettings {
   CheckoutSettings({
@@ -28,11 +18,10 @@ class CheckoutSettings {
   /// card the user will pay with.
   BrandType brand;
 
-  /// a [Brand] that has the type and entity ID of the
-  /// card the user will pay with.
+  /// The amount to be paid.
   double amount;
 
-  /// `additionalParams`: HyperPay allows sending additional params
+  /// HyperPay allows sending additional params
   /// to help you identify payments on your own DB.
   /// Insert them as key/valye pairs.
   ///
