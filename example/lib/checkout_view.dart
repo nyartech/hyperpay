@@ -5,12 +5,7 @@ import 'package:hyperpay/hyperpay.dart';
 class CheckoutView extends StatefulWidget {
   const CheckoutView({
     Key? key,
-    required this.checkoutID,
-    required this.session,
   }) : super(key: key);
-
-  final String checkoutID;
-  final HyperpayPlugin session;
 
   @override
   _CheckoutViewState createState() => _CheckoutViewState();
@@ -22,14 +17,24 @@ class _CheckoutViewState extends State<CheckoutView> {
   TextEditingController expiryController = TextEditingController();
   TextEditingController cvvController = TextEditingController();
 
-  late final BrandType brandType;
-
+  BrandType brandType = BrandType.none;
   AutovalidateMode autovalidateMode = AutovalidateMode.disabled;
+  bool isLoading = false;
 
-  @override
-  void initState() {
-    brandType = widget.session.checkoutSettings.brand.type;
-    super.initState();
+  /// Initialize HyperPay session
+  void initPaymentSession(
+    BrandType brandType,
+    double amount,
+  ) {
+    CheckoutSettings _checkoutSettings = CheckoutSettings(
+      brand: brandType,
+      amount: amount,
+      additionalParams: {
+        'merchantTransactionId': '#123456',
+      },
+    );
+
+    HyperpayPlugin.instance.initSession(checkoutSetting: _checkoutSettings);
   }
 
   @override
@@ -64,8 +69,13 @@ class _CheckoutViewState extends State<CheckoutView> {
                       decoration: _inputDecoration(
                         label: "Card Number",
                         hint: "0000 0000 0000 0000",
-                        icon: Icons.credit_card_rounded,
+                        icon: 'assets/images/${brandType.asString}.png',
                       ),
+                      onChanged: (value) {
+                        setState(() {
+                          brandType = value.detectBrand;
+                        });
+                      },
                       inputFormatters: [
                         FilteringTextInputFormatter.digitsOnly,
                         LengthLimitingTextInputFormatter(brandType.maxLength),
@@ -108,29 +118,65 @@ class _CheckoutViewState extends State<CheckoutView> {
                     SizedBox(
                       width: double.infinity,
                       child: ElevatedButton(
-                        onPressed: () async {
-                          final bool valid = Form.of(context)?.validate() ?? false;
-                          if (valid) {
-                            // Make a CardInfo from the controllers
-                            CardInfo card = CardInfo(
-                              holder: holderNameController.text,
-                              cardNumber: cardNumberController.text,
-                              cvv: cvvController.text,
-                              expiryMonth: expiryController.text.split('/')[0],
-                              expiryYear: '20' + expiryController.text.split('/')[1],
-                            );
+                        onPressed: isLoading
+                            ? null
+                            : () async {
+                                final bool valid = Form.of(context)?.validate() ?? false;
+                                if (valid) {
+                                  setState(() {
+                                    isLoading = true;
+                                  });
+                                  // Make a CardInfo from the controllers
+                                  CardInfo card = CardInfo(
+                                    holder: holderNameController.text,
+                                    cardNumber: cardNumberController.text.replaceAll(' ', ''),
+                                    cvv: cvvController.text,
+                                    expiryMonth: expiryController.text.split('/')[0],
+                                    expiryYear: '20' + expiryController.text.split('/')[1],
+                                  );
 
-                            // Start transaction
-                            await widget.session.pay(widget.checkoutID, card);
+                                  initPaymentSession(
+                                    brandType,
+                                    10.0,
+                                  );
 
-                            await widget.session.paymentStatus(widget.checkoutID);
-                          } else {
-                            setState(() {
-                              autovalidateMode = AutovalidateMode.onUserInteraction;
-                            });
-                          }
-                        },
-                        child: Text('PAY'),
+                                  try {
+                                    // Start transaction
+                                    await HyperpayPlugin.instance.pay(card);
+
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text('Payment approved 🎉'),
+                                        backgroundColor: Colors.green,
+                                      ),
+                                    );
+                                  } on HyperpayException catch (exception) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text(exception.details ?? exception.message),
+                                        backgroundColor: Colors.red,
+                                      ),
+                                    );
+                                  } catch (exception) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text('$exception'),
+                                      ),
+                                    );
+                                  }
+
+                                  setState(() {
+                                    isLoading = false;
+                                  });
+                                } else {
+                                  setState(() {
+                                    autovalidateMode = AutovalidateMode.onUserInteraction;
+                                  });
+                                }
+                              },
+                        child: Text(
+                          isLoading ? 'Processing your request, please wait...' : 'PAY',
+                        ),
                       ),
                     )
                   ],
@@ -143,12 +189,21 @@ class _CheckoutViewState extends State<CheckoutView> {
     );
   }
 
-  InputDecoration _inputDecoration({String? label, String? hint, IconData? icon}) {
+  InputDecoration _inputDecoration({String? label, String? hint, dynamic icon}) {
     return InputDecoration(
       hintText: hint,
       labelText: label,
       border: OutlineInputBorder(borderRadius: BorderRadius.circular(5.0)),
-      prefixIcon: Icon(icon),
+      prefixIcon: icon is IconData
+          ? Icon(icon)
+          : Container(
+              padding: EdgeInsets.all(6),
+              width: 10,
+              child: Image.asset(
+                icon,
+                errorBuilder: (context, error, stackTrace) => Icon(Icons.credit_card),
+              ),
+            ),
     );
   }
 }

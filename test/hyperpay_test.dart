@@ -1,8 +1,15 @@
+import 'dart:io';
+
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:http/http.dart';
 
+import 'package:hyperpay/hyperpay.dart';
+
+Client httpclinet = Client();
 void main() {
   const MethodChannel channel = MethodChannel('hyperpay');
+  HttpOverrides.global = null;
 
   TestWidgetsFlutterBinding.ensureInitialized();
 
@@ -16,6 +23,6 @@ void main() {
     channel.setMockMethodCallHandler(null);
   });
 
-  // TODO write test
-  test('getCheckoutID', () async {});
+  test('Pay using checkout ID', () async {});
+  test('Get a specific payment status', () async {});
 }

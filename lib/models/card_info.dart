@@ -15,7 +15,7 @@ class CardInfo {
   toMap() {
     return {
       'holder': holder,
-      'number': cardNumber,
+      'number': cardNumber.replaceAll(' ', ''),
       'cvv': cvv,
       'expiryMonth': expiryMonth,
       'expiryYear': expiryYear,

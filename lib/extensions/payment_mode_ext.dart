@@ -1,4 +1,4 @@
-enum PaymentMode { test, live }
+import 'package:hyperpay/enums/payment_mode.dart';
 
 extension PaymentModeExtension on PaymentMode {
   String get string {
@@ -7,6 +7,8 @@ extension PaymentModeExtension on PaymentMode {
         return 'LIVE';
       case PaymentMode.test:
         return 'TEST';
+      default:
+        return '';
     }
   }
 }
