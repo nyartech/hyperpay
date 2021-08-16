@@ -14,8 +14,74 @@ This plugin is a wrapper around [HyperPay iOS and Android SDK](https://wordpress
 ## Getting Started
 
 ### Setup Required Endpoints
+It's important to setup your own server with 2 endpoints:
+1. Get Checkout ID
+2. Get payment status
+
+Find full details on [set up your server](https://wordpresshyperpay.docs.oppwa.com/tutorials/mobile-sdk/integration/server) page.
+
+After that, setup 2 `Uri` objects with your endpoints specifications, refer to [`example/lib/config`](https://github.com/nyartech/hyperpay/blob/main/example/lib/endpoint_setup.dart) for an example.
+
+```dart
+String _host = 'YOUR_HOST';
+
+Uri checkoutEndpoint = Uri(
+  scheme: 'https',
+  host: _host,
+  path: '',
+);
+
+Uri statusEndpoint = Uri(
+  scheme: 'https',
+  host: _host,
+  path: '',
+);
+```
 
 ### Setup HyperPay App Configuration
 
+The first time you launch your app, setup the plugin with your configurations, it's highly recommended to use flavors to switch between modes.
+
+Implement `HyperpayConfig` class and put your merchant entity IDs provided by HyperPay.
+
+```dart
+class TestConfig implements HyperpayConfig {
+  String? creditcardEntityID = '';
+  String? madaEntityID = '';
+  PaymentMode paymentMode = PaymentMode.test;
+}
+```
+
+Then you might consider using **dart environment variables** to switch between Test and Live modes.
+
+```dart
+const bool isDev = bool.fromEnvironment('DEV');
+
+void main() {
+  HyperpayPlugin.instance.setup(
+    config: isDev? TestConfig() : LiveConfig(),
+    checkoutEndpoint: checkoutEndpoint,
+    statusEndpoint: statusEndpoint,
+  );
+
+  runApp(MyApp());
+}
+```
+
 ## Usage
 
+Refer to `example` directory for a full app usage example. As this is still an alpha release, consider testing your implementation first in the example app before starting in your own app.
+
+<p>
+   <img src="https://user-images.githubusercontent.com/41123719/129632623-736b4f9a-ee70-48a0-a18f-e627b2a6f067.png" atl="Example app" width="200"/>     
+   <img src="https://user-images.githubusercontent.com/41123719/129632797-3111847e-9feb-4768-8e10-da81a26507d5.gif" atl="Auto detect brand" width="200"/>  
+   <img src="https://user-images.githubusercontent.com/41123719/129632867-273027cd-d31e-4ba9-9b45-9de2e412d614.gif" atl="Successful payment flow" width="200"/>  
+</p>
+
+## Contribution
+
+For any problems, please file an issue.
+Contributions are more than welcome to fix bugs or extend this plugin!
+
+## Maintainers
+- [Mais Alheraki](https://fairybits.com)
