@@ -105,7 +105,7 @@ public class SwiftHyperpayPlugin: FlutterAppDelegate, FlutterPlugin, SFSafariVie
                                                         
                         } else if transaction.type == .synchronous {
                             // Send request to your server to obtain transaction status
-                            result("Success 🎉")
+                            result("Success: synchronous 🎉")
                         } else {
                             // Handle the error
                             result("Error ☹️")
@@ -133,7 +133,7 @@ public class SwiftHyperpayPlugin: FlutterAppDelegate, FlutterPlugin, SFSafariVie
         
         self.safariVC?.dismiss(animated: true) {
             DispatchQueue.main.async {
-                result("Success 🎉")
+                result("Success: asynchronous 🎉")
                 
                 // TODO: send notification to request payment status
             }
