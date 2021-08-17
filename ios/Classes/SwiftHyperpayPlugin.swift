@@ -4,7 +4,7 @@ import SafariServices
 
 /// Handle the call from channel `hyperpay`
 ///
-/// Currently supported brands: *VISA, MASTERCARD, MADA*
+/// Currently supported brands: VISA, MastrCard, MADA
 public class SwiftHyperpayPlugin: FlutterAppDelegate, FlutterPlugin, SFSafariViewControllerDelegate {
     var checkoutID:String = "";
     var provider:OPPPaymentProvider = OPPPaymentProvider(mode: OPPProviderMode.test)
