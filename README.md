@@ -6,7 +6,7 @@ This plugin is a wrapper around [HyperPay iOS and Android SDK](https://wordpress
 
 ## Support Checklist
 - [x] Brands: **VISA**, **MasterCard**, **MADA**
-- [x] Card Number and year fields mask
+- [x] Card number and year fields mask
 - [x] Get a checkout ID
 - [x] Get payment status
 - [x] Perform sync/async payment
@@ -75,7 +75,8 @@ Refer to `example` directory for a full app usage example. As this is still an a
 <p>
    <img src="https://user-images.githubusercontent.com/41123719/129632623-736b4f9a-ee70-48a0-a18f-e627b2a6f067.png" atl="Example app" width="200"/>     
    <img src="https://user-images.githubusercontent.com/41123719/129632797-3111847e-9feb-4768-8e10-da81a26507d5.gif" atl="Auto detect brand" width="200"/>  
-   <img src="https://user-images.githubusercontent.com/41123719/129632867-273027cd-d31e-4ba9-9b45-9de2e412d614.gif" atl="Successful payment flow" width="200"/>  
+   <img src="https://user-images.githubusercontent.com/41123719/129632867-273027cd-d31e-4ba9-9b45-9de2e412d614.gif" atl="Auto detect brand 2" width="200"/>
+   <img src="https://user-images.githubusercontent.com/41123719/129699558-ef1fafb7-099c-4b70-9a2d-b8a13f1a3ac1.gif" atl="Successful payment flow" width="200"/>
 </p>
 
 ## Contribution
