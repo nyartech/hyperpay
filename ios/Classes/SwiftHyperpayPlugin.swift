@@ -51,7 +51,7 @@ public class SwiftHyperpayPlugin: FlutterAppDelegate, FlutterPlugin, SFSafariVie
         self.cvv = card["cvv"] as! String
         
         if(mode == "LIVE") {
-            self.provider.mode = OPPProviderMode.test
+            self.provider.mode = OPPProviderMode.live
         }
         
         switch self.brand {
