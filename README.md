@@ -13,6 +13,14 @@ This plugin is a wrapper around [HyperPay iOS and Android SDK](https://wordpress
 
 ## Getting Started
 
+### iOS Setup
+
+//TODO
+
+### Android Setup
+
+//TODO
+
 ### Setup Required Endpoints
 It's important to setup your own server with 2 endpoints:
 1. Get Checkout ID
