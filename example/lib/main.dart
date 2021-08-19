@@ -5,13 +5,7 @@ import 'package:hyperpay_example/constants.dart';
 import 'package:hyperpay_example/endpoint_setup.dart';
 import 'package:hyperpay_example/checkout_view.dart';
 
-void main() {
-  HyperpayPlugin.instance.setup(
-    config: TestConfig(),
-    checkoutEndpoint: checkoutEndpoint,
-    statusEndpoint: statusEndpoint,
-  );
-
+void main() async {
   runApp(MyApp());
 }
 
@@ -21,6 +15,20 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  @override
+  void initState() {
+    setup();
+    super.initState();
+  }
+
+  setup() async {
+    await HyperpayPlugin.instance.setup(
+      config: TestConfig(),
+      checkoutEndpoint: checkoutEndpoint,
+      statusEndpoint: statusEndpoint,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

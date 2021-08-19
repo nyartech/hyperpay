@@ -51,14 +51,21 @@ class HyperpayPlugin {
   /// payment transaction.
   ///
   /// See [HyperpayConfig], [PaymentMode]
-  void setup({
+  Future<void> setup({
     required Uri checkoutEndpoint,
     required Uri statusEndpoint,
     required HyperpayConfig config,
-  }) {
+  }) async {
     _checkoutEndpoint = checkoutEndpoint;
     _statusEndpoint = statusEndpoint;
     _config = config;
+
+    await _channel.invokeMethod(
+      'setup_service',
+      {
+        'mode': config.paymentMode.string,
+      },
+    );
   }
 
   /// Instantiate a checkout session.
@@ -135,11 +142,10 @@ class HyperpayPlugin {
     try {
       final checkoutID = await HyperpayPlugin.instance.getCheckoutID;
       final result = await _channel.invokeMethod(
-        'hyperpay',
+        'start_payment_transaction',
         {
           'checkoutID': checkoutID,
           'brand': _checkoutSettings?.brand.asString,
-          'mode': _config.paymentMode.string,
           'card': card.toMap(),
         },
       );
