@@ -18,8 +18,25 @@ This plugin is a wrapper around [HyperPay iOS and Android SDK](https://wordpress
 //TODO
 
 ### Android Setup
-
-//TODO
+1. Download the oppwa.mobile android library.
+2. Right click on the android directory and click **Open in Android Studio**.
+3. Switch to **project** view.
+4. Right click on your main app directory, then click **New > Directory**, name it `oppwa.mobile`.
+5. Drag and drop the aar file you just downloaded into the directory.
+6. Copy [this build.gradle file](https://github.com/nyartech/hyperpay/blob/main/example/android/oppwa.mobile/build.gradle) content and make a new file inside the same firectory with same content.
+7. Open `android/app/build.gradle` and add the following lines:
+```
+implementation project(“:oppwa.mobile”)
+```
+8. Open `app/build.gradle` and make sure that the `minSdkVersion` is **21**
+9. Open settings.gradle, and make sure you have this line to the top:
+```
+include ':oppwa.mobile'
+```
+10. Click on **Build > Make Project**.
+11. Open your [AndroidManifest.xml](https://github.com/nyartech/hyperpay/blob/main/example/android/app/src/main/AndroidManifest.xml), and make sure it looks like the example app.
+<br />**IMPORTANT:** the scheme you choose should match exactly your application ID but without any underscores, and then append `.payments` to it. 
+<br />For example: `com.nyartech.hyperpay_example` becomes `com.nyartech.hyperpayexample.payments`
 
 ### Setup Required Endpoints
 It's important to setup your own server with 2 endpoints:
