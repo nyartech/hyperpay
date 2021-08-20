@@ -82,14 +82,12 @@ Then you might consider using **dart environment variables** to switch between T
 ```dart
 const bool isDev = bool.fromEnvironment('DEV');
 
-void main() {
-  HyperpayPlugin.instance.setup(
+void setup() async {
+  await HyperpayPlugin.instance.setup(
     config: isDev? TestConfig() : LiveConfig(),
     checkoutEndpoint: checkoutEndpoint,
     statusEndpoint: statusEndpoint,
   );
-
-  runApp(MyApp());
 }
 ```
 
