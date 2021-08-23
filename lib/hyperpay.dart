@@ -18,7 +18,6 @@ import 'package:hyperpay/models/checkout_settings.dart';
 export 'package:hyperpay/hyperpay_config.dart';
 export 'package:hyperpay/hyperpay_exception.dart';
 export 'package:hyperpay/extensions/brands_ext.dart';
-export 'package:hyperpay/ui_utils/formatters.dart';
 export 'package:hyperpay/enums/payment_mode.dart';
 export 'package:hyperpay/enums/brand_type.dart';
 export 'package:hyperpay/models/card_info.dart';
@@ -113,8 +112,7 @@ class HyperpayPlugin {
             _resBody['code'],
             _resBody['parameterErrors']
                 .map(
-                  (param) =>
-                      '(param: ${param['name']}, value: ${param['value']})',
+                  (param) => '(param: ${param['name']}, value: ${param['value']})',
                 )
                 .join(','),
           );
@@ -157,8 +155,7 @@ class HyperpayPlugin {
       final String code = status['code'];
 
       if (code.paymentStatus == PaymentStatus.rejected) {
-        throw HyperpayException(
-            "Rejected payment.", code, status['description']);
+        throw HyperpayException("Rejected payment.", code, status['description']);
       } else {
         log('${code.paymentStatus}', name: "HyperpayPlugin/paymentStatus");
       }
