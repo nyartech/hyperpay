@@ -1,18 +1,21 @@
 # HyperPay Flutter Plugin
 
-<img src="https://user-images.githubusercontent.com/2434978/130263399-3a812e3a-5794-4428-be3f-32b551752160.png" width="600" />
+<img src="https://user-images.githubusercontent.com/2434978/130263399-3a812e3a-5794-4428-be3f-32b551752160.png" width="500" />
+
 
 This plugin is a wrapper around [HyperPay iOS and Android SDK](https://wordpresshyperpay.docs.oppwa.com/tutorials/mobile-sdk), it's still in **alpha** release, and supports limited set of functionality and brands.
 
 *Note: this plugin is unofficial.*
 
+[![pub package](https://img.shields.io/pub/v/hyperpay.svg)](https://pub.dev/packages/hyperpay)
+
 ## Support Checklist
-- [x] Brands: **VISA**, **MasterCard**, **MADA**
-- [x] Get a checkout ID
-- [x] Get payment status
-- [x] Perform sync/async payment
-- [x] Card number and year fields mask
-- [ ] Ready UI
+✔️ Brands: **VISA**, **MasterCard**, **MADA**
+<br />✔️ Get a checkout ID
+<br />✔️ Get payment status
+<br />✔️ Perform sync/async payment
+<br />✔️ Custom UI
+<br />✖️ Ready UI
 
 ## Getting Started
 
