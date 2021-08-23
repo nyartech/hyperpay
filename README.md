@@ -8,16 +8,41 @@ This plugin is a wrapper around [HyperPay iOS and Android SDK](https://wordpress
 
 ## Support Checklist
 - [x] Brands: **VISA**, **MasterCard**, **MADA**
-- [x] Card number and year fields mask
 - [x] Get a checkout ID
 - [x] Get payment status
 - [x] Perform sync/async payment
+- [x] Card number and year fields mask
+- [ ] Ready UI
 
 ## Getting Started
 
 ### iOS Setup
+1. Add your Bundle Identifier as a URL Type.
+<br />Open ios folder using Xcode, make sure you select Runner traget, then go to **Info** tab, and there add a new URL type, then paste your Bundle Identifier and append `.payments` to it.
+<br /><img src="https://user-images.githubusercontent.com/41123719/130457061-1766b8e4-ab99-469f-81d2-58c2b99448af.png" atl="Xcode URL type" width="700"/>
 
-//TODO
+2. Open Podfile, and paste the following inside of it:
+```ruby
+target 'Runner' do
+  use_frameworks!
+  use_modular_headers!
+
+  flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
+
+  $static_framework = ['hyperpay']
+
+  pre_install do |installer|
+    Pod::Installer::Xcode::TargetValidator.send(:define_method, :verify_no_static_framework_transitive_dependencies) {}
+    installer.pod_targets.each do |pod|
+        if $static_framework.include?(pod.name)
+          def pod.build_type;
+            Pod::BuildType.static_library
+          end
+        end
+      end
+  end
+end
+```
 
 ### Android Setup
 1. Download the oppwa.mobile android library.
