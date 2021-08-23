@@ -1,6 +1,6 @@
 name: hyperpay
 description: A Flutter plugin to wrap HyperPay SDK for iOS and Android.
-version: 1.0.0-alpha
+version: 0.0.1-alpha
 repository: https://github.com/nyartech/mawidy
 
 environment:
