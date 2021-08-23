@@ -5,7 +5,7 @@ import 'package:hyperpay_example/constants.dart';
 import 'package:hyperpay_example/endpoint_setup.dart';
 import 'package:hyperpay_example/checkout_view.dart';
 
-void main() async {
+void main() {
   runApp(MyApp());
 }
 

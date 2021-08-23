@@ -69,7 +69,8 @@ class _CheckoutViewState extends State<CheckoutView> {
                       decoration: _inputDecoration(
                         label: "Card Number",
                         hint: "0000 0000 0000 0000",
-                        icon: 'assets/images/${brandType.asString}.png',
+                        icon:
+                            brandType == BrandType.none ? Icons.credit_card : 'assets/images/${brandType.asString}.png',
                       ),
                       onChanged: (value) {
                         setState(() {
@@ -197,10 +198,7 @@ class _CheckoutViewState extends State<CheckoutView> {
           : Container(
               padding: EdgeInsets.all(6),
               width: 10,
-              child: Image.asset(
-                icon,
-                errorBuilder: (context, error, stackTrace) => Icon(Icons.credit_card),
-              ),
+              child: Image.asset(icon),
             ),
     );
   }
