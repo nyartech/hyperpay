@@ -113,7 +113,8 @@ class HyperpayPlugin {
             _resBody['code'],
             _resBody['parameterErrors']
                 .map(
-                  (param) => '(param: ${param['name']}, value: ${param['value']})',
+                  (param) =>
+                      '(param: ${param['name']}, value: ${param['value']})',
                 )
                 .join(','),
           );
@@ -156,7 +157,8 @@ class HyperpayPlugin {
       final String code = status['code'];
 
       if (code.paymentStatus == PaymentStatus.rejected) {
-        throw HyperpayException("Rejected payment.", code, status['description']);
+        throw HyperpayException(
+            "Rejected payment.", code, status['description']);
       } else {
         log('${code.paymentStatus}', name: "HyperpayPlugin/paymentStatus");
       }
