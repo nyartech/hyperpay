@@ -45,12 +45,12 @@ end
 ```
 
 ### Android Setup
-1. Download the oppwa.mobile android library.
-2. Right click on the android directory and click **Open in Android Studio**.
+1. Download the oppwa.mobile android SDK.
+2. Assuming you are using VS Code, right click on the android folder and click **Open in Android Studio**.
 3. Switch to **project** view.
 4. Right click on your main app directory, then click **New > Directory**, name it `oppwa.mobile`.
-5. Drag and drop the aar file you just downloaded into the directory.
-6. Copy [this build.gradle file](https://github.com/nyartech/hyperpay/blob/main/example/android/oppwa.mobile/build.gradle) content and make a new file inside the same firectory with same content.
+5. Drag and drop the `aar` file you just downloaded into the directory.
+6. Copy [this build.gradle file](https://github.com/nyartech/hyperpay/blob/main/example/android/oppwa.mobile/build.gradle) content and make a new file inside the same directory with same content.
 7. Open `android/app/build.gradle` and add the following lines:
 ```
 implementation project(“:oppwa.mobile”)
@@ -132,6 +132,7 @@ Refer to `example` directory for a full app usage example. As this is still an a
 ## Contribution
 
 For any problems, please file an issue.
+
 Contributions are more than welcome to fix bugs or extend this plugin!
 
 ## Maintainers
