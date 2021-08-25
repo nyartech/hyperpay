@@ -90,7 +90,7 @@ class HyperpayPlugin {
         body: {
           'entityID': _checkoutSettings?.brand.entityID,
           'amount': _checkoutSettings?.amount.toStringAsFixed(2),
-          'additionalParams': json.encode(_checkoutSettings?.additionalParams),
+          ..._checkoutSettings?.additionalParams ?? {},
         },
       );
 
