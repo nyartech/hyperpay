@@ -143,6 +143,7 @@ class _CheckoutViewState extends State<CheckoutView> {
 
                                   try {
                                     // Start transaction
+                                    await HyperpayPlugin.instance.getCheckoutID;
                                     await HyperpayPlugin.instance.pay(card);
 
                                     ScaffoldMessenger.of(context).showSnackBar(
