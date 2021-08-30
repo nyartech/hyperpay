@@ -42,6 +42,7 @@ class HyperpayPlugin {
   late final Uri _statusEndpoint;
 
   CheckoutSettings? _checkoutSettings;
+  String _checkoutID = '';
 
   /// Read the configurations used to setup this instance of HyperPay.
   HyperpayConfig get config => _config;
@@ -79,6 +80,7 @@ class HyperpayPlugin {
   void _clearSession() {
     if (_checkoutSettings != null) {
       _checkoutSettings?.clear();
+      _checkoutID = '';
     }
   }
 
@@ -100,8 +102,6 @@ class HyperpayPlugin {
       }
 
       final Map _resBody = json.decode(response.body);
-
-      String _checkoutID = '';
 
       switch (_resBody['result']['code']) {
         case '000.200.100':
@@ -142,11 +142,10 @@ class HyperpayPlugin {
   /// and perform the requird action after payment (e.g. issue receipt) on your server.
   Future<void> pay(CardInfo card) async {
     try {
-      final checkoutID = await HyperpayPlugin.instance.getCheckoutID;
       final result = await _channel.invokeMethod(
         'start_payment_transaction',
         {
-          'checkoutID': checkoutID,
+          'checkoutID': _checkoutID,
           'brand': _checkoutSettings?.brand.asString,
           'card': card.toMap(),
         },
@@ -154,7 +153,7 @@ class HyperpayPlugin {
 
       log('$result', name: "HyperpayPlugin/platformResponse");
 
-      final status = await paymentStatus(checkoutID);
+      final status = await paymentStatus(_checkoutID);
       final String code = status['code'];
 
       if (code.paymentStatus == PaymentStatus.rejected) {
