@@ -5,7 +5,7 @@ import SafariServices
 /// Handle the call from channel `hyperpay`
 ///
 /// Currently supported brands: VISA, MastrCard, MADA
-public class SwiftHyperpayPlugin: NSObject, FlutterPlugin, SFSafariViewControllerDelegate {
+public class SwiftHyperpayPlugin: NSObject, FlutterPlugin, SFSafariViewControllerDelegate, UIAdaptivePresentationControllerDelegate {
     var checkoutID:String = "";
     var provider:OPPPaymentProvider = OPPPaymentProvider(mode: OPPProviderMode.test)
     var brand:Brand = Brand.UNKNOWN;
@@ -41,11 +41,18 @@ public class SwiftHyperpayPlugin: NSObject, FlutterPlugin, SFSafariViewControlle
             self.didReceiveAsynchronousPaymentCallback(result: self.paymentResult!)
 
             handler = true
-        }
+        } 
 
         return handler
     }
     
+    public func safariViewControllerDidFinish(_ controller: SFSafariViewController) {
+        self.paymentResult!("Canceled by user.")
+    }
+    
+    public func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
+        self.paymentResult!("Canceled by user.")
+    }
 
     public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
         self.paymentResult = result
