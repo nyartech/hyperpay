@@ -87,6 +87,7 @@ class HyperpayPlugin {
     try {
       final Response response = await post(
         _checkoutEndpoint,
+        headers: _checkoutSettings?.headers,
         body: {
           'entityID': _checkoutSettings?.brand.entityID,
           'amount': _checkoutSettings?.amount.toStringAsFixed(2),
@@ -95,10 +96,10 @@ class HyperpayPlugin {
       );
 
       if (response.statusCode != 200) {
-        throw HttpException('Response code ${response.statusCode}');
+        throw HttpException('${response.statusCode}: ${response.body}');
       }
 
-      final _resBody = json.decode(response.body);
+      final Map _resBody = json.decode(response.body);
 
       String _checkoutID = '';
 
@@ -110,11 +111,13 @@ class HyperpayPlugin {
           throw HyperpayException(
             _resBody['description'],
             _resBody['code'],
-            _resBody['parameterErrors']
-                .map(
-                  (param) => '(param: ${param['name']}, value: ${param['value']})',
-                )
-                .join(','),
+            _resBody.containsKey('parameterErrors')
+                ? _resBody['parameterErrors']
+                    .map(
+                      (param) => '(param: ${param['name']}, value: ${param['value']})',
+                    )
+                    .join(',')
+                : '',
           );
         default:
           throw HyperpayException(

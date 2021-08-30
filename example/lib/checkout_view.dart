@@ -30,6 +30,7 @@ class _CheckoutViewState extends State<CheckoutView> {
     CheckoutSettings _checkoutSettings = CheckoutSettings(
       brand: brandType,
       amount: amount,
+      headers: {},
       additionalParams: {
         'merchantTransactionId': '#123456',
       },
