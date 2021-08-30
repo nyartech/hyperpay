@@ -140,7 +140,7 @@ class HyperpayPlugin {
   /// It's highly recommended to setup a listner using
   /// [HyperPay webhooks](https://wordpresshyperpay.docs.oppwa.com/tutorials/webhooks),
   /// and perform the requird action after payment (e.g. issue receipt) on your server.
-  Future<void> pay(CardInfo card) async {
+  Future<PaymentStatus> pay(CardInfo card) async {
     try {
       final result = await _channel.invokeMethod(
         'start_payment_transaction',
@@ -160,6 +160,8 @@ class HyperpayPlugin {
         throw HyperpayException("Rejected payment.", code, status['description']);
       } else {
         log('${code.paymentStatus}', name: "HyperpayPlugin/paymentStatus");
+
+        return code.paymentStatus;
       }
     } catch (e) {
       log('$e', name: "HyperpayPlugin/pay");
