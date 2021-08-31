@@ -20,6 +20,7 @@ export 'package:hyperpay/hyperpay_exception.dart';
 export 'package:hyperpay/extensions/brands_ext.dart';
 export 'package:hyperpay/enums/payment_mode.dart';
 export 'package:hyperpay/enums/brand_type.dart';
+export 'package:hyperpay/enums/payment_status.dart';
 export 'package:hyperpay/models/card_info.dart';
 export 'package:hyperpay/models/checkout_settings.dart';
 

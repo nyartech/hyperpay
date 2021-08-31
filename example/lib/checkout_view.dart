@@ -21,12 +21,13 @@ class _CheckoutViewState extends State<CheckoutView> {
   BrandType brandType = BrandType.none;
   AutovalidateMode autovalidateMode = AutovalidateMode.disabled;
   bool isLoading = false;
+  String sessionCheckoutID = '';
 
   /// Initialize HyperPay session
-  void initPaymentSession(
+  Future<void> initPaymentSession(
     BrandType brandType,
     double amount,
-  ) {
+  ) async {
     CheckoutSettings _checkoutSettings = CheckoutSettings(
       brand: brandType,
       amount: amount,
@@ -37,6 +38,7 @@ class _CheckoutViewState extends State<CheckoutView> {
     );
 
     HyperpayPlugin.instance.initSession(checkoutSetting: _checkoutSettings);
+    sessionCheckoutID = await HyperpayPlugin.instance.getCheckoutID;
   }
 
   @override
@@ -139,19 +141,24 @@ class _CheckoutViewState extends State<CheckoutView> {
                                     expiryYear: '20' + expiryController.text.split('/')[1],
                                   );
 
-                                  initPaymentSession(brandType, 10.0);
-
                                   try {
                                     // Start transaction
-                                    await HyperpayPlugin.instance.getCheckoutID;
-                                    await HyperpayPlugin.instance.pay(card);
+                                    if (sessionCheckoutID.isEmpty) {
+                                      // Only get a new checkoutID if there is no previous session pending now
+                                      await initPaymentSession(brandType, 10);
+                                    }
 
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        content: Text('Payment approved 🎉'),
-                                        backgroundColor: Colors.green,
-                                      ),
-                                    );
+                                    final result = await HyperpayPlugin.instance.pay(card);
+
+                                    if (result == PaymentStatus.successful) {
+                                      sessionCheckoutID = '';
+                                      ScaffoldMessenger.of(context).showSnackBar(
+                                        SnackBar(
+                                          content: Text('Payment approved 🎉'),
+                                          backgroundColor: Colors.green,
+                                        ),
+                                      );
+                                    }
                                   } on HyperpayException catch (exception) {
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(
