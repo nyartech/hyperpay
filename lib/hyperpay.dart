@@ -154,6 +154,11 @@ class HyperpayPlugin {
 
       log('$result', name: "HyperpayPlugin/platformResponse");
 
+      if (result == 'canceled') {
+        // Checkout session is still going on.
+        return PaymentStatus.init;
+      }
+
       final status = await paymentStatus(_checkoutID);
       final String code = status['code'];
 

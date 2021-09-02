@@ -37,21 +37,20 @@ public class SwiftHyperpayPlugin: NSObject, FlutterPlugin, SFSafariViewControlle
                                 
         // Compare the recieved URL with our URL type
         if url.scheme!.caseInsensitiveCompare(Bundle.main.bundleIdentifier! + ".payments") == .orderedSame {
+                self.didReceiveAsynchronousPaymentCallback(result: self.paymentResult!)
 
-            self.didReceiveAsynchronousPaymentCallback(result: self.paymentResult!)
-
-            handler = true
-        } 
+                handler = true
+            }
 
         return handler
     }
     
     public func safariViewControllerDidFinish(_ controller: SFSafariViewController) {
-        self.paymentResult!("Canceled by user.")
+        self.paymentResult!("canceled")
     }
     
     public func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
-        self.paymentResult!("Canceled by user.")
+        self.paymentResult!("canceled")
     }
 
     public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
@@ -140,10 +139,10 @@ public class SwiftHyperpayPlugin: NSObject, FlutterPlugin, SFSafariViewControlle
                                                             
                             } else if transaction.type == .synchronous {
                                 // Send request to your server to obtain transaction status
-                                result("Success: synchronous 🎉")
+                                result("success")
                             } else {
                                 // Handle the error
-                                result("Error ☹️")
+                                result("error")
                             }
                         }
                         
@@ -174,7 +173,7 @@ public class SwiftHyperpayPlugin: NSObject, FlutterPlugin, SFSafariViewControlle
         
         self.safariVC?.dismiss(animated: true) {
             DispatchQueue.main.async {
-                result("Success: asynchronous 🎉")
+                result("success")
                 
                 // TODO: send notification to request payment status
             }

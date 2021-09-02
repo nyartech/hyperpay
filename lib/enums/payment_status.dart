@@ -4,6 +4,8 @@ export 'package:hyperpay/extensions/payment_status_ext.dart';
 ///
 /// See [PaymentStatusFromRegExp]
 enum PaymentStatus {
+  init,
+
   successful,
 
   pending,
