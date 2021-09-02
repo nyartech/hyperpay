@@ -1,4 +1,4 @@
-import 'package:hyperpay/enums/payment_mode.dart';
+import 'package:hyperpay/src/enums/payment_mode.dart';
 
 /// A handy util to turn mode enums into their corresponding
 /// HyperPay string representation.

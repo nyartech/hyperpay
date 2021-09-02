@@ -1,4 +1,4 @@
-import 'package:hyperpay/enums/brand_type.dart';
+import 'package:hyperpay/src/enums/brand_type.dart';
 
 /// This class wraps the required params to get a `checkoutID`
 /// from HyperPay **server-to-server**, meaning that these params

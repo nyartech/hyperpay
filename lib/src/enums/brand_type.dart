@@ -1,4 +1,4 @@
-export 'package:hyperpay/extensions/brands_ext.dart';
+export 'package:hyperpay/src/extensions/brands_ext.dart';
 
 /// Currently supported brands by this plugin.
 enum BrandType {
