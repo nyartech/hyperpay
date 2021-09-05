@@ -150,14 +150,38 @@ class _CheckoutViewState extends State<CheckoutView> {
 
                                     final result = await HyperpayPlugin.instance.pay(card);
 
-                                    if (result == PaymentStatus.successful) {
-                                      sessionCheckoutID = '';
-                                      ScaffoldMessenger.of(context).showSnackBar(
-                                        SnackBar(
-                                          content: Text('Payment approved 🎉'),
-                                          backgroundColor: Colors.green,
-                                        ),
-                                      );
+                                    switch (result) {
+                                      case PaymentStatus.init:
+                                        ScaffoldMessenger.of(context).showSnackBar(
+                                          SnackBar(
+                                            content: Text('Payment session is still in progress'),
+                                            backgroundColor: Colors.amber,
+                                          ),
+                                        );
+                                        break;
+                                      // For the sake of the example, the 2 cases are shown explicitly
+                                      // but in real world it's better to merge pending with successful
+                                      // and delegate the job from there to the server, using webhooks
+                                      // to get notified about the final status and do some action.
+                                      case PaymentStatus.pending:
+                                        ScaffoldMessenger.of(context).showSnackBar(
+                                          SnackBar(
+                                            content: Text('Payment pending ⏳'),
+                                            backgroundColor: Colors.amber,
+                                          ),
+                                        );
+                                        break;
+                                      case PaymentStatus.successful:
+                                        sessionCheckoutID = '';
+                                        ScaffoldMessenger.of(context).showSnackBar(
+                                          SnackBar(
+                                            content: Text('Payment approved 🎉'),
+                                            backgroundColor: Colors.green,
+                                          ),
+                                        );
+                                        break;
+
+                                      default:
                                     }
                                   } on HyperpayException catch (exception) {
                                     ScaffoldMessenger.of(context).showSnackBar(
