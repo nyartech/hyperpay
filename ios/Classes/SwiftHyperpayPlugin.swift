@@ -142,7 +142,13 @@ public class SwiftHyperpayPlugin: NSObject, FlutterPlugin, SFSafariViewControlle
                                 result("success")
                             } else {
                                 // Handle the error
-                                result("error")
+                                result(
+                                    FlutterError(
+                                        code: "0.4",
+                                        message: "Platform error",
+                                        details: ""
+                                    )
+                                )
                             }
                         }
                         
