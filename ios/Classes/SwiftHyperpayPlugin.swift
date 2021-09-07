@@ -145,7 +145,7 @@ public class SwiftHyperpayPlugin: NSObject, FlutterPlugin, SFSafariViewControlle
                                 result(
                                     FlutterError(
                                         code: "0.2",
-                                        message: error.localizedDescription,
+                                        message: error?.localizedDescription,
                                         details: ""
                                     )
                                 )
