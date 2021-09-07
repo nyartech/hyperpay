@@ -218,7 +218,7 @@ class HyperpayPlugin : FlutterPlugin, MethodCallHandler, ITransactionListener, A
                             providerBinder?.submitTransaction(transaction)
                         } catch (e: PaymentException) {
                             result.error(
-                                    "0.3",
+                                    "0.2",
                                     e.localizedMessage,
                                     ""
                             )

@@ -122,7 +122,7 @@ public class SwiftHyperpayPlugin: NSObject, FlutterPlugin, SFSafariViewControlle
                             guard let transaction = self.transaction else {
                                 result(
                                     FlutterError(
-                                        code: "0.3",
+                                        code: "0.2",
                                         message: error!.localizedDescription,
                                         details: ""
                                     )
@@ -144,8 +144,8 @@ public class SwiftHyperpayPlugin: NSObject, FlutterPlugin, SFSafariViewControlle
                                 // Handle the error
                                 result(
                                     FlutterError(
-                                        code: "0.4",
-                                        message: "Platform error",
+                                        code: "0.2",
+                                        message: error.localizedDescription,
                                         details: ""
                                     )
                                 )
@@ -189,8 +189,6 @@ public class SwiftHyperpayPlugin: NSObject, FlutterPlugin, SFSafariViewControlle
 
     /// This function checks the provided card params and return a PlatformException to Flutter if any are not valid.
     ///
-    /// **Error Codes**:
-    /// `1.1`: invalid card number
     private func checkCreditCardValid(result: @escaping FlutterResult) {
         if !OPPCardPaymentParams.isNumberValid(self.cardNumber, luhnCheck: true) {
             result(
