@@ -1,3 +1,9 @@
+## 0.0.4-alpha
+
+* Use ChromeCustomTabs for Android's authentication page.
+* Add a canceled result and handle it in case hte user leave the authentication browser page before completing the transaction.
+* Accepting headers in [CheckoutSettings](lib/src/models/checkout_settings.dart) to enable making authorized calls to checkout & status endpoints.
+
 ## 0.0.3-alpha
 
 * Fixed a bug with sending additional params on checkout.
