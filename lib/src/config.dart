@@ -17,5 +17,7 @@ import 'package:hyperpay/src/enums/payment_mode.dart';
 class HyperpayConfig {
   String? creditcardEntityID;
   String? madaEntityID;
+  late Uri checkoutEndpoint;
+  late Uri statusEndpoint;
   PaymentMode paymentMode = PaymentMode.none;
 }

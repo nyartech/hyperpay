@@ -52,20 +52,21 @@ extension BrandTypeExtension on BrandType {
   }
 
   /// Get the entity ID of this brand based on merchant configuration.
-  String? get entityID {
+  String? entityID(HyperpayConfig config) {
     String? _entityID = '';
     switch (this) {
       case BrandType.visa:
-        _entityID = HyperpayPlugin.instance.config.creditcardEntityID;
+        _entityID = config.creditcardEntityID;
         break;
       case BrandType.mastercard:
-        _entityID = HyperpayPlugin.instance.config.creditcardEntityID;
+        _entityID = config.creditcardEntityID;
         break;
       case BrandType.mada:
-        _entityID = HyperpayPlugin.instance.config.madaEntityID;
+        _entityID = config.madaEntityID;
         break;
 
       default:
+        _entityID = null;
     }
     return _entityID;
   }

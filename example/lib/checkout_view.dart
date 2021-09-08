@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hyperpay/hyperpay.dart';
+import 'package:hyperpay_example/constants.dart';
 import 'package:hyperpay_example/formatters.dart';
 
 class CheckoutView extends StatefulWidget {
@@ -23,6 +24,18 @@ class _CheckoutViewState extends State<CheckoutView> {
   bool isLoading = false;
   String sessionCheckoutID = '';
 
+  late HyperpayPlugin hyperpay;
+
+  @override
+  void initState() {
+    super.initState();
+    setup();
+  }
+
+  setup() async {
+    hyperpay = await HyperpayPlugin.setup(config: TestConfig());
+  }
+
   /// Initialize HyperPay session
   Future<void> initPaymentSession(
     BrandType brandType,
@@ -37,8 +50,8 @@ class _CheckoutViewState extends State<CheckoutView> {
       },
     );
 
-    HyperpayPlugin.instance.initSession(checkoutSetting: _checkoutSettings);
-    sessionCheckoutID = await HyperpayPlugin.instance.getCheckoutID;
+    hyperpay.initSession(checkoutSetting: _checkoutSettings);
+    sessionCheckoutID = await hyperpay.getCheckoutID;
   }
 
   @override
@@ -145,10 +158,10 @@ class _CheckoutViewState extends State<CheckoutView> {
                                     // Start transaction
                                     if (sessionCheckoutID.isEmpty) {
                                       // Only get a new checkoutID if there is no previous session pending now
-                                      await initPaymentSession(brandType, 10);
+                                      await initPaymentSession(brandType, 1);
                                     }
 
-                                    final result = await HyperpayPlugin.instance.pay(card);
+                                    final result = await hyperpay.pay(card);
 
                                     switch (result) {
                                       case PaymentStatus.init:
@@ -184,6 +197,7 @@ class _CheckoutViewState extends State<CheckoutView> {
                                       default:
                                     }
                                   } on HyperpayException catch (exception) {
+                                    sessionCheckoutID = '';
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(
                                         content: Text(exception.details ?? exception.message),

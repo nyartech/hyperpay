@@ -25,14 +25,12 @@ import 'package:hyperpay/src/extensions/brands_ext.dart';
 /// Refer to [HyperPay API](https://wordpresshyperpay.docs.oppwa.com/reference/parameters)
 /// for more information on Test/Live systems
 class HyperpayPlugin {
-  HyperpayPlugin._();
-  static HyperpayPlugin instance = HyperpayPlugin._();
+  HyperpayPlugin._(this._config);
+  //static HyperpayPlugin instance = HyperpayPlugin._();
 
   static const MethodChannel _channel = const MethodChannel('hyperpay');
 
   late HyperpayConfig _config;
-  late final Uri _checkoutEndpoint;
-  late final Uri _statusEndpoint;
 
   CheckoutSettings? _checkoutSettings;
   String _checkoutID = '';
@@ -40,25 +38,19 @@ class HyperpayPlugin {
   /// Read the configurations used to setup this instance of HyperPay.
   HyperpayConfig get config => _config;
 
-  /// Setup HyperPay plugin with the required stuff to make a successful
+  /// Setup HyperPay instance with the required stuff to make a successful
   /// payment transaction.
   ///
   /// See [HyperpayConfig], [PaymentMode]
-  Future<void> setup({
-    required Uri checkoutEndpoint,
-    required Uri statusEndpoint,
-    required HyperpayConfig config,
-  }) async {
-    _checkoutEndpoint = checkoutEndpoint;
-    _statusEndpoint = statusEndpoint;
-    _config = config;
-
+  static Future<HyperpayPlugin> setup({required HyperpayConfig config}) async {
     await _channel.invokeMethod(
       'setup_service',
       {
         'mode': config.paymentMode.string,
       },
     );
+
+    return HyperpayPlugin._(config);
   }
 
   /// Instantiate a checkout session.
@@ -73,7 +65,6 @@ class HyperpayPlugin {
   void _clearSession() {
     if (_checkoutSettings != null) {
       _checkoutSettings?.clear();
-      _checkoutID = '';
     }
   }
 
@@ -81,10 +72,10 @@ class HyperpayPlugin {
   Future<String> get getCheckoutID async {
     try {
       final Response response = await post(
-        _checkoutEndpoint,
+        _config.checkoutEndpoint,
         headers: _checkoutSettings?.headers,
         body: {
-          'entityID': _checkoutSettings?.brand.entityID,
+          'entityID': _checkoutSettings?.brand.entityID(config),
           'amount': _checkoutSettings?.amount.toStringAsFixed(2),
           ..._checkoutSettings?.additionalParams ?? {},
         },
@@ -159,6 +150,9 @@ class HyperpayPlugin {
       } else {
         log('${code.paymentStatus}', name: "HyperpayPlugin/paymentStatus");
 
+        _clearSession();
+        _checkoutID = '';
+
         return code.paymentStatus;
       }
     } catch (e) {
@@ -172,9 +166,9 @@ class HyperpayPlugin {
   Future<Map<String, dynamic>> paymentStatus(String checkoutID) async {
     try {
       final Response response = await post(
-        _statusEndpoint,
+        _config.statusEndpoint,
         body: {
-          'entityID': _checkoutSettings?.brand.entityID,
+          'entityID': _checkoutSettings?.brand.entityID(config),
           'checkoutID': checkoutID,
         },
       );
