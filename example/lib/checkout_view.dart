@@ -58,7 +58,7 @@ class _CheckoutViewState extends State<CheckoutView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Checkout"),
+        title: const Text("Checkout"),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -69,7 +69,7 @@ class _CheckoutViewState extends State<CheckoutView> {
               builder: (context) {
                 return Column(
                   children: [
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     // Holder
                     TextFormField(
                       controller: holderNameController,
@@ -79,7 +79,7 @@ class _CheckoutViewState extends State<CheckoutView> {
                         icon: Icons.account_circle_rounded,
                       ),
                     ),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     // Number
                     TextFormField(
                       controller: cardNumberController,
@@ -101,7 +101,7 @@ class _CheckoutViewState extends State<CheckoutView> {
                       ],
                       validator: (String? number) => brandType.validateNumber(number ?? ""),
                     ),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     // Expiry date
                     TextFormField(
                       controller: expiryController,
@@ -117,7 +117,7 @@ class _CheckoutViewState extends State<CheckoutView> {
                       ],
                       validator: (String? date) => CardInfo.validateDate(date ?? ""),
                     ),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     // CVV
                     TextFormField(
                       controller: cvvController,
@@ -132,7 +132,7 @@ class _CheckoutViewState extends State<CheckoutView> {
                       ],
                       validator: (String? cvv) => CardInfo.validateCVV(cvv ?? ""),
                     ),
-                    SizedBox(height: 30),
+                    const SizedBox(height: 30),
                     SizedBox(
                       width: double.infinity,
                       child: ElevatedButton(
@@ -166,7 +166,7 @@ class _CheckoutViewState extends State<CheckoutView> {
                                     switch (result) {
                                       case PaymentStatus.init:
                                         ScaffoldMessenger.of(context).showSnackBar(
-                                          SnackBar(
+                                          const SnackBar(
                                             content: Text('Payment session is still in progress'),
                                             backgroundColor: Colors.amber,
                                           ),
@@ -178,7 +178,7 @@ class _CheckoutViewState extends State<CheckoutView> {
                                       // to get notified about the final status and do some action.
                                       case PaymentStatus.pending:
                                         ScaffoldMessenger.of(context).showSnackBar(
-                                          SnackBar(
+                                          const SnackBar(
                                             content: Text('Payment pending ⏳'),
                                             backgroundColor: Colors.amber,
                                           ),
@@ -187,7 +187,7 @@ class _CheckoutViewState extends State<CheckoutView> {
                                       case PaymentStatus.successful:
                                         sessionCheckoutID = '';
                                         ScaffoldMessenger.of(context).showSnackBar(
-                                          SnackBar(
+                                          const SnackBar(
                                             content: Text('Payment approved 🎉'),
                                             backgroundColor: Colors.green,
                                           ),
@@ -244,7 +244,7 @@ class _CheckoutViewState extends State<CheckoutView> {
       prefixIcon: icon is IconData
           ? Icon(icon)
           : Container(
-              padding: EdgeInsets.all(6),
+              padding: const EdgeInsets.all(6),
               width: 10,
               child: Image.asset(icon),
             ),

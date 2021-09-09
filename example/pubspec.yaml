@@ -11,8 +11,9 @@ dependencies:
     sdk: flutter
 
   hyperpay:
-  
     path: ../
+
+  flutter_lints:
 
 dev_dependencies:
   flutter_test:
