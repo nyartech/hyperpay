@@ -56,7 +56,7 @@ end
 6. Copy [this build.gradle file](https://github.com/nyartech/hyperpay/blob/main/example/android/oppwa.mobile/build.gradle) content and make a new file inside the same directory with same content.
 7. Open `android/app/build.gradle` and add the following lines:
 ```
-implementation project(“:oppwa.mobile”)
+implementation project(":oppwa.mobile")
 ```
 8. Open `app/build.gradle` and make sure that the `minSdkVersion` is **21**
 9. Open settings.gradle, and make sure you have this line to the top:
