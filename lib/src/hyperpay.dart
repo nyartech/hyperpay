@@ -98,7 +98,8 @@ class HyperpayPlugin {
             _resBody.containsKey('parameterErrors')
                 ? _resBody['parameterErrors']
                     .map(
-                      (param) => '(param: ${param['name']}, value: ${param['value']})',
+                      (param) =>
+                          '(param: ${param['name']}, value: ${param['value']})',
                     )
                     .join(',')
                 : '',
@@ -142,11 +143,15 @@ class HyperpayPlugin {
         return PaymentStatus.init;
       }
 
-      final status = await paymentStatus(_checkoutID);
+      final status = await paymentStatus(
+        _checkoutID,
+        headers: _checkoutSettings?.headers,
+      );
       final String code = status['code'];
 
       if (code.paymentStatus == PaymentStatus.rejected) {
-        throw HyperpayException("Rejected payment.", code, status['description']);
+        throw HyperpayException(
+            "Rejected payment.", code, status['description']);
       } else {
         log('${code.paymentStatus}', name: "HyperpayPlugin/paymentStatus");
 
@@ -163,10 +168,12 @@ class HyperpayPlugin {
 
   /// Check for payment status using a checkout ID, this method is called
   /// once right after a transaction.
-  Future<Map<String, dynamic>> paymentStatus(String checkoutID) async {
+  Future<Map<String, dynamic>> paymentStatus(String checkoutID,
+      {Map<String, String>? headers}) async {
     try {
       final Response response = await post(
         _config.statusEndpoint,
+        headers: headers,
         body: {
           'entityID': _checkoutSettings?.brand.entityID(config),
           'checkoutID': checkoutID,

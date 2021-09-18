@@ -1,4 +1,4 @@
-export 'package:hyperpay/src/platform_sdk.dart';
+export 'package:hyperpay/src/hyperpay.dart';
 export 'package:hyperpay/src/config.dart';
 export 'package:hyperpay/src/exception.dart';
 
