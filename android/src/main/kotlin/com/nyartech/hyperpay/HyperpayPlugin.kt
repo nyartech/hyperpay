@@ -44,7 +44,7 @@ class HyperpayPlugin : FlutterPlugin, MethodCallHandler, ITransactionListener, A
     private var mActivity: Activity? = null
 
     private var providerBinder: IProviderBinder? = null
-    private lateinit var intent: Intent
+    private var intent: Intent? = null
 
     // Get the checkout ID from the endpoint on your server
     private var checkoutID = ""
@@ -101,8 +101,10 @@ class HyperpayPlugin : FlutterPlugin, MethodCallHandler, ITransactionListener, A
     }
 
     override fun onDetachedFromActivity() {
-        mActivity!!.stopService(intent)
-        mActivity!!.unbindService(hyperpayConnection)
+        if(intent != null){
+            mActivity!!.stopService(intent)
+            mActivity!!.unbindService(hyperpayConnection)
+        }
 
         mActivity = null
     }
