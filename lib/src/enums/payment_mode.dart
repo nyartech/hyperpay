@@ -1,4 +1,4 @@
-export 'package:hyperpay/src/extensions/payment_mode_ext.dart';
+part of hyperpay;
 
 /// The environment mode for HyperPay, will be global
 /// for the current life of the app.

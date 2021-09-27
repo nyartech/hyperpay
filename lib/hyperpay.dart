@@ -1,14 +1,24 @@
-export 'package:hyperpay/src/hyperpay.dart';
-export 'package:hyperpay/src/config.dart';
-export 'package:hyperpay/src/exception.dart';
+library hyperpay;
 
-export 'package:hyperpay/src/extensions/brands_ext.dart';
-export 'package:hyperpay/src/extensions/payment_mode_ext.dart';
-export 'package:hyperpay/src/extensions/payment_status_ext.dart';
+import 'dart:async';
+import 'dart:convert';
+import 'dart:developer';
+import 'dart:io';
 
-export 'package:hyperpay/src/enums/payment_mode.dart';
-export 'package:hyperpay/src/enums/brand_type.dart';
-export 'package:hyperpay/src/enums/payment_status.dart';
+import 'package:flutter/services.dart';
+import 'package:http/http.dart';
 
-export 'package:hyperpay/src/models/card_info.dart';
-export 'package:hyperpay/src/models/checkout_settings.dart';
+part 'src/hyperpay.dart';
+part 'src/config.dart';
+part 'src/exception.dart';
+
+part 'src/models/card_info.dart';
+part 'src/models/checkout_settings.dart';
+
+part 'src/enums/brand_type.dart';
+part 'src/enums/payment_mode.dart';
+part 'src/enums/payment_status.dart';
+
+part 'src/extensions/brands_ext.dart';
+part 'src/extensions/payment_mode_ext.dart';
+part 'src/extensions/payment_status_ext.dart';

@@ -1,4 +1,4 @@
-import 'package:hyperpay/src/enums/payment_status.dart';
+part of hyperpay;
 
 /// Uses Regular Expressions to define the group
 /// of a transaction result code.
@@ -7,7 +7,8 @@ import 'package:hyperpay/src/enums/payment_status.dart';
 /// for more information on what each group includes.
 extension PaymentStatusFromRegExp on String {
   PaymentStatus get paymentStatus {
-    final successRegExp = RegExp(r"^(000\.000\.|000\.100\.1|000\.[36]|000\.400\.0[^3]|000\.400\.[0-1]{2}0)");
+    final successRegExp = RegExp(
+        r"^(000\.000\.|000\.100\.1|000\.[36]|000\.400\.0[^3]|000\.400\.[0-1]{2}0)");
     final pendingRegExp = RegExp(r"^(000\.200|800\.400\.5|100\.400\.500)");
 
     if (successRegExp.hasMatch(this)) {

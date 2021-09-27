@@ -1,4 +1,4 @@
-import 'package:hyperpay/src/enums/payment_mode.dart';
+part of hyperpay;
 
 /// Payments can happen either on **Test** or **Live** mode,
 /// each mode has a different set of entity IDs, these are

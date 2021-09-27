@@ -1,4 +1,4 @@
-export 'package:hyperpay/src/extensions/payment_status_ext.dart';
+part of hyperpay;
 
 /// Any transaction would have 4 possible group states.
 ///

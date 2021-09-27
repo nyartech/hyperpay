@@ -1,4 +1,4 @@
-import 'package:hyperpay/hyperpay.dart';
+part of hyperpay;
 
 // Regular experessions for each brand
 // These expressions were chosen according to this article.
@@ -18,7 +18,8 @@ extension DetectBrand on String {
   BrandType get detectBrand {
     final cleanNumber = this.replaceAll(' ', '');
 
-    bool _isMADA = _madaRegExpM.hasMatch(cleanNumber) || _madaRegExpV.hasMatch(cleanNumber);
+    bool _isMADA = _madaRegExpM.hasMatch(cleanNumber) ||
+        _madaRegExpV.hasMatch(cleanNumber);
     bool _isVISA = _visaRegExp.hasMatch(cleanNumber);
     bool _isMASTERCARD = _mastercardRegExp.hasMatch(cleanNumber);
 
@@ -97,7 +98,8 @@ extension BrandTypeExtension on BrandType {
           return "Inavlid MASTER CARD number";
         }
       case BrandType.mada:
-        if (_madaRegExpV.hasMatch(cleanNumber) || _madaRegExpM.hasMatch(cleanNumber)) {
+        if (_madaRegExpV.hasMatch(cleanNumber) ||
+            _madaRegExpM.hasMatch(cleanNumber)) {
           return null;
         } else if (cleanNumber.isEmpty) {
           return "Required";
