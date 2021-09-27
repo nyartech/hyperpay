@@ -86,8 +86,9 @@ class _CheckoutViewState extends State<CheckoutView> {
                       decoration: _inputDecoration(
                         label: "Card Number",
                         hint: "0000 0000 0000 0000",
-                        icon:
-                            brandType == BrandType.none ? Icons.credit_card : 'assets/images/${brandType.asString}.png',
+                        icon: brandType == BrandType.none
+                            ? Icons.credit_card
+                            : 'assets/images/${brandType.asString}.png',
                       ),
                       onChanged: (value) {
                         setState(() {
@@ -99,7 +100,8 @@ class _CheckoutViewState extends State<CheckoutView> {
                         LengthLimitingTextInputFormatter(brandType.maxLength),
                         CardNumberInputFormatter()
                       ],
-                      validator: (String? number) => brandType.validateNumber(number ?? ""),
+                      validator: (String? number) =>
+                          brandType.validateNumber(number ?? ""),
                     ),
                     const SizedBox(height: 10),
                     // Expiry date
@@ -115,7 +117,8 @@ class _CheckoutViewState extends State<CheckoutView> {
                         LengthLimitingTextInputFormatter(4),
                         CardMonthInputFormatter(),
                       ],
-                      validator: (String? date) => CardInfo.validateDate(date ?? ""),
+                      validator: (String? date) =>
+                          CardInfo.validateDate(date ?? ""),
                     ),
                     const SizedBox(height: 10),
                     // CVV
@@ -130,7 +133,8 @@ class _CheckoutViewState extends State<CheckoutView> {
                         FilteringTextInputFormatter.digitsOnly,
                         LengthLimitingTextInputFormatter(4),
                       ],
-                      validator: (String? cvv) => CardInfo.validateCVV(cvv ?? ""),
+                      validator: (String? cvv) =>
+                          CardInfo.validateCVV(cvv ?? ""),
                     ),
                     const SizedBox(height: 30),
                     SizedBox(
@@ -139,7 +143,8 @@ class _CheckoutViewState extends State<CheckoutView> {
                         onPressed: isLoading
                             ? null
                             : () async {
-                                final bool valid = Form.of(context)?.validate() ?? false;
+                                final bool valid =
+                                    Form.of(context)?.validate() ?? false;
                                 if (valid) {
                                   setState(() {
                                     isLoading = true;
@@ -148,10 +153,13 @@ class _CheckoutViewState extends State<CheckoutView> {
                                   // Make a CardInfo from the controllers
                                   CardInfo card = CardInfo(
                                     holder: holderNameController.text,
-                                    cardNumber: cardNumberController.text.replaceAll(' ', ''),
+                                    cardNumber: cardNumberController.text
+                                        .replaceAll(' ', ''),
                                     cvv: cvvController.text,
-                                    expiryMonth: expiryController.text.split('/')[0],
-                                    expiryYear: '20' + expiryController.text.split('/')[1],
+                                    expiryMonth:
+                                        expiryController.text.split('/')[0],
+                                    expiryYear: '20' +
+                                        expiryController.text.split('/')[1],
                                   );
 
                                   try {
@@ -165,9 +173,11 @@ class _CheckoutViewState extends State<CheckoutView> {
 
                                     switch (result) {
                                       case PaymentStatus.init:
-                                        ScaffoldMessenger.of(context).showSnackBar(
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
                                           const SnackBar(
-                                            content: Text('Payment session is still in progress'),
+                                            content: Text(
+                                                'Payment session is still in progress'),
                                             backgroundColor: Colors.amber,
                                           ),
                                         );
@@ -177,7 +187,8 @@ class _CheckoutViewState extends State<CheckoutView> {
                                       // and delegate the job from there to the server, using webhooks
                                       // to get notified about the final status and do some action.
                                       case PaymentStatus.pending:
-                                        ScaffoldMessenger.of(context).showSnackBar(
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
                                           const SnackBar(
                                             content: Text('Payment pending ⏳'),
                                             backgroundColor: Colors.amber,
@@ -186,9 +197,11 @@ class _CheckoutViewState extends State<CheckoutView> {
                                         break;
                                       case PaymentStatus.successful:
                                         sessionCheckoutID = '';
-                                        ScaffoldMessenger.of(context).showSnackBar(
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
                                           const SnackBar(
-                                            content: Text('Payment approved 🎉'),
+                                            content:
+                                                Text('Payment approved 🎉'),
                                             backgroundColor: Colors.green,
                                           ),
                                         );
@@ -200,7 +213,8 @@ class _CheckoutViewState extends State<CheckoutView> {
                                     sessionCheckoutID = '';
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(
-                                        content: Text(exception.details ?? exception.message),
+                                        content: Text(exception.details ??
+                                            exception.message),
                                         backgroundColor: Colors.red,
                                       ),
                                     );
@@ -217,12 +231,15 @@ class _CheckoutViewState extends State<CheckoutView> {
                                   });
                                 } else {
                                   setState(() {
-                                    autovalidateMode = AutovalidateMode.onUserInteraction;
+                                    autovalidateMode =
+                                        AutovalidateMode.onUserInteraction;
                                   });
                                 }
                               },
                         child: Text(
-                          isLoading ? 'Processing your request, please wait...' : 'PAY',
+                          isLoading
+                              ? 'Processing your request, please wait...'
+                              : 'PAY',
                         ),
                       ),
                     )
@@ -236,7 +253,8 @@ class _CheckoutViewState extends State<CheckoutView> {
     );
   }
 
-  InputDecoration _inputDecoration({String? label, String? hint, dynamic icon}) {
+  InputDecoration _inputDecoration(
+      {String? label, String? hint, dynamic icon}) {
     return InputDecoration(
       hintText: hint,
       labelText: label,
