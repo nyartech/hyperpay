@@ -1,3 +1,8 @@
+## 0.0.5-alpha
+
+* **Breaking**: refactor and update the library API.
+* Bug fixes with platform code on Android and iOS.
+* Enabled providing headers to endpoints configurations.
 ## 0.0.4-alpha
 
 * Use ChromeCustomTabs for Android's authentication page.
