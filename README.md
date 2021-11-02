@@ -75,7 +75,7 @@ It's important to setup your own server with 2 endpoints:
 
 Find full details on [set up your server](https://wordpresshyperpay.docs.oppwa.com/tutorials/mobile-sdk/integration/server) page.
 
-After that, setup 2 `Uri` objects with your endpoints specifications, refer to [`example/lib/config`](https://github.com/nyartech/hyperpay/blob/main/example/lib/endpoint_setup.dart) for an example.
+After that, setup 2 `Uri` objects with your endpoints specifications, refer to [`example/lib/constants`](https://github.com/nyartech/hyperpay/blob/main/example/lib/constants.dart) for an example.
 
 ```dart
 String _host = 'YOUR_HOST';
@@ -97,17 +97,19 @@ Uri statusEndpoint = Uri(
 
 The first time you launch your app, setup the plugin with your configurations, it's highly recommended to use flavors to switch between modes.
 
-Implement `HyperpayConfig` class and put your merchant entity IDs provided by HyperPay.
+Implement `HyperpayConfig` class and put your merchant entity IDs as provided to you by HyperPay.
 
 ```dart
 class TestConfig implements HyperpayConfig {
   String? creditcardEntityID = '';
   String? madaEntityID = '';
+  Uri checkoutEndpoint = _checkoutEndpoint;
+  Uri statusEndpoint = _statusEndpoint;
   PaymentMode paymentMode = PaymentMode.test;
 }
 ```
 
-Then you might consider using **dart environment variables** to switch between Test and Live modes.
+Then you might consider using **Dart environment variables** to switch between Test and Live modes.
 
 ```dart
 const bool isDev = bool.fromEnvironment('DEV');
@@ -115,8 +117,6 @@ const bool isDev = bool.fromEnvironment('DEV');
 void setup() async {
   await HyperpayPlugin.instance.setup(
     config: isDev? TestConfig() : LiveConfig(),
-    checkoutEndpoint: checkoutEndpoint,
-    statusEndpoint: statusEndpoint,
   );
 }
 ```
