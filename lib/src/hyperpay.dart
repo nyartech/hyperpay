@@ -75,33 +75,41 @@ class HyperpayPlugin {
 
       final Map _resBody = json.decode(response.body);
 
-      switch (_resBody['result']['code']) {
-        case '000.200.100':
-          _checkoutID = _resBody['id'];
-          break;
-        case '200.300.404':
-          throw HyperpayException(
-            _resBody['description'],
-            _resBody['code'],
-            _resBody.containsKey('parameterErrors')
-                ? _resBody['parameterErrors']
-                    .map(
-                      (param) =>
-                          '(param: ${param['name']}, value: ${param['value']})',
-                    )
-                    .join(',')
-                : '',
-          );
-        default:
-          throw HyperpayException(
-            _resBody['description'],
-            _resBody['code'],
-          );
+      if (_resBody['result'] != null && _resBody['result']['code'] != null) {
+        switch (_resBody['result']['code']) {
+          case '000.200.100':
+            _checkoutID = _resBody['id'];
+            break;
+          case '200.300.404':
+            throw HyperpayException(
+              _resBody['description'],
+              _resBody['code'],
+              _resBody.containsKey('parameterErrors')
+                  ? _resBody['parameterErrors']
+                      .map(
+                        (param) =>
+                            '(param: ${param['name']}, value: ${param['value']})',
+                      )
+                      .join(',')
+                  : '',
+            );
+          default:
+            throw HyperpayException(
+              _resBody['description'],
+              _resBody['code'],
+            );
+        }
+
+        log(_checkoutID, name: "HyperpayPlugin/getCheckoutID");
+
+        return _checkoutID;
+      } else {
+        throw HyperpayException(
+          'The returned result does not containt the key "result" as the first key.',
+          'RESPONSE BODY NOT IDENTIFIED',
+          'please structure the returned body as {result: {code: CODE, description: DESCRIPTION}, id: CHECKOUT_ID, ...}.',
+        );
       }
-
-      log(_checkoutID, name: "HyperpayPlugin/getCheckoutID");
-
-      return _checkoutID;
     } catch (exception) {
       log('${exception.toString()}', name: "HyperpayPlugin/getCheckoutID");
       rethrow;
@@ -173,13 +181,20 @@ class HyperpayPlugin {
       );
 
       final Map<String, dynamic> _resBody = json.decode(response.body);
+      if (_resBody['result'] != null && _resBody['result']['code'] != null) {
+        log(
+          '${_resBody['result']['code']}: ${_resBody['result']['description']}',
+          name: "HyperpayPlugin/checkPaymentStatus",
+        );
 
-      log(
-        '${_resBody['result']['code']}: ${_resBody['result']['description']}',
-        name: "HyperpayPlugin/checkPaymentStatus",
-      );
-
-      return _resBody['result'];
+        return _resBody['result'];
+      } else {
+        throw HyperpayException(
+          'The returned result does not containt the key "result" as the first key.',
+          'RESPONSE BODY NOT IDENTIFIED',
+          'please structure the returned body as {result: {code: CODE, description: DESCRIPTION}, id: CHECKOUT_ID, ...}.',
+        );
+      }
     } catch (exception) {
       rethrow;
     }
