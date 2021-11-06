@@ -105,7 +105,7 @@ class HyperpayPlugin {
         return _checkoutID;
       } else {
         throw HyperpayException(
-          'The returned result does not containt the key "result" as the first key.',
+          'The returned result does not contain the key "result" as the first key.',
           'RESPONSE BODY NOT IDENTIFIED',
           'please structure the returned body as {result: {code: CODE, description: DESCRIPTION}, id: CHECKOUT_ID, ...}.',
         );
@@ -190,7 +190,7 @@ class HyperpayPlugin {
         return _resBody['result'];
       } else {
         throw HyperpayException(
-          'The returned result does not containt the key "result" as the first key.',
+          'The returned result does not contain the key "result" as the first key.',
           'RESPONSE BODY NOT IDENTIFIED',
           'please structure the returned body as {result: {code: CODE, description: DESCRIPTION}, id: CHECKOUT_ID, ...}.',
         );
