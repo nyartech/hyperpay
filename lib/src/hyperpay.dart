@@ -55,14 +55,18 @@ class HyperpayPlugin {
   /// A call to the endpoint on your server to get a checkout ID.
   Future<String> get getCheckoutID async {
     try {
+      final body = {
+        'entityID': _checkoutSettings?.brand.entityID(config),
+        'amount': _checkoutSettings?.amount.toStringAsFixed(2),
+        ..._checkoutSettings?.additionalParams ?? {},
+      };
       final Response response = await post(
         _config.checkoutEndpoint,
         headers: _checkoutSettings?.headers,
-        body: {
-          'entityID': _checkoutSettings?.brand.entityID(config),
-          'amount': _checkoutSettings?.amount.toStringAsFixed(2),
-          ..._checkoutSettings?.additionalParams ?? {},
-        },
+        body: (_checkoutSettings?.headers['Content-Type'] ?? '') ==
+                'application/json'
+            ? json.encode(body)
+            : body,
       );
 
       if (response.statusCode != 200) {
@@ -155,13 +159,17 @@ class HyperpayPlugin {
   Future<Map<String, dynamic>> paymentStatus(String checkoutID,
       {Map<String, String>? headers}) async {
     try {
+      final body = {
+        'entityID': _checkoutSettings?.brand.entityID(config),
+        'checkoutID': checkoutID,
+      };
       final Response response = await post(
         _config.statusEndpoint,
         headers: headers,
-        body: {
-          'entityID': _checkoutSettings?.brand.entityID(config),
-          'checkoutID': checkoutID,
-        },
+        body: (_checkoutSettings?.headers['Content-Type'] ?? '') ==
+                'application/json'
+            ? json.encode(body)
+            : body,
       );
 
       final Map<String, dynamic> _resBody = json.decode(response.body);
