@@ -48,7 +48,7 @@ end
 ```
 
 ### Android Setup
-1. Download the oppwa.mobile android SDK.
+1. Download the [oppwa.mobile android SDK](http://hyperpay-2020.quickconnect.to/d/f/644970108627762373).
 2. Assuming you are using VS Code, right click on the android folder and click **Open in Android Studio**.
 3. Switch to **project** view.
 4. Right click on your main app directory, then click **New > Directory**, name it `oppwa.mobile`.
