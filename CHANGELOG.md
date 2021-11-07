@@ -1,3 +1,8 @@
+## 0.0.7-alpha
+
+* Fix a bug with `Content-Type` header.
+* Throw an exception for badly structured backend response.
+
 ## 0.0.6-alpha
 
 * Update iOS SDK.
