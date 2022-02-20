@@ -27,6 +27,7 @@ import com.oppwa.mobile.connect.provider.Transaction
 import com.oppwa.mobile.connect.provider.TransactionType
 import com.oppwa.mobile.connect.service.ConnectService
 import com.oppwa.mobile.connect.service.IProviderBinder
+import java.util.*
 
 
 /** HyperpayPlugin */
@@ -81,7 +82,7 @@ class HyperpayPlugin : FlutterPlugin, MethodCallHandler, ITransactionListener, A
         shopperResultUrl += ".payments"
 
         binding.addOnNewIntentListener {
-            if (it.scheme == shopperResultUrl) {
+            if (it.scheme?.equals(shopperResultUrl, ignoreCase = true) == true) {
                 redirectData = it.scheme.toString()
             }
 
