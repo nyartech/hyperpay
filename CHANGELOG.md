@@ -1,3 +1,6 @@
+## 0.0.8-alpha
+
+* Fix: case-sensitive application ID on Android.
 ## 0.0.7-alpha
 
 * Fix a bug with `Content-Type` header.
