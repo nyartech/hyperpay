@@ -6,6 +6,7 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/services.dart';
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart';
 
 part 'src/hyperpay.dart';
