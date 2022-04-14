@@ -55,18 +55,30 @@ class HyperpayPlugin {
   /// A call to the endpoint on your server to get a checkout ID.
   Future<String> get getCheckoutID async {
     try {
-      final body = {
-        'entityID': _checkoutSettings?.brand.entityID(config),
-        'amount': _checkoutSettings?.amount.toStringAsFixed(2),
-        ..._checkoutSettings?.additionalParams ?? {},
-      };
+      final StringBuffer params = StringBuffer(
+        '?entityId=${_checkoutSettings?.brand.entityID(config)}'
+        '&amount=${_checkoutSettings?.amount.toStringAsFixed(2)}',
+      );
+
+      if (_checkoutSettings?.additionalParams != null) {
+        params.writeAll(
+          _checkoutSettings!.additionalParams.entries.map(
+            (e) => '&${e.key}=${e.value}',
+          ),
+        );
+      }
+
+      final fullURI = Uri.parse(
+        _config.checkoutEndpoint.toString() + params.toString(),
+      );
+
+      if (kDebugMode) {
+        print('Full URI : ${fullURI.toString()}');
+      }
+
       final Response response = await post(
-        _config.checkoutEndpoint,
+        fullURI,
         headers: _checkoutSettings?.headers,
-        body: (_checkoutSettings?.headers['Content-Type'] ?? '') ==
-                'application/json'
-            ? json.encode(body)
-            : body,
       );
 
       if (response.statusCode != 200) {
@@ -167,17 +179,22 @@ class HyperpayPlugin {
   Future<Map<String, dynamic>> paymentStatus(String checkoutID,
       {Map<String, String>? headers}) async {
     try {
-      final body = {
-        'entityID': _checkoutSettings?.brand.entityID(config),
-        'checkoutID': checkoutID,
-      };
+     final params = '?entityId=${_checkoutSettings?.brand.entityID(config)}';
+
+      final body = {'checkoutID': checkoutID};
+
+      final fullURI = Uri.parse(
+        _config.statusEndpoint.toString() + params.toString(),
+      );
+
+      if (kDebugMode) {
+        print('Full URI : ${fullURI.toString()} ,body : ${body.toString()}');
+      }
+
       final Response response = await post(
-        _config.statusEndpoint,
+        fullURI,
         headers: headers,
-        body: (_checkoutSettings?.headers['Content-Type'] ?? '') ==
-                'application/json'
-            ? json.encode(body)
-            : body,
+        body: json.encode(body),
       );
 
       final Map<String, dynamic> _resBody = json.decode(response.body);
