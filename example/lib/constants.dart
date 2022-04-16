@@ -6,6 +6,8 @@ class TestConfig implements HyperpayConfig {
   @override
   String? madaEntityID = '';
   @override
+  String? applePayEntityID = '';
+  @override
   Uri checkoutEndpoint = _checkoutEndpoint;
   @override
   Uri statusEndpoint = _statusEndpoint;
@@ -18,6 +20,8 @@ class LiveConfig implements HyperpayConfig {
   String? creditcardEntityID = '';
   @override
   String? madaEntityID = '';
+  @override
+  String? applePayEntityID = '';
   @override
   Uri checkoutEndpoint = _checkoutEndpoint;
   @override

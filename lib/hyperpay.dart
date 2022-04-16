@@ -14,6 +14,7 @@ part 'src/exception.dart';
 
 part 'src/models/card_info.dart';
 part 'src/models/checkout_settings.dart';
+part 'src/models/apple_pay_settings.dart';
 
 part 'src/enums/brand_type.dart';
 part 'src/enums/payment_mode.dart';
