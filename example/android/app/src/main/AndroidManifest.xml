@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.nyartech.hyperpay_example">
 
     <application android:icon="@mipmap/ic_launcher" android:label="hyperpay_example">
-        <activity android:name=".MainActivity" 
+        <activity android:name="io.flutter.embedding.android.FlutterActivity" 
         android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode" 
         android:hardwareAccelerated="true" 
         android:launchMode="singleTop" 
