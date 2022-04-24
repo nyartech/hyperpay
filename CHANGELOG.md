@@ -1,3 +1,7 @@
+## 0.0.9-alpha
+
+* Fix: Android bug on API levels 30 and above causing Custom Chrome Tabs to crash.
+* Feat: fallback support for phones with no Custome Chrome Tabs installed.
 ## 0.0.8-alpha
 
 * Fix: case-sensitive application ID on Android.
