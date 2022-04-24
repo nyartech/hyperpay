@@ -44,7 +44,9 @@ class _CheckoutViewState extends State<CheckoutView> {
     CheckoutSettings _checkoutSettings = CheckoutSettings(
       brand: brandType,
       amount: amount,
-      headers: {},
+      headers: {
+        'Content-Type': 'application/json',
+      },
       additionalParams: {
         'merchantTransactionId': '#123456',
       },
@@ -52,6 +54,91 @@ class _CheckoutViewState extends State<CheckoutView> {
 
     hyperpay.initSession(checkoutSetting: _checkoutSettings);
     sessionCheckoutID = await hyperpay.getCheckoutID;
+  }
+
+  Future<void> onPay(context) async {
+    final bool valid = Form.of(context)?.validate() ?? false;
+
+    if (valid) {
+      setState(() {
+        isLoading = true;
+      });
+
+      // Make a CardInfo from the controllers
+      CardInfo card = CardInfo(
+        holder: holderNameController.text,
+        cardNumber: cardNumberController.text.replaceAll(' ', ''),
+        cvv: cvvController.text,
+        expiryMonth: expiryController.text.split('/')[0],
+        expiryYear: '20' + expiryController.text.split('/')[1],
+      );
+
+      try {
+        // Start transaction
+        if (sessionCheckoutID.isEmpty) {
+          // Only get a new checkoutID if there is no previous session pending now
+          await initPaymentSession(brandType, 1);
+        }
+
+        final result = await hyperpay.pay(card);
+
+        switch (result) {
+          case PaymentStatus.init:
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('Payment session is still in progress'),
+                backgroundColor: Colors.amber,
+              ),
+            );
+            break;
+          // For the sake of the example, the 2 cases are shown explicitly
+          // but in real world it's better to merge pending with successful
+          // and delegate the job from there to the server, using webhooks
+          // to get notified about the final status and do some action.
+          case PaymentStatus.pending:
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('Payment pending ⏳'),
+                backgroundColor: Colors.amber,
+              ),
+            );
+            break;
+          case PaymentStatus.successful:
+            sessionCheckoutID = '';
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('Payment approved 🎉'),
+                backgroundColor: Colors.green,
+              ),
+            );
+            break;
+
+          default:
+        }
+      } on HyperpayException catch (exception) {
+        sessionCheckoutID = '';
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(exception.details ?? exception.message),
+            backgroundColor: Colors.red,
+          ),
+        );
+      } catch (exception) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('$exception'),
+          ),
+        );
+      }
+
+      setState(() {
+        isLoading = false;
+      });
+    } else {
+      setState(() {
+        autovalidateMode = AutovalidateMode.onUserInteraction;
+      });
+    }
   }
 
   @override
@@ -88,7 +175,7 @@ class _CheckoutViewState extends State<CheckoutView> {
                         hint: "0000 0000 0000 0000",
                         icon: brandType == BrandType.none
                             ? Icons.credit_card
-                            : 'assets/images/${brandType.asString}.png',
+                            : 'assets/images/${brandType.name.toUpperCase()}.png',
                       ),
                       onChanged: (value) {
                         setState(() {
@@ -140,109 +227,14 @@ class _CheckoutViewState extends State<CheckoutView> {
                     SizedBox(
                       width: double.infinity,
                       child: ElevatedButton(
-                        onPressed: isLoading
-                            ? null
-                            : () async {
-                                final bool valid =
-                                    Form.of(context)?.validate() ?? false;
-                                if (valid) {
-                                  setState(() {
-                                    isLoading = true;
-                                  });
-
-                                  // Make a CardInfo from the controllers
-                                  CardInfo card = CardInfo(
-                                    holder: holderNameController.text,
-                                    cardNumber: cardNumberController.text
-                                        .replaceAll(' ', ''),
-                                    cvv: cvvController.text,
-                                    expiryMonth:
-                                        expiryController.text.split('/')[0],
-                                    expiryYear: '20' +
-                                        expiryController.text.split('/')[1],
-                                  );
-
-                                  try {
-                                    // Start transaction
-                                    if (sessionCheckoutID.isEmpty) {
-                                      // Only get a new checkoutID if there is no previous session pending now
-                                      await initPaymentSession(brandType, 1);
-                                    }
-
-                                    final result = await hyperpay.pay(card);
-
-                                    switch (result) {
-                                      case PaymentStatus.init:
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(
-                                          const SnackBar(
-                                            content: Text(
-                                                'Payment session is still in progress'),
-                                            backgroundColor: Colors.amber,
-                                          ),
-                                        );
-                                        break;
-                                      // For the sake of the example, the 2 cases are shown explicitly
-                                      // but in real world it's better to merge pending with successful
-                                      // and delegate the job from there to the server, using webhooks
-                                      // to get notified about the final status and do some action.
-                                      case PaymentStatus.pending:
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(
-                                          const SnackBar(
-                                            content: Text('Payment pending ⏳'),
-                                            backgroundColor: Colors.amber,
-                                          ),
-                                        );
-                                        break;
-                                      case PaymentStatus.successful:
-                                        sessionCheckoutID = '';
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(
-                                          const SnackBar(
-                                            content:
-                                                Text('Payment approved 🎉'),
-                                            backgroundColor: Colors.green,
-                                          ),
-                                        );
-                                        break;
-
-                                      default:
-                                    }
-                                  } on HyperpayException catch (exception) {
-                                    sessionCheckoutID = '';
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        content: Text(exception.details ??
-                                            exception.message),
-                                        backgroundColor: Colors.red,
-                                      ),
-                                    );
-                                  } catch (exception) {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        content: Text('$exception'),
-                                      ),
-                                    );
-                                  }
-
-                                  setState(() {
-                                    isLoading = false;
-                                  });
-                                } else {
-                                  setState(() {
-                                    autovalidateMode =
-                                        AutovalidateMode.onUserInteraction;
-                                  });
-                                }
-                              },
+                        onPressed: isLoading ? null : () => onPay(context),
                         child: Text(
                           isLoading
                               ? 'Processing your request, please wait...'
                               : 'PAY',
                         ),
                       ),
-                    )
+                    ),
                   ],
                 );
               },
