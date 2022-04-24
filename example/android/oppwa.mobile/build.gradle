@@ -1,2 +1,2 @@
 configurations.maybeCreate("default")
-artifacts.add("default", file('oppwa.mobile-3.6.0-release.aar'))
+artifacts.add("default", file('oppwa.mobile-3.10.0-release.aar'))
