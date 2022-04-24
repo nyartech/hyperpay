@@ -68,6 +68,19 @@ include ':oppwa.mobile'
 <br />**IMPORTANT:** the scheme you choose should match exactly your application ID but without any underscores, and then append `.payments` to it. 
 <br />For example: `com.nyartech.hyperpay_example` becomes `com.nyartech.hyperpayexample.payments`
 
+#### 🐛 A fix for an Android issue
+You might hit the following error if you tried to compile on Android:
+```bash
+AAPT: error: style attribute 'attr/hintTextAppearance (aka com.example.app:attr/hintTextAppearance)' not found.
+```
+To fix it, add the following dependnecies to `app/buid.gradle`:
+```gradle
+dependencies {
+    implementation "androidx.appcompat:appcompat:1.4.1"
+    implementation "com.google.android.material:material:1.5.0"
+}
+```
+
 ### Setup Required Endpoints
 It's important to setup your own server with 2 endpoints:
 1. Get Checkout ID
