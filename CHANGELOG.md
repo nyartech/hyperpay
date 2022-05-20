@@ -1,3 +1,6 @@
+## 0.0.10-alpha
+
+* Fix: Kotlin null-safety error. 
 ## 0.0.9-alpha
 
 * Fix: Android bug on API levels 30 and above causing Custom Chrome Tabs to crash.
