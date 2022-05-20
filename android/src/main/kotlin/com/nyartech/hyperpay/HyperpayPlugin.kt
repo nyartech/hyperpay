@@ -134,7 +134,7 @@ class HyperpayPlugin : FlutterPlugin, MethodCallHandler, ITransactionListener, A
         handler.post { channelResult!!.success(result) }
     }
 
-    private fun error(errorCode: String?, errorMessage: String?, errorDetails: Any?) {
+    private fun error(errorCode: String, errorMessage: String?, errorDetails: Any?) {
         handler.post { channelResult!!.error(errorCode, errorMessage, errorDetails) }
     }
 
@@ -320,7 +320,8 @@ class HyperpayPlugin : FlutterPlugin, MethodCallHandler, ITransactionListener, A
 
                 val builder = CustomTabsIntent.Builder(session)
                 mCustomTabsIntent = builder.build()
-                mCustomTabsIntent?.intent?.flags = Intent.FLAG_ACTIVITY_NO_HISTORY
+                mActivity?.intent?.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
+                mCustomTabsIntent?.intent?.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
                 mCustomTabsIntent?.launchUrl(mActivity!!, uri)
             }
         } catch (e: Exception) {
