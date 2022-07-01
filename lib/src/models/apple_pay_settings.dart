@@ -1,6 +1,6 @@
 part of hyperpay;
 
-/// Required fields for performing payment with Apply Pay brand.
+/// Required fields for performing a transaction with Apply Pay.
 class ApplePaySettings {
   final String appleMerchantId;
   final double amount;

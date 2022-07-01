@@ -1,10 +1,17 @@
+/**
+ * Copyright 2022 NyarTech LLC. All rights reserved.
+ *
+ * Use of this source code is governed by a BSD-style license
+ * that can be found in the LICENSE.
+ */
+
 import Flutter
 import UIKit
 import SafariServices
 
-/// Handle the call from channel `hyperpay`
+/// Handle calls from the Flutter side.
 ///
-/// Currently supported brands: VISA, MastrCard, MADA
+/// Currently supported brands: VISA, MastrCard, MADA, and Apple Pay.
 public class SwiftHyperpayPlugin: NSObject, FlutterPlugin, SFSafariViewControllerDelegate, UIAdaptivePresentationControllerDelegate, PKPaymentAuthorizationViewControllerDelegate {
     
     var provider:OPPPaymentProvider = OPPPaymentProvider(mode: OPPProviderMode.test)
@@ -17,7 +24,7 @@ public class SwiftHyperpayPlugin: NSObject, FlutterPlugin, SFSafariViewControlle
     var expiryYear:String = ""
     var cvv:String = ""
     
-    // Apple pay specific args
+    /// Apple pay specific args.
     var countryCode:String = ""
     var currencyCode:String = ""
     var appleMerchantId:String = ""
@@ -27,8 +34,11 @@ public class SwiftHyperpayPlugin: NSObject, FlutterPlugin, SFSafariViewControlle
     var transaction:OPPTransaction?
     var paymentResult: FlutterResult?
     var safariVC:SFSafariViewController?
+    
+    /// The URL that redirects the user back to the application after authroization is complete.
     var shopperResultURL:String = ""
     
+    /// The payment mode could either be `TEST` or `LIVE`.
     var paymentMode:String = ""
     
     public func paymentAuthorizationViewControllerDidFinish(_ controller: PKPaymentAuthorizationViewController) {
@@ -44,11 +54,10 @@ public class SwiftHyperpayPlugin: NSObject, FlutterPlugin, SFSafariViewControlle
             
             self.provider.submitTransaction(OPPTransaction(paymentParams: params), completionHandler: { (transaction, error) in
                 if (error != nil) {
-                    // SEND ERROR TO FLUTTER
+                    self.paymentResult?(error)
                 } else {
-                    // Send request to your server to obtain transaction status.
                     completion(.success)
-                    self.paymentResult!("success")
+                    self.paymentResult?("success")
                 }
             })
         }
@@ -56,8 +65,11 @@ public class SwiftHyperpayPlugin: NSObject, FlutterPlugin, SFSafariViewControlle
     
     
     public static func register(with registrar: FlutterPluginRegistrar) {
-        let channel = FlutterMethodChannel(name: "hyperpay", binaryMessenger: registrar.messenger())
+        let channel = FlutterMethodChannel(name: "plugins.nyartech.com/hyperpay", binaryMessenger: registrar.messenger())
         let instance = SwiftHyperpayPlugin()
+        let buttonFactory = ApplePayButtonViewFactory(messenger: registrar.messenger())
+        
+        registrar.register(buttonFactory, withId: "plugins.nyartech.com/hyperpay/apple_pay_button")
         registrar.addMethodCallDelegate(instance, channel: channel)
         registrar.addApplicationDelegate(instance)
     }

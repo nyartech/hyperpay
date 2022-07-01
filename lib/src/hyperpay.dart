@@ -7,12 +7,13 @@ part of hyperpay;
 /// [the guide to setup your server](https://wordpresshyperpay.docs.oppwa.com/tutorials/mobile-sdk/integration/server).
 ///
 /// Refer to [HyperPay API](https://wordpresshyperpay.docs.oppwa.com/reference/parameters)
-/// for more information on Test/Live systems
+/// for more information on Test/Live systems.
 class HyperpayPlugin {
   HyperpayPlugin._(this._config);
   //static HyperpayPlugin instance = HyperpayPlugin._();
 
-  static const MethodChannel _channel = const MethodChannel('hyperpay');
+  static const MethodChannel _channel =
+      const MethodChannel('plugins.nyartech.com/hyperpay');
 
   late HyperpayConfig _config;
 
@@ -163,7 +164,17 @@ class HyperpayPlugin {
     }
   }
 
+  /// Perform a transaction natively with Apple Pay.
+  ///
+  /// This method will throw a [NOT_SUPPORTED] error on any platform other than iOS.
   Future<PaymentStatus> payWithApplePay(ApplePaySettings applePay) async {
+    if (defaultTargetPlatform != TargetPlatform.iOS) {
+      throw HyperpayException(
+        'Apple Pay is not supported on $defaultTargetPlatform.',
+        'NOT_SUPPORTED',
+      );
+    }
+
     try {
       final result = await _channel.invokeMethod(
         'start_payment_transaction',

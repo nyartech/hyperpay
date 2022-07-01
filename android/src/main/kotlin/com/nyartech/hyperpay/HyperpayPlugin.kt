@@ -68,7 +68,7 @@ class HyperpayPlugin : FlutterPlugin, MethodCallHandler, ITransactionListener, A
     private var redirectData = ""
 
     override fun onAttachedToEngine(@NonNull flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
-        channel = MethodChannel(flutterPluginBinding.binaryMessenger, "hyperpay")
+        channel = MethodChannel(flutterPluginBinding.binaryMessenger, "plugins.nyartech.com/hyperpay")
         channel.setMethodCallHandler(this)
     }
 
