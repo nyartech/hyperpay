@@ -210,7 +210,7 @@ class _CheckoutViewState extends State<CheckoutView> {
                         hint: "0000 0000 0000 0000",
                         icon: brandType == BrandType.none
                             ? Icons.credit_card
-                            : 'assets/images/${brandType.name}.png',
+                            : 'assets/${brandType.name}.png',
                       ),
                       onChanged: (value) {
                         setState(() {
