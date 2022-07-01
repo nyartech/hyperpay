@@ -1,3 +1,7 @@
+## 1.0.0-dev.1
+
+* Feat: Apple Pay
+
 ## 0.0.10-alpha
 
 * Fix: Kotlin null-safety error. 
