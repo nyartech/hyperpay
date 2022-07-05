@@ -41,6 +41,9 @@ public class SwiftHyperpayPlugin: NSObject, FlutterPlugin, SFSafariViewControlle
     /// The payment mode could either be `TEST` or `LIVE`.
     var paymentMode:String = ""
     
+    /// A suffix added to the bundle ID of the client's app to form a complete `shopperResultURL`.
+    let shopperResultURLSuffix = ".payments://result";
+    
     public func paymentAuthorizationViewControllerDidFinish(_ controller: PKPaymentAuthorizationViewController) {
         controller.dismiss(animated: true, completion: nil)
         self.paymentResult!("canceled")
@@ -50,11 +53,14 @@ public class SwiftHyperpayPlugin: NSObject, FlutterPlugin, SFSafariViewControlle
         
         if let params = try? OPPApplePayPaymentParams(checkoutID: self.checkoutID, tokenData: payment.token.paymentData) as OPPApplePayPaymentParams? {
             
-            self.transaction  = OPPTransaction(paymentParams: params)
+            // Add the shopperResultURL to the params, without it the payment
+            // can not proceed.
+            params.shopperResultURL = Bundle.main.bundleIdentifier! + shopperResultURLSuffix
             
-            self.provider.submitTransaction(OPPTransaction(paymentParams: params), completionHandler: { (transaction, error) in
+             self.provider.submitTransaction(OPPTransaction(paymentParams: params), completionHandler: { (transaction, error) in
                 if (error != nil) {
-                    self.paymentResult?(error)
+                    completion(.failure)
+                    self.paymentResult?(error?.localizedDescription)
                 } else {
                     completion(.success)
                     self.paymentResult?("success")
@@ -171,7 +177,7 @@ public class SwiftHyperpayPlugin: NSObject, FlutterPlugin, SFSafariViewControlle
                 cvv: self.cvv
             )
             
-            params.shopperResultURL = Bundle.main.bundleIdentifier! + ".payments://result"
+            params.shopperResultURL = Bundle.main.bundleIdentifier! + shopperResultURLSuffix
             
             self.transaction  = OPPTransaction(paymentParams: params)
             self.provider.submitTransaction(self.transaction!) {
@@ -227,11 +233,11 @@ public class SwiftHyperpayPlugin: NSObject, FlutterPlugin, SFSafariViewControlle
         self.amount = args["amount"] as! Double
         
         let paymentRequest = OPPPaymentProvider.paymentRequest(
-            withMerchantIdentifier: appleMerchantId,
-            countryCode: countryCode)
+            withMerchantIdentifier: self.appleMerchantId,
+            countryCode: self.countryCode)
         
-        paymentRequest.currencyCode = currencyCode
-        
+        paymentRequest.currencyCode = self.currencyCode
+
         paymentRequest.paymentSummaryItems = [
             PKPaymentSummaryItem(label: "Hyperpay",
                                  amount: NSDecimalNumber(value: self.amount))
