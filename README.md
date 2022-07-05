@@ -10,10 +10,10 @@ This plugin is a wrapper around [HyperPay iOS and Android SDK](https://wordpress
 [![pub package](https://img.shields.io/pub/v/hyperpay.svg)](https://pub.dev/packages/hyperpay)
 
 ## Support Checklist
-✔️ Brands: **VISA**, **MasterCard**, **MADA**
-<br />✔️ Get a checkout ID
-<br />✔️ Get payment status
-<br />✔️ Perform sync/async payment
+✔️ Credit Card payment **VISA**, **MasterCard**
+<br />✔️ Local Saudi payment with **MADA**
+<br />✔️ Apple Pay
+<br />✔️ Check payment status
 <br />✔️ Custom UI
 <br />✖️ Ready UI
 

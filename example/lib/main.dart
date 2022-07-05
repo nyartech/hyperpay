@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:hyperpay_example/checkout_view.dart';
 
 void main() {

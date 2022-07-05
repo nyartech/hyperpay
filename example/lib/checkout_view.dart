@@ -14,13 +14,15 @@ class CheckoutView extends StatefulWidget {
 }
 
 class _CheckoutViewState extends State<CheckoutView> {
+  AutovalidateMode autovalidateMode = AutovalidateMode.disabled;
+
   TextEditingController holderNameController = TextEditingController();
   TextEditingController cardNumberController = TextEditingController();
   TextEditingController expiryController = TextEditingController();
   TextEditingController cvvController = TextEditingController();
 
   BrandType brandType = BrandType.none;
-  AutovalidateMode autovalidateMode = AutovalidateMode.disabled;
+
   bool isLoading = false;
   String sessionCheckoutID = '';
 
@@ -141,6 +143,39 @@ class _CheckoutViewState extends State<CheckoutView> {
     }
   }
 
+  void onApplePay(double amount) async {
+    setState(() {
+      isLoading = true;
+    });
+
+    // Start transaction
+    if (sessionCheckoutID.isEmpty) {
+      // Only get a new checkoutID if there is no previous session pending now
+      await initPaymentSession(BrandType.applepay, amount);
+    }
+
+    final applePaySettings = ApplePaySettings(
+      amount: amount,
+      appleMerchantId: 'YOUR_MERCHANT_ID',
+      countryCode: 'SA',
+      currencyCode: 'SAR',
+    );
+
+    try {
+      await hyperpay.payWithApplePay(applePaySettings);
+    } catch (exception) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('$exception'),
+        ),
+      );
+    } finally {
+      setState(() {
+        isLoading = false;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -175,7 +210,7 @@ class _CheckoutViewState extends State<CheckoutView> {
                         hint: "0000 0000 0000 0000",
                         icon: brandType == BrandType.none
                             ? Icons.credit_card
-                            : 'assets/images/${brandType.name.toUpperCase()}.png',
+                            : 'assets/${brandType.name}.png',
                       ),
                       onChanged: (value) {
                         setState(() {
@@ -233,6 +268,15 @@ class _CheckoutViewState extends State<CheckoutView> {
                               ? 'Processing your request, please wait...'
                               : 'PAY',
                         ),
+                      ),
+                    ),
+                    SizedBox(
+                      width: double.infinity,
+                      height: 35,
+                      child: ApplePayButton(
+                        onPressed: () => onApplePay(10),
+                        type: ApplePayButtonType.buy,
+                        style: ApplePayButtonStyle.automatic,
                       ),
                     ),
                   ],

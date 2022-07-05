@@ -1,3 +1,7 @@
+// Copyright 2022 NyarTech LLC. All rights reserved.
+// Use of this source code is governed by a BSD-style license
+// that can be found in the LICENSE file.
+
 part of hyperpay;
 
 /// The interface for Hyperpay SDK.
@@ -7,12 +11,13 @@ part of hyperpay;
 /// [the guide to setup your server](https://wordpresshyperpay.docs.oppwa.com/tutorials/mobile-sdk/integration/server).
 ///
 /// Refer to [HyperPay API](https://wordpresshyperpay.docs.oppwa.com/reference/parameters)
-/// for more information on Test/Live systems
+/// for more information on Test/Live systems.
 class HyperpayPlugin {
   HyperpayPlugin._(this._config);
   //static HyperpayPlugin instance = HyperpayPlugin._();
 
-  static const MethodChannel _channel = const MethodChannel('hyperpay');
+  static const MethodChannel _channel =
+      const MethodChannel('plugins.nyartech.com/hyperpay');
 
   late HyperpayConfig _config;
 
@@ -82,10 +87,10 @@ class HyperpayPlugin {
             break;
           case '200.300.404':
             throw HyperpayException(
-              _resBody['description'],
-              _resBody['code'],
+              _resBody['result']['description'],
+              _resBody['result']['code'],
               _resBody.containsKey('parameterErrors')
-                  ? _resBody['parameterErrors']
+                  ? _resBody['result']['parameterErrors']
                       .map(
                         (param) =>
                             '(param: ${param['name']}, value: ${param['value']})',
@@ -127,7 +132,7 @@ class HyperpayPlugin {
         'start_payment_transaction',
         {
           'checkoutID': _checkoutID,
-          'brand': _checkoutSettings?.brand.asString,
+          'brand': _checkoutSettings?.brand.name.toUpperCase(),
           'card': card.toMap(),
         },
       );
@@ -143,6 +148,7 @@ class HyperpayPlugin {
         _checkoutID,
         headers: _checkoutSettings?.headers,
       );
+
       final String code = status['code'];
 
       if (code.paymentStatus == PaymentStatus.rejected) {
@@ -158,6 +164,58 @@ class HyperpayPlugin {
       }
     } catch (e) {
       log('$e', name: "HyperpayPlugin/pay");
+      rethrow;
+    }
+  }
+
+  /// Perform a transaction natively with Apple Pay.
+  ///
+  /// This method will throw a [NOT_SUPPORTED] error on any platform other than iOS.
+  Future<PaymentStatus> payWithApplePay(ApplePaySettings applePay) async {
+    if (defaultTargetPlatform != TargetPlatform.iOS) {
+      throw HyperpayException(
+        'Apple Pay is not supported on $defaultTargetPlatform.',
+        'NOT_SUPPORTED',
+      );
+    }
+
+    try {
+      final result = await _channel.invokeMethod(
+        'start_payment_transaction',
+        {
+          'checkoutID': _checkoutID,
+          'brand': BrandType.applepay.name.toUpperCase(),
+          ...applePay.toJson(),
+        },
+      );
+
+      log('$result', name: "HyperpayPlugin/platformResponse");
+
+      if (result == 'canceled') {
+        // Checkout session is still going on.
+        return PaymentStatus.init;
+      }
+
+      final status = await paymentStatus(
+        _checkoutID,
+        headers: _checkoutSettings?.headers,
+      );
+
+      final String code = status['code'];
+
+      if (code.paymentStatus == PaymentStatus.rejected) {
+        throw HyperpayException(
+            "Rejected payment.", code, status['description']);
+      } else {
+        log('${code.paymentStatus}', name: "HyperpayPlugin/paymentStatus");
+
+        _clearSession();
+        _checkoutID = '';
+
+        return code.paymentStatus;
+      }
+    } catch (e) {
+      log('$e', name: "HyperpayPlugin/payWithApplePay");
       rethrow;
     }
   }

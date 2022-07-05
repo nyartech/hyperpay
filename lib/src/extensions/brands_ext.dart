@@ -1,3 +1,7 @@
+// Copyright 2022 NyarTech LLC. All rights reserved.
+// Use of this source code is governed by a BSD-style license
+// that can be found in the LICENSE file.
+
 part of hyperpay;
 
 // Regular experessions for each brand
@@ -36,22 +40,6 @@ extension DetectBrand on String {
 }
 
 extension BrandTypeExtension on BrandType {
-  /// String representation for each card type as mentioned in HyperPay docs.
-  ///
-  /// https://wordpresshyperpay.docs.oppwa.com/reference/parameters
-  String get asString {
-    switch (this) {
-      case BrandType.visa:
-        return 'VISA';
-      case BrandType.mastercard:
-        return 'MASTER';
-      case BrandType.mada:
-        return 'MADA';
-      default:
-        return '';
-    }
-  }
-
   /// Get the entity ID of this brand based on merchant configuration.
   String? entityID(HyperpayConfig config) {
     String? _entityID = '';
@@ -64,6 +52,9 @@ extension BrandTypeExtension on BrandType {
         break;
       case BrandType.mada:
         _entityID = config.madaEntityID;
+        break;
+      case BrandType.applepay:
+        _entityID = config.applePayEntityID;
         break;
 
       default:
