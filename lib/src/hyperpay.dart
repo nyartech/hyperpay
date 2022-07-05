@@ -87,10 +87,10 @@ class HyperpayPlugin {
             break;
           case '200.300.404':
             throw HyperpayException(
-              _resBody['description'],
-              _resBody['code'],
+              _resBody['result']['description'],
+              _resBody['result']['code'],
               _resBody.containsKey('parameterErrors')
-                  ? _resBody['parameterErrors']
+                  ? _resBody['result']['parameterErrors']
                       .map(
                         (param) =>
                             '(param: ${param['name']}, value: ${param['value']})',
