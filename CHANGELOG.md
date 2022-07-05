@@ -1,3 +1,6 @@
+## 1.0.0-dev.2
+
+* Fix: Apple Pay transactions was being rejected.
 ## 1.0.0-dev.1
 
 * Feat: Apple Pay
