@@ -106,7 +106,7 @@ Uri statusEndpoint = Uri(
 );
 ```
 
-### Setup HyperPay App Configuration
+### Setup HyperPay Environment Configuration
 
 The first time you launch your app, setup the plugin with your configurations, it's highly recommended to use flavors to switch between modes.
 
@@ -114,10 +114,22 @@ Implement `HyperpayConfig` class and put your merchant entity IDs as provided to
 
 ```dart
 class TestConfig implements HyperpayConfig {
+  @override
   String? creditcardEntityID = '';
+
+  @override
   String? madaEntityID = '';
+
+  @override
+  String? applePayEntityID = '';
+
+  @override
   Uri checkoutEndpoint = _checkoutEndpoint;
+
+  @override
   Uri statusEndpoint = _statusEndpoint;
+
+  @override
   PaymentMode paymentMode = PaymentMode.test;
 }
 ```
