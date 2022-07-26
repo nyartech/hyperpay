@@ -102,9 +102,9 @@ class HyperpayPlugin {
             );
         }
 
-        log(_checkoutID, name: "HyperpayPlugin/getCheckoutID");
+        log(_checkoutID ?? '', name: "HyperpayPlugin/getCheckoutID");
 
-        return _checkoutID;
+        return _checkoutID ?? '';
       } else {
         throw HyperpayException(
           'The returned result does not contain the key "result" as the first key.',
@@ -131,8 +131,8 @@ class HyperpayPlugin {
       final result = await _channel.invokeMethod(
         'start_payment_transaction',
         {
-          'checkoutID': _checkoutID,
-          'brand': _brand.name.toUpperCase(),
+          'checkoutID': _checkoutID ?? '',
+          'brand': _brand?.name.toUpperCase() ?? '',
           'card': card.toMap(),
         },
       );
@@ -167,7 +167,7 @@ class HyperpayPlugin {
       final result = await _channel.invokeMethod(
         'start_payment_transaction',
         {
-          'checkoutID': _checkoutID,
+          'checkoutID': _checkoutID ?? '',
           'brand': BrandType.applepay.name.toUpperCase(),
           ...applePay.toJson(),
         },
@@ -181,7 +181,7 @@ class HyperpayPlugin {
       }
 
       final status = await paymentStatus(
-        _checkoutID,
+        _checkoutID ?? '',
         headers: _checkoutSettings?.headers,
       );
 
