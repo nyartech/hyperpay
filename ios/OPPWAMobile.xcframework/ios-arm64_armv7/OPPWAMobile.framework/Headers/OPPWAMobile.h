@@ -15,6 +15,7 @@
  */
 #import "OPPPaymentProvider.h"
 #import "OPPTransaction.h"
+#import "OPPBinInfo.h"
 #import "OPPThreeDS2Info.h"
 #import "OPPPaymentParams.h"
 #import "OPPBaseCardPaymentParams.h"
@@ -48,4 +49,8 @@
 #import "OPPPaymentButton.h"
 #import "OPPApplePayRequestStatus.h"
 
+#import "OPPBillingAddress.h"
+#import "OPPBillingAddressBuilder.h"
+
+#import "OPPThreeDSChallengeUiType.h"
 

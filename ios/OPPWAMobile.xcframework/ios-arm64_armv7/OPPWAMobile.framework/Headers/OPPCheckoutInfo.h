@@ -60,6 +60,9 @@ NS_ASSUME_NONNULL_BEGIN
 /** 3-D Secure 2 integration flow. */
 @property (nonatomic, assign) OPPThreeDS2Flow threeDS2Flow;
 
+/** A flag that specifies if browser parameters should be collected for 3-D Secure 2. */
+@property (nonatomic, getter=isBrowserParamsRequired) BOOL browserParamsRequired;
+
 /// @name Initialization
 
 /**

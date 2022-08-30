@@ -11,6 +11,7 @@
 
 @import Foundation;
 #import "OPPBaseCardPaymentParams.h"
+#import "OPPBillingAddress.h"
 
 /**
  Class to represent a set of card parameters needed for performing an e-commerce card transaction.
@@ -94,6 +95,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 /** Default is `NO`. If `YES`, the payment information will be stored for future use. */
 @property (nonatomic, getter=isTokenizationEnabled) BOOL tokenizationEnabled;
+
+/** The customer's billing address. */
+@property (nonatomic, strong, nullable) OPPBillingAddress *address;
 
 /// @name Parameter Checks
 

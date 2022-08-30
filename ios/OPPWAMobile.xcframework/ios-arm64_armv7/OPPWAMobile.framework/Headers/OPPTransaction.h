@@ -112,13 +112,10 @@ Constant for a key to get Alipay seller's order information which should be forw
 */
 FOUNDATION_EXPORT NSString *const OPPTransactionAlipaySignedOrderInfoKey;
 
-/// @name Deprecated
-
 /**
- App payment signed request parameters contain seller’s order information which should be forwarded to Alipay native SDK.
- @warning **Deprecated**. Use `brandSpecificInfo` dictionary instead. It contains `OPPTransactionAlipaySignedOrderInfoKey` as key and `String` as value.
+Constant for a key to get Bancontact app scheme URL to redirect to the Bancontact app.
 */
-@property (nonatomic, copy, readonly, nullable) NSString *alipaySignedOrderInfo;
+FOUNDATION_EXPORT NSString *const OPPTransactionBancontactLinkAppSchemeUrlKey;
 
 @end
 NS_ASSUME_NONNULL_END

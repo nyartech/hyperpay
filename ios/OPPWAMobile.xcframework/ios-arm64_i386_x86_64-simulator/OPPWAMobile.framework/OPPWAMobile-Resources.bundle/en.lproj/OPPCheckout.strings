@@ -7,6 +7,7 @@
 "VIEW_CONTROLLER_TITLE_PAYMENT_METHOD_SELECTION" = "Select Payment Method";
 "VIEW_CONTROLLER_TITLE_PAYMENT_DETAILS" = "Payment Details";
 "VIEW_CONTROLLER_TITLE_PROCESSING" = "Processing";
+"VIEW_CONTROLLER_TITLE_ADDRESS" = "Billing Address";
 
 /// Form titles
 "FORM_TITLE_PAYMENT_INFO" = "Payment Info";
@@ -73,6 +74,13 @@
 "FIELD_PLACEHOLDER_NATIONAL_IDENTIFIER" = "National Identifier";
 "FIELD_PLACEHOLDER_ACCOUNT_NUMBER" = "Account Number";
 "FIELD_PLACEHOLDER_ACCOUNT_VERIFICATION" = "Account Verification";
+"FIELD_PLACEHOLDER_STREET1" = "Street";
+"FIELD_PLACEHOLDER_STREET2" = "Address Line 2";
+"FIELD_PLACEHOLDER_CITY" = "City";
+"FIELD_PLACEHOLDER_STATE" = "State";
+"FIELD_PLACEHOLDER_COUNTRY" = "Country";
+"FIELD_PLACEHOLDER_POSTCODE" = "Post Code";
+"FIELD_PLACEHOLDER_OPTIONAL" = "(Optional)";
 
 /// Text field errors
 "FIELD_ERROR_CARD_HOLDER_NAME_INVALID" = "Card holder name is not valid";
@@ -91,6 +99,7 @@
 "FIELD_ERROR_ACCOUNT_NUMBER_INVALID" = "Invalid account number";
 "FIELD_ERROR_ACCOUNT_EXPIRY_DATE_INVALID" = "Expiration date is not valid, use MM/YY or MM/YYYY format";
 "FIELD_ERROR_ACCOUNT_EXPIRED" = "Account is expired";
+"FIELD_ERROR_ADDRESS_INVALID" = "Click here for Billing Address";
 
 /// Payment method groups are displayed if tokens are received
 "PAYMENT_METHOD_GROUP_STORED" = "Stored Payment Methods";

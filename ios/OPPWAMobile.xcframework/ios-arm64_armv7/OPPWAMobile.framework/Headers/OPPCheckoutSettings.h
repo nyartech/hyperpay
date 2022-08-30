@@ -11,6 +11,7 @@
 
 #import <Foundation/Foundation.h>
 #import <PassKit/PassKit.h>
+#import "OPPBillingAddress.h"
 @class OPPCheckoutTheme;
 @class OPPSecurityPolicy;
 
@@ -48,6 +49,16 @@ typedef NS_ENUM(NSInteger, OPPCheckoutBrandDetectionType) {
     OPPCheckoutBrandDetectionTypeRegex,
     /// Searches card bin in the bin list (more precise)
     OPPCheckoutBrandDetectionTypeBinList
+};
+
+/// An enumeration for the card brand detection appearance style
+typedef NS_ENUM(NSInteger, OPPCheckoutBrandDetectionAppearanceStyle) {
+    /// The detected card brands interface appears automatically.
+    OPPCheckoutBrandDetectionAppearanceStyleActive,
+    /// The detected card brands interface is hidden. The user can make it visible by clicking on card icon in the card number text field.
+    OPPCheckoutBrandDetectionAppearanceStyleInactive,
+    /// The detected card brands interface is disabled. First detected brand will be used.
+    OPPCheckoutBrandDetectionAppearanceStyleNone
 };
 
 /**
@@ -160,15 +171,19 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, copy) NSArray<NSString *> *brandDetectionPriority;
 
 /**
- A flag that specifies whether show multiple detected brands under card number text field or keep them hidden by default.
- Default is `YES`.
+ A constant that control multiple detected brands under card number appearance style. Default is `OPPCheckoutBrandDetectionAppearanceStyleActive`.
  */
-@property (nonatomic) BOOL showDetectedBrands;
+@property (nonatomic) OPPCheckoutBrandDetectionAppearanceStyle brandDetectionAppearanceStyle;
 
 /**
  Sets custom logo to be presented at the checkout for the specified payment brands.
  */
 @property (nonatomic, copy, nullable) NSDictionary<NSString *, UIImage *> *customLogos;
+
+/**
+ Property which holds billing address of the customer.
+ */
+@property (nonatomic, nullable) OPPBillingAddress *billingAddress;
 
 @end
 NS_ASSUME_NONNULL_END
