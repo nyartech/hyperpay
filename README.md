@@ -48,39 +48,34 @@ end
 ```
 
 ### Android Setup
-1. Download the [oppwa.mobile android SDK](http://hyperpay-2020.quickconnect.to/d/f/644970108627762373).
-2. Assuming you are using VS Code, right click on the android folder and click **Open in Android Studio**.
-3. Switch to **project** view.
-4. Right click on your main app directory, then click **New > Directory**, name it `oppwa.mobile`.
-5. Drag and drop the `aar` file you just downloaded into the directory.
-6. Copy [this build.gradle file](https://github.com/nyartech/hyperpay/blob/main/example/android/oppwa.mobile/build.gradle) content and make a new file inside the same directory with same content.
-7. Open `android/app/build.gradle` and add the following lines:
+1. Open `android/app/build.gradle` and add the following lines:
 ```
-implementation project(":oppwa.mobile")
+implementation (name:'oppwa.mobile-4.5.0-release', ext:'aar')
 ```
-8. Open `app/build.gradle` and make sure that the `minSdkVersion` is **21**
-9. Open settings.gradle, and make sure you have this line to the top:
-```
-include ':oppwa.mobile'
-```
-10. Click on **Build > Make Project**.
-11. Open your [AndroidManifest.xml](https://github.com/nyartech/hyperpay/blob/main/example/android/app/src/main/AndroidManifest.xml), and make sure it looks like the example app.
+2. Open `app/build.gradle` and make sure that the `minSdkVersion` is **21**, and `compileSdkVersion` is **33**.
+3. Open your [AndroidManifest.xml](https://github.com/nyartech/hyperpay/blob/main/example/android/app/src/main/AndroidManifest.xml), and make sure it looks like the example app.
 <br />**IMPORTANT:** the scheme you choose should match exactly your application ID but without any underscores, and then append `.payments` to it. 
 <br />For example: `com.nyartech.hyperpay_example` becomes `com.nyartech.hyperpayexample.payments`
 
-#### 🐛 A fix for an Android issue
-You might hit the following error if you tried to compile on Android:
-```bash
-AAPT: error: style attribute 'attr/hintTextAppearance (aka com.example.app:attr/hintTextAppearance)' not found.
-```
-To fix it, add the following dependnecies to `app/buid.gradle`:
-```gradle
-dependencies {
-    implementation "androidx.appcompat:appcompat:1.4.1"
-    implementation "com.google.android.material:material:1.5.0"
-}
-```
-
+#### Migration to v1.0.0
+On older versions of the plugin, adding the AAR SDK file manually on Android was required. Now it's not. To migrate:
+1. Remove any of these dependencies in your `app/build.gradle`:
+  ```groovy
+  implementation project(":oppwa.mobile")
+  implementation "androidx.appcompat:appcompat:1.3.1"
+  implementation "com.google.android.material:material:1.4.0"
+  implementation "com.google.android.gms:play-services-base:17.6.0"
+  ```
+2. Add a dependency over the AAR file:
+  ```groovy
+  implementation (name:'oppwa.mobile-4.5.0-release', ext:'aar')
+  ```
+3. in `settings.gradle`, remove the following line:
+  ```groovy
+  include ':oppwa.mobile'
+  ```
+4. Finally, remove the folder `oppwa.mobile` from the root `android` folder in your app.
+  
 ### Setup Required Endpoints
 It's important to setup your own server with 2 endpoints:
 1. Get Checkout ID

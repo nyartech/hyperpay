@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hyperpay/hyperpay.dart';
@@ -30,8 +31,8 @@ class _CheckoutViewState extends State<CheckoutView> {
 
   @override
   void initState() {
-    super.initState();
     setup();
+    super.initState();
   }
 
   setup() async {
@@ -51,6 +52,17 @@ class _CheckoutViewState extends State<CheckoutView> {
       },
       additionalParams: {
         'merchantTransactionId': '#123456',
+        'merchantCustomerId': '#0845983457',
+        'givenName': 'harvey',
+        'surname': 'grey',
+        'email': 'test@test.com',
+        'mobile': '+966551234567',
+        'street1': 'Test',
+        'city': 'Riyadh',
+        'state': 'State',
+        'country': 'SA',
+        'postcode': '12345',
+        'brand': 'mada',
       },
     );
 
@@ -156,7 +168,7 @@ class _CheckoutViewState extends State<CheckoutView> {
 
     final applePaySettings = ApplePaySettings(
       amount: amount,
-      appleMerchantId: 'YOUR_MERCHANT_ID',
+      appleMerchantId: 'merchant.com.emaan.app',
       countryCode: 'SA',
       currencyCode: 'SAR',
     );
@@ -270,15 +282,16 @@ class _CheckoutViewState extends State<CheckoutView> {
                         ),
                       ),
                     ),
-                    SizedBox(
-                      width: double.infinity,
-                      height: 35,
-                      child: ApplePayButton(
-                        onPressed: () => onApplePay(10),
-                        type: ApplePayButtonType.buy,
-                        style: ApplePayButtonStyle.automatic,
+                    if (defaultTargetPlatform == TargetPlatform.iOS)
+                      SizedBox(
+                        width: double.infinity,
+                        height: 35,
+                        child: ApplePayButton(
+                          onPressed: () => onApplePay(1),
+                          type: ApplePayButtonType.buy,
+                          style: ApplePayButtonStyle.black,
+                        ),
                       ),
-                    ),
                   ],
                 );
               },

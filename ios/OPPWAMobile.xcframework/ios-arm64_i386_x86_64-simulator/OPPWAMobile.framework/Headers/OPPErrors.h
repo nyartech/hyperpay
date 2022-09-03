@@ -103,6 +103,12 @@ typedef NS_ENUM(NSInteger, OPPErrorCode) {
     /// Klarna Payments specific error.
     OPPErrorCodeKlarnaInline = 5001,
     
+    /// Bancontact Link specific error.
+    OPPErrorCodeBancontactLink = 5002,
+    
+    /// Vipps Link specific error.
+    OPPErrorCodeVippsLink = 5003,
+    
     /// 3-D Secure 2 transaction error.
     OPPErrorCodeThreeDS2Failure = 6000
 };
@@ -177,11 +183,14 @@ typedef NS_ENUM(NSInteger, OPPErrorCode) {
  ###Security errors:
  - 4000: File loaded from resources does not have valid checksum. Make sure you installed the framework correctly and no one has been tampering with the application.
  
- ###Linking errors:
- - 5000: Invalid framework version. Versions of base and extension frameworks are not matching. **Deprecated**: not used anymore.
- 
  ###Klarna Payments errors:
  - 5001: Klarna Payments specific error.
+ 
+ ###Bancontact Link  errors:
+ - 5002: Bancontact Link specific error.
+ 
+ ###Vipps errors:
+ - 5003: Vipps specific error.
  
  ###3-D Secure 2 errors:
  - 6000: 3-D Secure 2 transaction error.

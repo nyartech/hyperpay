@@ -22,9 +22,9 @@ A new flutter plugin project.
   s.swift_version = '5.0'
   s.frameworks  = 'PassKit'
 
-  s.preserve_paths = 'OPPWAMobile.xcframework'
-  s.xcconfig = { 'OTHER_LDFLAGS' => '-framework OPPWAMobile' }
-  s.vendored_frameworks = 'OPPWAMobile.xcframework'
+  s.preserve_paths = 'OPPWAMobile.xcframework', 'ipworks3ds_sdk'
+  s.xcconfig = { 'OTHER_LDFLAGS' => '-framework OPPWAMobile -framework ipworks3ds_sdk' }
+  s.vendored_frameworks = 'OPPWAMobile.xcframework', 'ipworks3ds_sdk.xcframework'
   s.static_framework = true
 
 end

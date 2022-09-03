@@ -39,6 +39,9 @@ typedef NS_ENUM(NSInteger, OPPThreeDS2Status) {
     /// Informational only; 3DS Requestor challenge preference acknowledged.
     OPPThreeDS2StatusInformationalOnly,
     
+    /// Authentication parameters are required.
+    OPPThreeDS2StatusAuthParamsRequired,
+    
     /// Status is not defined.
     OPPThreeDS2StatusUndefined
 };
@@ -59,12 +62,28 @@ typedef NS_ENUM(NSInteger, OPPThreeDS2Status) {
 @property (nonatomic, copy, readonly, nullable) NSString *authResponse;
 
 /**
+ Protocol version of 3-D Secure 2.
+ */
+@property (nonatomic, copy, readonly, nullable) NSString *protocolVersion;
+
+/**
+ The callback URL string to send the params needed for 3-D Secure 2 authentication request.
+ */
+@property (nonatomic, copy, readonly, nullable) NSString *callbackURL;
+
+/**
+ Text provided by the ACS/Issuer to Cardholder during a Frictionless or Decoupled transaction.
+ */
+@property (nonatomic, copy, readonly, nullable) NSString *cardHolderInfo;
+
+/**
  Creates 3DS info object with the provided status and authentication response.
  @param authStatus Status of 3-D Secure authentication.
  @param authResponse Authentication response as JSON string.
  @return an `OPPThreeDS2Info` object.
  */
-- (nullable instancetype)initWithAuthStatus:(OPPThreeDS2Status)authStatus authResponse:(nullable NSString *)authResponse NS_DESIGNATED_INITIALIZER;
+- (nullable instancetype)initWithAuthStatus:(OPPThreeDS2Status)authStatus
+                               authResponse:(nullable NSString *)authResponse NS_DESIGNATED_INITIALIZER;
 
 /**
  Creates 3DS info object with the provided status and authentication response.
@@ -72,7 +91,8 @@ typedef NS_ENUM(NSInteger, OPPThreeDS2Status) {
  @param authResponse Authentication response as JSON string.
  @return an `OPPThreeDS2Info` object.
 */
-+ (nullable instancetype)threeDS2InfoWithAuthStatus:(OPPThreeDS2Status)authStatus authResponse:(nullable NSString *)authResponse;
++ (nullable instancetype)threeDS2InfoWithAuthStatus:(OPPThreeDS2Status)authStatus
+                                       authResponse:(nullable NSString *)authResponse;
 
 /// :nodoc:
 - (instancetype)init NS_UNAVAILABLE;
