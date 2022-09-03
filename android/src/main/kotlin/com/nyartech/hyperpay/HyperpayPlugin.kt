@@ -21,16 +21,10 @@ import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
 import io.flutter.embedding.engine.plugins.lifecycle.HiddenLifecycleReference
 
-import com.oppwa.mobile.connect.exception.PaymentError
-import com.oppwa.mobile.connect.exception.PaymentException
-import com.oppwa.mobile.connect.payment.PaymentParams
-import com.oppwa.mobile.connect.payment.card.CardPaymentParams
-import com.oppwa.mobile.connect.provider.Connect
-import com.oppwa.mobile.connect.provider.ITransactionListener
-import com.oppwa.mobile.connect.provider.Transaction
-import com.oppwa.mobile.connect.provider.TransactionType
-import com.oppwa.mobile.connect.service.ConnectService
-import com.oppwa.mobile.connect.service.IProviderBinder
+import com.oppwa.mobile.connect.exception.*
+import com.oppwa.mobile.connect.payment.*
+import com.oppwa.mobile.connect.payment.card.*
+import com.oppwa.mobile.connect.provider.*
 
 
 /** HyperpayPlugin */
@@ -47,7 +41,7 @@ class HyperpayPlugin : FlutterPlugin, MethodCallHandler, ITransactionListener, A
 
     private var mActivity: Activity? = null
 
-    private var providerBinder: IProviderBinder? = null
+    private var paymentProvider: OppPaymentProvider? = null
     private var intent: Intent? = null
 
     // Get the checkout ID from the endpoint on your server
@@ -119,7 +113,6 @@ class HyperpayPlugin : FlutterPlugin, MethodCallHandler, ITransactionListener, A
     override fun onDetachedFromActivity() {
         if (intent != null) {
             mActivity!!.stopService(intent)
-            mActivity!!.unbindService(hyperpayConnection)
         }
 
         hiddenLifecycleReference?.lifecycle?.removeObserver(lifecycleObserver)
@@ -149,27 +142,6 @@ class HyperpayPlugin : FlutterPlugin, MethodCallHandler, ITransactionListener, A
         }
     }
 
-    private val hyperpayConnection = object : ServiceConnection {
-        override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
-
-            Log.d(TAG, "Hyperpay service is connected, start listening...")
-
-            providerBinder = service as IProviderBinder
-            providerBinder!!.addTransactionListener(this@HyperpayPlugin)
-
-            if (paymentMode == "LIVE") {
-                providerBinder!!.initializeProvider(Connect.ProviderMode.LIVE);
-            } else {
-                providerBinder!!.initializeProvider(Connect.ProviderMode.TEST);
-            }
-        }
-
-        override fun onServiceDisconnected(name: ComponentName) {
-            providerBinder!!.removeTransactionListener(this@HyperpayPlugin)
-            providerBinder = null
-        }
-    }
-
     override fun onMethodCall(@NonNull call: MethodCall, @NonNull result: Result) {
         when (call.method) {
             "setup_service" -> {
@@ -177,13 +149,13 @@ class HyperpayPlugin : FlutterPlugin, MethodCallHandler, ITransactionListener, A
                     val args: Map<String, Any> = call.arguments as Map<String, Any>
 
                     paymentMode = args["mode"] as String
+                    var providerMode = Connect.ProviderMode.TEST;
 
-                    // Initialize an application intent to attach to HyperPay service
-                    intent = Intent(mActivity!!.applicationContext, ConnectService::class.java)
+                    if(paymentMode == "LIVE") {
+                        providerMode =  Connect.ProviderMode.LIVE;
+                    }
 
-                    // Start and bind with the intent
-                    mActivity!!.startService(intent)
-                    mActivity!!.bindService(intent, hyperpayConnection, Context.BIND_AUTO_CREATE)
+                    paymentProvider = OppPaymentProvider(mActivity!!.application, providerMode);
 
                     // Bind CustomTabs service with the current app activity
                     CustomTabsClient.bindCustomTabsService(mActivity!!, CUSTOM_TAB_PACKAGE_NAME, cctConnection);
@@ -235,7 +207,7 @@ class HyperpayPlugin : FlutterPlugin, MethodCallHandler, ITransactionListener, A
 
                         try {
                             val transaction = Transaction(paymentParams)
-                            providerBinder?.submitTransaction(transaction)
+                            paymentProvider?.submitTransaction(transaction, this)
                         } catch (e: PaymentException) {
                             result.error(
                                     "0.2",

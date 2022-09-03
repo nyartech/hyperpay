@@ -1,1 +1,15 @@
+// pluginManagement {
+//     buildscript {
+//         repositories {
+//             flatDir {
+//                 dirs 'libs'
+//                 dirs project(':hyperpay').file('libs')
+//             }
+//         }
+//         dependencies {
+//             classpath fileTree(dir: 'libs', include: '*.aar')
+//         }
+//     }
+// }
+
 rootProject.name = 'hyperpay'

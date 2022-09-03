@@ -9,7 +9,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.1.0'
+        classpath 'com.android.tools.build:gradle:4.1.3'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
@@ -18,6 +18,9 @@ rootProject.allprojects {
     repositories {
         google()
         mavenCentral()
+        flatDir {
+            dirs project(':hyperpay').file('libs')
+        }
     }
 }
 
@@ -25,7 +28,7 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion 33
 
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
@@ -36,9 +39,14 @@ android {
 }
 
 dependencies {
-    implementation project(":oppwa.mobile")
+    implementation (name:"oppwa.mobile-4.5.0-release", ext:'aar')
+    debugImplementation (name: "ipworks3ds_sdk", ext:'aar')
+    releaseImplementation (name:"ipworks3ds_sdk_deploy", ext:'aar')
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation "androidx.browser:browser:1.4.0"
     implementation "androidx.appcompat:appcompat:1.3.1"
     implementation "com.google.android.material:material:1.4.0"
+    implementation "androidx.lifecycle:lifecycle-extensions:2.2.0"
+    implementation "androidx.fragment:fragment:1.5.2"
+    implementation "com.google.android.gms:play-services-base:18.1.0"
 }
