@@ -32,7 +32,7 @@ extension DetectBrand on String {
     } else if (_isVISA) {
       return BrandType.visa;
     } else if (_isMASTERCARD) {
-      return BrandType.mastercard;
+      return BrandType.master;
     } else {
       return BrandType.none;
     }
@@ -47,7 +47,7 @@ extension BrandTypeExtension on BrandType {
       case BrandType.visa:
         _entityID = config.creditcardEntityID;
         break;
-      case BrandType.mastercard:
+      case BrandType.master:
         _entityID = config.creditcardEntityID;
         break;
       case BrandType.mada:
@@ -80,7 +80,7 @@ extension BrandTypeExtension on BrandType {
         } else {
           return "Inavlid VISA number";
         }
-      case BrandType.mastercard:
+      case BrandType.master:
         if (_mastercardRegExp.hasMatch(cleanNumber)) {
           return null;
         } else if (cleanNumber.isEmpty) {
@@ -109,7 +109,7 @@ extension BrandTypeExtension on BrandType {
     switch (this) {
       case BrandType.visa:
         return 16;
-      case BrandType.mastercard:
+      case BrandType.master:
         return 16;
       case BrandType.mada:
         return 16;

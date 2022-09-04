@@ -8,7 +8,7 @@ part of hyperpay;
 enum BrandType {
   visa,
 
-  mastercard,
+  master,
 
   mada,
 
