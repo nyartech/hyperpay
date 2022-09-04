@@ -1,3 +1,23 @@
+## 1.0.0-dev.3
+
+* Fix: bumping to SDK version 4.5.0
+* BREAKING: the AAR files are now bundled with the plugin, therefore a couple changes are needed to upgrade to this version:
+1. Remove any of these dependencies in your `app/build.gradle`:
+  ```groovy
+  implementation project(":oppwa.mobile")
+  implementation "androidx.appcompat:appcompat:1.3.1"
+  implementation "com.google.android.material:material:1.4.0"
+  implementation "com.google.android.gms:play-services-base:17.6.0"
+  ```
+2. Add a dependency over the AAR file:
+  ```groovy
+  implementation (name:'oppwa.mobile-4.5.0-release', ext:'aar')
+  ```
+3. in `settings.gradle`, remove the following line:
+  ```groovy
+  include ':oppwa.mobile'
+  ```
+4. Finally, remove the folder `oppwa.mobile` from the root `android` folder in your app.
 ## 1.0.0-dev.2
 
 * Fix: Apple Pay transactions was being rejected.
