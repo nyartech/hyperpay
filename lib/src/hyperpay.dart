@@ -16,13 +16,13 @@ class HyperpayPlugin {
   HyperpayPlugin._(this._config);
   //static HyperpayPlugin instance = HyperpayPlugin._();
 
-  static const MethodChannel _channel =
-      const MethodChannel('plugins.nyartech.com/hyperpay');
+  static const MethodChannel _channel = const MethodChannel('plugins.nyartech.com/hyperpay');
 
   late HyperpayConfig _config;
 
   CheckoutSettings? _checkoutSettings;
-  String _checkoutID = '';
+  String? _checkoutID;
+  BrandType? _brand;
 
   /// Read the configurations used to setup this instance of HyperPay.
   HyperpayConfig get config => _config;
@@ -43,18 +43,19 @@ class HyperpayPlugin {
   }
 
   /// Instantiate a checkout session.
-  void initSession({required CheckoutSettings checkoutSetting}) async {
+  void initSession({required String checkoutId, required BrandType brand}) async {
     // ensure anything from previous session is cleaned up.
+
     _clearSession();
-    _checkoutSettings = checkoutSetting;
+    _checkoutID = checkoutId;
+    _brand = brand;
   }
 
   /// Used to clear any lefovers from previous session
   /// before starting a new one.
   void _clearSession() {
-    if (_checkoutSettings != null) {
-      _checkoutSettings?.clear();
-    }
+    _checkoutID = null;
+    _brand = null;
   }
 
   /// A call to the endpoint on your server to get a checkout ID.
@@ -68,10 +69,7 @@ class HyperpayPlugin {
       final Response response = await post(
         _config.checkoutEndpoint,
         headers: _checkoutSettings?.headers,
-        body: (_checkoutSettings?.headers['Content-Type'] ?? '') ==
-                'application/json'
-            ? json.encode(body)
-            : body,
+        body: (_checkoutSettings?.headers['Content-Type'] ?? '') == 'application/json' ? json.encode(body) : body,
       );
 
       if (response.statusCode != 200) {
@@ -92,8 +90,7 @@ class HyperpayPlugin {
               _resBody.containsKey('parameterErrors')
                   ? _resBody['result']['parameterErrors']
                       .map(
-                        (param) =>
-                            '(param: ${param['name']}, value: ${param['value']})',
+                        (param) => '(param: ${param['name']}, value: ${param['value']})',
                       )
                       .join(',')
                   : '',
@@ -105,9 +102,9 @@ class HyperpayPlugin {
             );
         }
 
-        log(_checkoutID, name: "HyperpayPlugin/getCheckoutID");
+        log(_checkoutID ?? '', name: "HyperpayPlugin/getCheckoutID");
 
-        return _checkoutID;
+        return _checkoutID ?? '';
       } else {
         throw HyperpayException(
           'The returned result does not contain the key "result" as the first key.',
@@ -125,14 +122,17 @@ class HyperpayPlugin {
   ///
   /// It's highly recommended to setup a listner using
   /// [HyperPay webhooks](https://wordpresshyperpay.docs.oppwa.com/tutorials/webhooks),
-  /// and perform the requird action after payment (e.g. issue receipt) on your server.
-  Future<PaymentStatus> pay(CardInfo card) async {
+  /// and perform the requird action after Fpayment (e.g. issue receipt) on your server.
+  Future<bool> pay(CardInfo card) async {
+    /// Check that the session initialized
+    assert(_checkoutID != null && _brand != null);
+
     try {
       final result = await _channel.invokeMethod(
         'start_payment_transaction',
         {
-          'checkoutID': _checkoutID,
-          'brand': _checkoutSettings?.brand.name.toUpperCase(),
+          'checkoutID': _checkoutID ?? '',
+          'brand': _brand?.name.toUpperCase() ?? '',
           'card': card.toMap(),
         },
       );
@@ -141,27 +141,11 @@ class HyperpayPlugin {
 
       if (result == 'canceled') {
         // Checkout session is still going on.
-        return PaymentStatus.init;
+        return false;
       }
 
-      final status = await paymentStatus(
-        _checkoutID,
-        headers: _checkoutSettings?.headers,
-      );
-
-      final String code = status['code'];
-
-      if (code.paymentStatus == PaymentStatus.rejected) {
-        throw HyperpayException(
-            "Rejected payment.", code, status['description']);
-      } else {
-        log('${code.paymentStatus}', name: "HyperpayPlugin/paymentStatus");
-
-        _clearSession();
-        _checkoutID = '';
-
-        return code.paymentStatus;
-      }
+      _clearSession();
+      return true;
     } catch (e) {
       log('$e', name: "HyperpayPlugin/pay");
       rethrow;
@@ -183,7 +167,7 @@ class HyperpayPlugin {
       final result = await _channel.invokeMethod(
         'start_payment_transaction',
         {
-          'checkoutID': _checkoutID,
+          'checkoutID': _checkoutID ?? '',
           'brand': BrandType.applepay.name.toUpperCase(),
           ...applePay.toJson(),
         },
@@ -197,15 +181,14 @@ class HyperpayPlugin {
       }
 
       final status = await paymentStatus(
-        _checkoutID,
+        _checkoutID ?? '',
         headers: _checkoutSettings?.headers,
       );
 
       final String code = status['code'];
 
       if (code.paymentStatus == PaymentStatus.rejected) {
-        throw HyperpayException(
-            "Rejected payment.", code, status['description']);
+        throw HyperpayException("Rejected payment.", code, status['description']);
       } else {
         log('${code.paymentStatus}', name: "HyperpayPlugin/paymentStatus");
 
@@ -222,8 +205,7 @@ class HyperpayPlugin {
 
   /// Check for payment status using a checkout ID, this method is called
   /// once right after a transaction.
-  Future<Map<String, dynamic>> paymentStatus(String checkoutID,
-      {Map<String, String>? headers}) async {
+  Future<Map<String, dynamic>> paymentStatus(String checkoutID, {Map<String, String>? headers}) async {
     try {
       final body = {
         'entityID': _checkoutSettings?.brand.entityID(config),
@@ -232,10 +214,7 @@ class HyperpayPlugin {
       final Response response = await post(
         _config.statusEndpoint,
         headers: headers,
-        body: (_checkoutSettings?.headers['Content-Type'] ?? '') ==
-                'application/json'
-            ? json.encode(body)
-            : body,
+        body: (_checkoutSettings?.headers['Content-Type'] ?? '') == 'application/json' ? json.encode(body) : body,
       );
       Map<String, dynamic> _resBody = {};
 
