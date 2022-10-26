@@ -156,6 +156,8 @@ class HyperpayPlugin : FlutterPlugin, MethodCallHandler, ITransactionListener, A
                     }
 
                     paymentProvider = OppPaymentProvider(mActivity!!.application, providerMode);
+                    // a listener for 3DS
+                    paymentProvider!!.setThreeDSWorkflowListener{mActivity}
 
                     // Bind CustomTabs service with the current app activity
                     CustomTabsClient.bindCustomTabsService(mActivity!!, CUSTOM_TAB_PACKAGE_NAME, cctConnection);
