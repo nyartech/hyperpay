@@ -12,7 +12,7 @@ import SafariServices
 /// Handle calls from the Flutter side.
 ///
 /// Currently supported brands: VISA, MastrCard, MADA, and Apple Pay.
-public class SwiftHyperpayPlugin: NSObject, FlutterPlugin, SFSafariViewControllerDelegate, UIAdaptivePresentationControllerDelegate, PKPaymentAuthorizationViewControllerDelegate {
+public class SwiftHyperpayPlugin: NSObject, FlutterPlugin, SFSafariViewControllerDelegate, UIAdaptivePresentationControllerDelegate, PKPaymentAuthorizationViewControllerDelegate, OPPThreeDSEventListener {
     
     var provider:OPPPaymentProvider = OPPPaymentProvider(mode: OPPProviderMode.test)
     var brand:Brand = Brand.UNKNOWN
@@ -43,6 +43,17 @@ public class SwiftHyperpayPlugin: NSObject, FlutterPlugin, SFSafariViewControlle
     
     /// A suffix added to the bundle ID of the client's app to form a complete `shopperResultURL`.
     let shopperResultURLSuffix = ".payments://result";
+    
+    public func onThreeDSChallengeRequired(completion: @escaping (UINavigationController) -> Void) {
+        if(self.safariVC?.navigationController != nil){
+            completion((self.safariVC?.navigationController)!)
+        }
+    }
+    
+    public func onThreeDSConfigRequired(completion: @escaping (OPPThreeDSConfig) -> Void) {
+        let config = OPPThreeDSConfig()
+        completion(config)
+    }
     
     public func paymentAuthorizationViewControllerDidFinish(_ controller: PKPaymentAuthorizationViewController) {
         controller.dismiss(animated: true, completion: nil)
@@ -112,6 +123,8 @@ public class SwiftHyperpayPlugin: NSObject, FlutterPlugin, SFSafariViewControlle
             if(paymentMode == "LIVE") {
                 self.provider.mode = OPPProviderMode.live
             }
+            
+            self.provider.threeDSEventListener = self
             
             NSLog("Payment mode is set to \(paymentMode)")
             
