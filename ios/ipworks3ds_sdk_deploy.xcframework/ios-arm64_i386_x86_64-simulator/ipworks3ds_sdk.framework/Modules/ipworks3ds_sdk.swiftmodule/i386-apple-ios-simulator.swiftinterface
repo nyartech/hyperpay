@@ -1,5 +1,5 @@
 // swift-interface-format-version: 1.0
-// swift-compiler-version: Apple Swift version 5.3.2 (swiftlang-1200.0.45 clang-1200.0.32.28)
+// swift-compiler-version: Apple Swift version 5.6.1 (swiftlang-5.6.0.323.66 clang-1316.0.20.12)
 // swift-module-flags: -target i386-apple-ios9.0-simulator -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -module-name ipworks3ds_sdk
 import AdSupport
 import CommonCrypto
@@ -10,12 +10,13 @@ import MachO
 import Swift
 import UIKit
 import WebKit
+import _Concurrency
 @_exported import ipworks3ds_sdk
-@_inheritsConvenienceInitializers @objc public class GetDefaultDSCAIndirectSymbol : ObjectiveC.NSObject {
-  @objc public static func transactionStatusStubCodeLength()
-  @objc public static func threeDSServerTransactionIDWhitelistingInformationText()
-  @objc deinit
+@_inheritsConvenienceInitializers @objc public class ImmloAlert : ObjectiveC.NSObject {
+  @objc public static func addTargetBindingInfoOffset()
+  @objc public static func getThreeDSRequestorAppURLForkType()
   @objc override dynamic public init()
+  @objc deinit
 }
 @_hasMissingDesignatedInitializers @objc public class Transaction : ObjectiveC.NSObject {
   @objc public func getAuthenticationRequestParameters() throws -> ipworks3ds_sdk.AuthenticationRequestParameters
@@ -23,11 +24,10 @@ import WebKit
   @objc public func getProgressView() throws -> ipworks3ds_sdk.ProgressView
   @objc public func close() throws
   @objc deinit
-  @objc override dynamic public init()
 }
-extension UIColor {
+extension UIKit.UIColor {
   convenience public init?(hexColorValue: Swift.String)
-  public func storedSdkAppIdCLLocation() -> Swift.String
+  public func headingTextFontSizeProvisionUrl() -> Swift.String
 }
 public enum ClientACSRootCertStoreTypes : Swift.Int32 {
   case cstUser
@@ -54,8 +54,8 @@ public enum ClientACSRootCertStoreTypes : Swift.Int32 {
   case cstBCFKSFile
   case cstBCFKSBlob
   case cstAuto
-  public typealias RawValue = Swift.Int32
   public init?(rawValue: Swift.Int32)
+  public typealias RawValue = Swift.Int32
   public var rawValue: Swift.Int32 {
     get
   }
@@ -68,8 +68,8 @@ public enum ClientDeviceParamValueTypes : Swift.Int32 {
   case vtBool
   case vtNull
   case vtRaw
-  public typealias RawValue = Swift.Int32
   public init?(rawValue: Swift.Int32)
+  public typealias RawValue = Swift.Int32
   public var rawValue: Swift.Int32 {
     get
   }
@@ -99,8 +99,8 @@ public enum ClientDirectoryServerCertStoreTypes : Swift.Int32 {
   case cstBCFKSFile
   case cstBCFKSBlob
   case cstAuto
-  public typealias RawValue = Swift.Int32
   public init?(rawValue: Swift.Int32)
+  public typealias RawValue = Swift.Int32
   public var rawValue: Swift.Int32 {
     get
   }
@@ -112,8 +112,8 @@ public enum ClientProxyAuthSchemes : Swift.Int32 {
   case authNone
   case authNtlm
   case authNegotiate
-  public typealias RawValue = Swift.Int32
   public init?(rawValue: Swift.Int32)
+  public typealias RawValue = Swift.Int32
   public var rawValue: Swift.Int32 {
     get
   }
@@ -123,8 +123,8 @@ public enum ClientProxySSLs : Swift.Int32 {
   case psAlways
   case psNever
   case psTunnel
-  public typealias RawValue = Swift.Int32
   public init?(rawValue: Swift.Int32)
+  public typealias RawValue = Swift.Int32
   public var rawValue: Swift.Int32 {
     get
   }
@@ -154,316 +154,316 @@ public enum ClientSSLCertStoreTypes : Swift.Int32 {
   case cstBCFKSFile
   case cstBCFKSBlob
   case cstAuto
-  public typealias RawValue = Swift.Int32
   public init?(rawValue: Swift.Int32)
+  public typealias RawValue = Swift.Int32
   public var rawValue: Swift.Int32 {
     get
   }
 }
 public protocol IPWorks3DSClientDelegateSwift {
-  func closeUsingFont(_ dataPacket: Foundation.Data)
-  func getnameinfoIssuerImageString(_ dataPacket: Foundation.Data)
-  func isMSHookedStringObfuscationTest(_ errorCode: Swift.Int32, _ description: Swift.String)
-  func pointerGetChallengeStatusReceiver(_ logLevel: Swift.Int32, _ message: Swift.String, _ logType: Swift.String)
-  func appVersionKeyAbsoluteString(_ certEncoded: Foundation.Data, _ certSubject: Swift.String, _ certIssuer: Swift.String, _ status: Swift.String, _ accept: inout Swift.Int32)
-  func directoryServerInfoListSetAcsRefNumber(_ message: Swift.String)
+  func byWordWrappingVisibleViewController(_ dataPacket: Foundation.Data)
+  func imageNameTransStatus(_ dataPacket: Foundation.Data)
+  func impFrameworkStubHelperSection(_ errorCode: Swift.Int32, _ description: Swift.String)
+  func getUITypeVtArray(_ logLevel: Swift.Int32, _ message: Swift.String, _ logType: Swift.String)
+  func overlayMainResourcePath(_ certEncoded: Foundation.Data, _ certSubject: Swift.String, _ certIssuer: Swift.String, _ status: Swift.String, _ accept: inout Swift.Int32)
+  func hasPrefixRemainStr(_ message: Swift.String)
 }
 public enum IPWorks3DSClientError : Swift.Error {
   case Error(Swift.Int32, Swift.String)
 }
-@objc @_inheritsConvenienceInitializers public class CGSizeSequence : ObjectiveC.NSObject, ipworks3ds_sdk.ImageSlideSetAcsRefNumber {
-  public var pageOffsetSetACSRootCertStoreType: ipworks3ds_sdk.AcsRefNumberDirectoryServerID
+@objc @_inheritsConvenienceInitializers public class GlobalUserDefaults : ObjectiveC.NSObject, ipworks3ds_sdk.EventRandomStr {
+  public var headerTextThrows: ipworks3ds_sdk.CONTINUEBundle
   @objc override dynamic public init()
   @objc deinit
-  public var getHeadingTextFontNameAlarm: Swift.String {
+  public var resendInformationLabelRemoveParam: Swift.String {
     get
   }
-  public var statusReceiverNumberOfComponents: Swift.Int32 {
+  public var setHidesBackButtonHeaderText: Swift.Int32 {
     get
   }
   public var delegate: ipworks3ds_sdk.IPWorks3DSClientDelegateSwift? {
     get
     set
   }
-  @objc public func closeUsingFont(_ dataPacket: Foundation.Data!)
-  @objc public func getnameinfoIssuerImageString(_ dataPacket: Foundation.Data!)
-  @objc public func isMSHookedStringObfuscationTest(_ errorCode: Swift.Int32, _ description: Swift.String!)
-  @objc public func pointerGetChallengeStatusReceiver(_ logLevel: Swift.Int32, _ message: Swift.String!, _ logType: Swift.String!)
-  @objc public func appVersionKeyAbsoluteString(_ certEncoded: Foundation.Data!, _ certSubject: Swift.String!, _ certIssuer: Swift.String!, _ status: Swift.String!, _ accept: Swift.UnsafeMutablePointer<Swift.Int32>)
-  @objc public func directoryServerInfoListSetAcsRefNumber(_ message: Swift.String!)
-  public var indirectsymoffInfoModifiedDate: Swift.String {
+  @objc public func byWordWrappingVisibleViewController(_ dataPacket: Foundation.Data!)
+  @objc public func imageNameTransStatus(_ dataPacket: Foundation.Data!)
+  @objc public func impFrameworkStubHelperSection(_ errorCode: Swift.Int32, _ description: Swift.String!)
+  @objc public func getUITypeVtArray(_ logLevel: Swift.Int32, _ message: Swift.String!, _ logType: Swift.String!)
+  @objc public func overlayMainResourcePath(_ certEncoded: Foundation.Data!, _ certSubject: Swift.String!, _ certIssuer: Swift.String!, _ status: Swift.String!, _ accept: Swift.UnsafeMutablePointer<Swift.Int32>)
+  @objc public func hasPrefixRemainStr(_ message: Swift.String!)
+  public var convenienceEscaping: Swift.String {
     get
     set
   }
-  public var IsHiddenIssuerImageString: Swift.String {
+  public var GetMessageSymbolTableList: Swift.String {
     get
   }
-  public var TransactionStatusFamilyNames: Swift.String {
+  public var GetSectionInMatchOCustomize: Swift.String {
     get
   }
-  public var NumberOfLinesFontName: Swift.String {
+  public var SetHeadingTextColorPresentedViewController: Swift.String {
     get
   }
-  public var HeadingTextFontNameNlist: Swift.Int32 {
-    get
-    set
-  }
-  public func LocManagerPaymentSystemImageHigh(aCSRootCertIndex: Swift.Int32) throws -> Swift.String
-  public func contentsBoundsWithPadding(aCSRootCertIndex: Swift.Int32, newACSRootCertEncoded: Swift.String) throws
-  public func ThridInstructionPtrLastPathComponent(aCSRootCertIndex: Swift.Int32) throws -> Foundation.Data
-  public func selectedBindingInfoOffset(aCSRootCertIndex: Swift.Int32, newACSRootCertEncoded: Foundation.Data) throws
-  public func CategoryConstraint(aCSRootCertIndex: Swift.Int32) throws -> Swift.String
-  public func btFontSizeHasSuspiciousJailbreakFiles(aCSRootCertIndex: Swift.Int32, newACSRootCertStore: Swift.String) throws
-  public func IsStaticMethodNSLocale(aCSRootCertIndex: Swift.Int32) throws -> Foundation.Data
-  public func runtimeErrorEventSetBorderColor(aCSRootCertIndex: Swift.Int32, newACSRootCertStore: Foundation.Data) throws
-  public func DEBUGGINGUppercased(aCSRootCertIndex: Swift.Int32) throws -> Swift.String
-  public func sectionVmAddrUILabel(aCSRootCertIndex: Swift.Int32, newACSRootCertStorePassword: Swift.String) throws
-  public func FinalBundle(aCSRootCertIndex: Swift.Int32) throws -> ipworks3ds_sdk.ClientACSRootCertStoreTypes
-  public func challengeAdditionalInformationThreeDSServerAuthResponse(aCSRootCertIndex: Swift.Int32, newACSRootCertStoreType: ipworks3ds_sdk.ClientACSRootCertStoreTypes) throws
-  public func ScreenHeightAsync(aCSRootCertIndex: Swift.Int32) throws -> Swift.String
-  public func immhiMaskAddRd(aCSRootCertIndex: Swift.Int32, newACSRootCertSubject: Swift.String) throws
-  public var GetHeadingTextColorSetACSRootCertStoreType: Swift.String {
-    get
-  }
-  public var oOBContinueLabelDlopen: Swift.String {
-    get
-  }
-  public var sdkDyldIndexSecondInstructionPtr: Swift.String {
+  public var VmsizeOrderedSame: Swift.Int32 {
     get
     set
   }
-  public var sockaddrObfuscateString: Swift.Bool {
+  public func TAMPEREDMachO(aCSRootCertIndex: Swift.Int32) throws -> Swift.String
+  public func fileprivatePosition(aCSRootCertIndex: Swift.Int32, newACSRootCertEncoded: Swift.String) throws
+  public func HandleAlarm(aCSRootCertIndex: Swift.Int32) throws -> Foundation.Data
+  public func getHeadingTextColorLittleEndian(aCSRootCertIndex: Swift.Int32, newACSRootCertEncoded: Foundation.Data) throws
+  public func WithAlphaComponentUsingFont(aCSRootCertIndex: Swift.Int32) throws -> Swift.String
+  public func contentModeAcsSignedContent(aCSRootCertIndex: Swift.Int32, newACSRootCertStore: Swift.String) throws
+  public func CheckDecryptedString(aCSRootCertIndex: Swift.Int32) throws -> Foundation.Data
+  public func mySecuredUITextFieldTopAnchor(aCSRootCertIndex: Swift.Int32, newACSRootCertStore: Foundation.Data) throws
+  public func DecryptedBytesComparable(aCSRootCertIndex: Swift.Int32) throws -> Swift.String
+  public func finalSelectedViewController(aCSRootCertIndex: Swift.Int32, newACSRootCertStorePassword: Swift.String) throws
+  public func RemoveViewControllerSDKRuntimeException(aCSRootCertIndex: Swift.Int32) throws -> ipworks3ds_sdk.ClientACSRootCertStoreTypes
+  public func getppidTypeIsEmpty(aCSRootCertIndex: Swift.Int32, newACSRootCertStoreType: ipworks3ds_sdk.ClientACSRootCertStoreTypes) throws
+  public func ChallengeSelectInfoValueGetHeadingTextAlignment(aCSRootCertIndex: Swift.Int32) throws -> Swift.String
+  public func hexHashTransactionID(aCSRootCertIndex: Swift.Int32, newACSRootCertSubject: Swift.String) throws
+  public var DeviceParamCategoryLetters: Swift.String {
     get
   }
-  public var strlenStubHelperSection: Swift.String {
-    get
-    set
-  }
-  public var myHTTPSNsects: Swift.String {
+  public var availableLocaleIdentifiersSyscall: Swift.String {
     get
   }
-  public var submitCReqNlist: Swift.String {
-    get
-  }
-  public var greaterThanOrEqualToNewMethodCodeOffset: Swift.String {
-    get
-  }
-  public var challengeLeftTimeGetTextBoxCustomization: Swift.String {
-    get
-  }
-  public var resumeIssuerImageExtraHigh: Swift.Int32 {
-    get
-  }
-  public func acceptHexHash(challengeSelectInfoIndex: Swift.Int32) throws -> Swift.String
-  public func errorCodeSetupMyClient(challengeSelectInfoIndex: Swift.Int32) throws -> Swift.String
-  public var uITabBarControllerGetTextBoxCustomization: Swift.String {
-    get
-  }
-  public var cachedImageStoredSdkAppId: Swift.Int32 {
+  public var systemLogInfo: Swift.String {
     get
     set
   }
-  public func fireChallengeStatusFirstUserInterfaceStyle(deviceParamIndex: Swift.Int32) throws -> Swift.Int32
-  public func deviceParamsListBoolValue(deviceParamIndex: Swift.Int32, newDeviceParamCategory: Swift.Int32) throws
-  public func curSymbolNameStrCLLocationManager(deviceParamIndex: Swift.Int32) throws -> Swift.String
-  public func whiteBoxViewLazyBindInfoSize(deviceParamIndex: Swift.Int32, newDeviceParamFieldName: Swift.String) throws
-  public func containsWhile(deviceParamIndex: Swift.Int32) throws -> Swift.String
-  public func newMethodMySecuredUITextField(deviceParamIndex: Swift.Int32, newDeviceParamValue: Swift.String) throws
-  public func setDeviceParamValueTimeoutInterval(deviceParamIndex: Swift.Int32) throws -> ipworks3ds_sdk.ClientDeviceParamValueTypes
-  public func arrayLinkedCmdName(deviceParamIndex: Swift.Int32, newDeviceParamValueType: ipworks3ds_sdk.ClientDeviceParamValueTypes) throws
-  public var curIndirectSymCanOpenURL: Swift.String {
+  public var cancelActionCydiaURLGroup: Swift.Bool {
+    get
+  }
+  public var getChallengeStatusReceiverBoundsWithPadding: Swift.String {
     get
     set
   }
-  public var dlsymHostname: Foundation.Data {
+  public var challengeInfoTextDispatchQueue: Swift.String {
+    get
+  }
+  public var advancedTimeoutInterval: Swift.String {
+    get
+  }
+  public var getHeadingTextColorDeviceParameterBlacklist: Swift.String {
+    get
+  }
+  public var getThreeDSRequestorAppURLFlexibleWidth: Swift.String {
+    get
+  }
+  public var hexHashDirectoryServerInfo: Swift.Int32 {
+    get
+  }
+  public func insetVersion(challengeSelectInfoIndex: Swift.Int32) throws -> Swift.String
+  public func getAcsTransactionIDBlack(challengeSelectInfoIndex: Swift.Int32) throws -> Swift.String
+  public var requestIsRuntimeCodeTampered: Swift.String {
+    get
+  }
+  public var sockaddrGetSegment: Swift.Int32 {
     get
     set
   }
-  public var getHeaderTextUIControl: Swift.String {
+  public func detectionClassBottom(deviceParamIndex: Swift.Int32) throws -> Swift.Int32
+  public func endifParamValue(deviceParamIndex: Swift.Int32, newDeviceParamCategory: Swift.Int32) throws
+  public func checkDarwin(deviceParamIndex: Swift.Int32) throws -> Swift.String
+  public func joinedFontSize(deviceParamIndex: Swift.Int32, newDeviceParamFieldName: Swift.String) throws
+  public func userDefaultChars(deviceParamIndex: Swift.Int32) throws -> Swift.String
+  public func dsCAsInfoDict(deviceParamIndex: Swift.Int32, newDeviceParamValue: Swift.String) throws
+  public func setupNavigationBarGetSeverity(deviceParamIndex: Swift.Int32) throws -> ipworks3ds_sdk.ClientDeviceParamValueTypes
+  public func ptraceTypeButtonType(deviceParamIndex: Swift.Int32, newDeviceParamValueType: ipworks3ds_sdk.ClientDeviceParamValueTypes) throws
+  public var pageOffsetPrivKey: Swift.String {
     get
     set
   }
-  public var getAuthRequestCheckTamperedByInfoDictionary: Foundation.Data {
+  public var navBarResendChallenge: Foundation.Data {
     get
     set
   }
-  public var encryptedDataClientACSRootCertStoreTypes: Swift.String {
+  public var nsectsEffect: Swift.String {
     get
     set
   }
-  public var getHeadingTextAlignmentNewACSRootCertStoreType: ipworks3ds_sdk.ClientDirectoryServerCertStoreTypes {
+  public var setTextWithIconForkRetCode: Foundation.Data {
     get
     set
   }
-  public var setToolbarCustomizationOldlenp: Swift.String {
+  public var aCSRootCertCountGetAuthenticationRequestParameters: Swift.String {
     get
     set
   }
-  public var segnameInstruction: Swift.String {
+  public var uIImageLanguageCode: ipworks3ds_sdk.ClientDirectoryServerCertStoreTypes {
     get
     set
   }
-  public var toolbarFontSizeTimeZone: Swift.String {
-    get
-  }
-  public var forLabelTypeChallengeComplete: Swift.String {
-    get
-  }
-  public var classNameTranslateInstruction: Swift.String {
-    get
-  }
-  public var curIndirectSymGetViewBackgroundColor: Swift.Int32 {
+  public var cONTINUEFirstInstruction: Swift.String {
     get
     set
   }
-  public func clientConfigsCaseInsensitiveCompare(extensionIndex: Swift.Int32) throws -> Swift.Bool
-  public func clearClientComponentDescription(extensionIndex: Swift.Int32, newExtensionCritical: Swift.Bool) throws
-  public func screenHeightOverlay(extensionIndex: Swift.Int32) throws -> Swift.String
-  public func cmdsizeBoundsWithPadding(extensionIndex: Swift.Int32, newExtensionData: Swift.String) throws
-  public func getToolbarCustomizationIsStaticMethod(extensionIndex: Swift.Int32) throws -> Swift.String
-  public func topAnchorAuthorizedWhenInUse(extensionIndex: Swift.Int32, newExtensionId: Swift.String) throws
-  public func systemVersionSectionPointer(extensionIndex: Swift.Int32) throws -> Swift.String
-  public func getClientCompletionEvent(extensionIndex: Swift.Int32, newExtensionName: Swift.String) throws
-  public var currentLocationAdjustsFontSizeToFitWidth: Swift.String {
-    get
-  }
-  public var separatedBySeparatedBy: Swift.String {
-    get
-  }
-  public var clientEventListenerGetIPAddress: Swift.String {
-    get
-  }
-  public var CurSegnameMessageVersion: Swift.Bool {
+  public var provisionUrlDyldInfoCmd: Swift.String {
     get
     set
   }
-  public var NaturalSystem: Swift.String {
+  public var clearPcBase: Swift.String {
     get
   }
-  public var loadedLibraryOOBContinueLabel: Swift.String {
+  public var useSDKProcessingScreenBoundsWithPadding: Swift.String {
     get
   }
-  public var uIColorAddress: Swift.String {
+  public var directoryServerInfoListParam: Swift.String {
     get
   }
-  public var capacityIconPosition: Swift.String {
-    get
-  }
-  public var checkTamperedByMachOTextSectionDataAcsTransactionID: ipworks3ds_sdk.ClientProxyAuthSchemes {
+  public var eventImpDyldPath: Swift.Int32 {
     get
     set
   }
-  public var startAnimatingCmdsize: Swift.Bool {
+  public func dyldWhiteListCategory(extensionIndex: Swift.Int32) throws -> Swift.Bool
+  public func scaleAspectFitNlist(extensionIndex: Swift.Int32, newExtensionCritical: Swift.Bool) throws
+  public func dlsymWhyInformationLabel(extensionIndex: Swift.Int32) throws -> Swift.String
+  public func iconPositionLeftNewACSRootCertStoreType(extensionIndex: Swift.Int32, newExtensionData: Swift.String) throws
+  public func directoryServerCertStoreMonitor(extensionIndex: Swift.Int32) throws -> Swift.String
+  public func frameworkTEXTSectionAddrEndSetButtonText(extensionIndex: Swift.Int32, newExtensionId: Swift.String) throws
+  public func securityEventSetDeviceParamValue(extensionIndex: Swift.Int32) throws -> Swift.String
+  public func preIconViewSetHeadingTextColor(extensionIndex: Swift.Int32, newExtensionName: Swift.String) throws
+  public var transStatusSeverity: Swift.String {
+    get
+  }
+  public var dsIconSetAcsRefNumber: Swift.String {
+    get
+  }
+  public var scaleAspectFitImpFramework: Swift.String {
+    get
+  }
+  public var IndirectsymoffCreateTransaction: Swift.Bool {
     get
     set
   }
-  public var orderedSameUrlString: Swift.String {
+  public var IsDebuggerAttachedNewMethod: Swift.String {
+    get
+  }
+  public var enterMyHTTPS: Swift.String {
+    get
+  }
+  public var selectedViewControllerNamelen: Swift.String {
+    get
+  }
+  public var setHeadingTextAlignmentShouldFireChallengeStatusFirst: Swift.String {
+    get
+  }
+  public var clientTransactionID: ipworks3ds_sdk.ClientProxyAuthSchemes {
     get
     set
   }
-  public var shouldStopSetAcsRefNumber: Swift.Int32 {
+  public var newACSRootCertStoreCurrentLocation: Swift.Bool {
     get
     set
   }
-  public var contentsClientTest: Swift.String {
+  public var familyNamesGetAcsTransactionID: Swift.String {
     get
     set
   }
-  public var getHeadingTextAlignmentObfuscateString: ipworks3ds_sdk.ClientProxySSLs {
+  public var closeViewToolbarTextColor: Swift.Int32 {
     get
     set
   }
-  public var sdkBundleLinkeditCmdName: Swift.String {
+  public var lazyBindingInfoStartCmdsize: Swift.String {
     get
     set
   }
-  public var expectedBundleIDIsOSSupported: Swift.String {
-    get
-  }
-  public var StringIsEmptyTransaction: Swift.String {
+  public var aCSHTMLRefreshBuild: ipworks3ds_sdk.ClientProxySSLs {
     get
     set
   }
-  public var CancelBtnTitleNavigationItem: Swift.String {
+  public var formatUnsafePointer: Swift.String {
     get
     set
   }
-  public var SdkTEXTSegmentUIVisualEffectView: Swift.String {
+  public var detectionClassWHITELIST: Swift.String {
+    get
+  }
+  public var IconViewDeviceParam: Swift.String {
     get
     set
   }
-  public var AcsTransIDGetSDKEphemeralPublicKey: Foundation.Data {
+  public var RemainGetTextFontName: Swift.String {
     get
     set
   }
-  public var FlagsTransStatus: Swift.String {
+  public var NavigationControllerTitleEdgeInsets: Swift.String {
     get
     set
   }
-  public var LocationProtocolError: Foundation.Data {
+  public var LoadedDylibNameOffsetCustomization: Foundation.Data {
     get
     set
   }
-  public var SecondInstructionPtrChallengeParameters: Swift.String {
+  public var ClientTestPorts: Swift.String {
     get
     set
   }
-  public var UrlSchemeModificationDate: Foundation.Data {
+  public var DlsymUsing: Foundation.Data {
     get
     set
   }
-  public var ImmhiMaskOverlay: Swift.String {
+  public var EnsurePaddingMapNotNilBoundsWithPadding: Swift.String {
     get
     set
   }
-  public var GetErrorMessageLeadingAnchor: ipworks3ds_sdk.ClientSSLCertStoreTypes {
+  public var OnDataPacketOutRadius: Foundation.Data {
     get
     set
   }
-  public var RESENDSegData: Swift.String {
+  public var WriteStoredValidateDataKey: Swift.String {
     get
     set
   }
-  public var InvalidInputExceptionGetAuthenticationRequestParameters: Swift.String {
-    get
-  }
-  public var TextFontSizeTAMPERED: Foundation.Data {
-    get
-  }
-  public var getTopViewControllerMSHookInstruction: Swift.String {
-    get
-  }
-  public var imageDataFamilyNames: Swift.Int32 {
+  public var AnimatedCanceled: ipworks3ds_sdk.ClientSSLCertStoreTypes {
     get
     set
   }
-  public var uIApplicationEnsurePaddingMapNotNil: Swift.String {
-    get
-  }
-  public var hasSuffixGetMessage: Swift.Bool {
+  public var CheckTamperedByMobileProvisionHashDeviceParam: Swift.String {
     get
     set
   }
-  public var vtStringAssert: Swift.String {
+  public var LowercasedImageData: Swift.String {
+    get
+  }
+  public var UITypeEffect: Foundation.Data {
+    get
+  }
+  public var threadScreenHeight: Swift.String {
+    get
+  }
+  public var myUILabelSetPadding: Swift.Int32 {
     get
     set
   }
-  public var textFontNameBlurEffect: Swift.String {
+  public var alertLdrRegister: Swift.String {
     get
   }
-  public var methodAppend: Swift.String {
+  public var forkRetCodePtraceType: Swift.Bool {
+    get
+    set
+  }
+  public var textCmdNameImageCount: Swift.String {
+    get
+    set
+  }
+  public var strideIndexArrary: Swift.String {
     get
   }
-  public func oemParamsMyClient(_ field: Swift.String, _ value: Swift.String, _ valueType: Swift.Int32, _ category: Swift.Int32) throws
-  public func whyInformationLabelEnsureBackgroundColorMapNotNil(_ id: Swift.String, _ name: Swift.String, _ critical: Swift.Bool, _ data: Swift.String) throws
-  public func setACSRootCertStoreWarning(_ name: Swift.String, _ value: Swift.String, _ valueType: Swift.Int32) throws
-  public func configParamsCheckTamperedByInfoDictionary(_ authResponse: Swift.String) throws
-  public func certIssuerGetSDKTransactionID(_ configurationString: Swift.String) throws -> Swift.String
-  public func getTextColorHexConvenience() throws -> Swift.String
-  public func findTextSectionInMatchOClientConfigs() throws
-  public func oemParamsDlsym() throws
-  public func detectionClassACSRootCertIndex() throws
-  public func setMessageSetDeviceParamValue() throws
+  public var completionHandlerStoredValidateData: Swift.String {
+    get
+  }
+  public func clientACSRootCertStoreTypesConfigParametersTests(_ field: Swift.String, _ value: Swift.String, _ valueType: Swift.Int32, _ category: Swift.Int32) throws
+  public func challengeSelectInfoCountAddress(_ id: Swift.String, _ name: Swift.String, _ critical: Swift.Bool, _ data: Swift.String) throws
+  public func systemBackgroundForFamilyName(_ name: Swift.String, _ value: Swift.String, _ valueType: Swift.Int32) throws
+  public func curSegnameNavItem(_ authResponse: Swift.String) throws
+  public func nSDataThrows(_ configurationString: Swift.String) throws -> Swift.String
+  public func transactionStatusHeadingTextFontName() throws -> Swift.String
+  public func withUnsafePointerSetButtonText() throws
+  public func regionCodeGetJSONArrary() throws
+  public func remainingStrAddTarget() throws
+  public func addSecurityParamsDladdr() throws
 }
 @objc public enum ButtonType : Swift.Int {
   case SUBMIT
@@ -471,8 +471,8 @@ public enum IPWorks3DSClientError : Swift.Error {
   case NEXT
   case CANCEL
   case RESEND
-  public typealias RawValue = Swift.Int
   public init?(rawValue: Swift.Int)
+  public typealias RawValue = Swift.Int
   public var rawValue: Swift.Int {
     get
   }
@@ -487,8 +487,8 @@ public enum IPWorks3DSClientError : Swift.Error {
   case EXPANDABLE_INFO
   case EXPANDABLE_INFO_TEXT
   case SELECTION_LIST
-  public typealias RawValue = Swift.Int
   public init?(rawValue: Swift.Int)
+  public typealias RawValue = Swift.Int
   public var rawValue: Swift.Int {
     get
   }
@@ -500,8 +500,8 @@ public enum IPWorks3DSClientError : Swift.Error {
   public var description: Swift.String {
     get
   }
-  public typealias RawValue = Swift.Int
   public init?(rawValue: Swift.Int)
+  public typealias RawValue = Swift.Int
   public var rawValue: Swift.Int {
     get
   }
@@ -517,8 +517,8 @@ public enum IPWorks3DSClientError : Swift.Error {
   public var description: Swift.String {
     get
   }
-  public typealias RawValue = Swift.Int
   public init?(rawValue: Swift.Int)
+  public typealias RawValue = Swift.Int
   public var rawValue: Swift.Int {
     get
   }
@@ -555,7 +555,6 @@ public enum IPWorks3DSClientError : Swift.Error {
   @objc public func getSDKEphemeralPublicKey() -> Swift.String
   @objc public func getMessageVersion() -> Swift.String
   @objc public func getAuthRequest() -> Swift.String
-  @objc override dynamic public init()
   @objc deinit
 }
 @objc public class ChallengeParameters : ObjectiveC.NSObject {
@@ -572,20 +571,18 @@ public enum IPWorks3DSClientError : Swift.Error {
   @objc public func getThreeDSRequestorAppURL() -> Swift.String
   @objc public func setThreeDSRequestorAppURL(_ threeDSRequestorAppURL: Swift.String)
   @objc deinit
-  @objc override dynamic public init()
 }
 @_inheritsConvenienceInitializers @objc public class ConfigParameters : ObjectiveC.NSObject {
   @objc public func addParam(group: Swift.String?, paramName: Swift.String, paramValue: Swift.String?) throws
   @objc public func getParamValue(group: Swift.String?, paramName: Swift.String) throws -> Swift.String
   @objc public func removeParam(group: Swift.String?, paramName: Swift.String) throws -> Swift.String
-  @objc deinit
   @objc override dynamic public init()
+  @objc deinit
 }
 @objc public class DirectoryServerInfo : ObjectiveC.NSObject {
   @objc public init(RID: Swift.String, publicKey: Swift.String, CA: Swift.String)
   @objc public init(RID: Swift.String, publicKey: Swift.String, CAs: [Swift.String])
   @objc deinit
-  @objc override dynamic public init()
 }
 @objc public class ConfigParametersBuilder : ObjectiveC.NSObject {
   public static let GROUP_DIRECTORY_SERVER_KEY: Swift.String
@@ -599,7 +596,6 @@ public enum IPWorks3DSClientError : Swift.Error {
   @objc public init(directoryServerInfoList: [ipworks3ds_sdk.DirectoryServerInfo]?, runtimeLicense: Swift.String, deviceParameterBlacklist: [Swift.String]?, clientConfig: [Swift.String]?, appBundleID: Swift.String)
   @objc public func build() throws -> ipworks3ds_sdk.ConfigParameters
   @objc deinit
-  @objc override dynamic public init()
 }
 @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objc public class Customization : ObjectiveC.NSObject {
   @objc override dynamic public init()
@@ -680,13 +676,11 @@ public enum IPWorks3DSClientError : Swift.Error {
   @objc public func getID() -> Swift.String
   @objc public func getMessage() -> Swift.String
   @objc public func getSeverity() -> ipworks3ds_sdk.Severity
-  @objc override dynamic public init()
   @objc deinit
 }
 @_hasMissingDesignatedInitializers @objc public class RuntimeErrorEvent : ObjectiveC.NSObject {
   @objc public func getErrorCode() -> Swift.String?
   @objc public func getErrorMessage() -> Swift.String
-  @objc override dynamic public init()
   @objc deinit
 }
 @_hasMissingDesignatedInitializers @objc public class ErrorMessage : ObjectiveC.NSObject {
@@ -694,19 +688,16 @@ public enum IPWorks3DSClientError : Swift.Error {
   @objc public func getErrorCode() -> Swift.String
   @objc public func getErrorDescription() -> Swift.String
   @objc public func getErrorDetails() -> Swift.String
-  @objc override dynamic public init()
   @objc deinit
 }
 @_hasMissingDesignatedInitializers @objc public class ProtocolErrorEvent : ObjectiveC.NSObject {
   @objc public func getErrorMessage() -> ipworks3ds_sdk.ErrorMessage
   @objc public func getSDKTransactionID() -> Swift.String
-  @objc override dynamic public init()
   @objc deinit
 }
 @_hasMissingDesignatedInitializers @objc public class CompletionEvent : ObjectiveC.NSObject {
   @objc public func getSDKTransactionID() -> Swift.String
   @objc public func getTransactionStatus() -> Swift.String
-  @objc override dynamic public init()
   @objc deinit
 }
 public enum IPWorks3DSSDKError : Swift.Error {
@@ -715,11 +706,11 @@ public enum IPWorks3DSSDKError : Swift.Error {
   case SDKRuntimeException(_: Swift.String)
   case InvalidInputException(_: Swift.String)
 }
-extension IPWorks3DSSDKError : Foundation.CustomNSError {
+extension ipworks3ds_sdk.IPWorks3DSSDKError : Foundation.CustomNSError {
   public static var errorDomain: Swift.String {
     get
   }
-  public var headingTextFontNameOOBContinueLabel: Swift.Int {
+  public var sdkTransactionIDOnError: Swift.Int {
     get
   }
   public var errorUserInfo: [Swift.String : Any] {

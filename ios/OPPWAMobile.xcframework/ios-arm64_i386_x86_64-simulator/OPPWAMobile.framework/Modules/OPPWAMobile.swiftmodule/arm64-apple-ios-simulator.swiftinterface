@@ -17,6 +17,7 @@ import ipworks3ds_sdk
   @objc public var locale: Swift.String?
   @objc public var deviceParameterBlacklist: [Swift.String]?
   @objc public var uiCustomization: ipworks3ds_sdk.UiCustomization
+  @objc public var threeDSRequestorAppURL: Swift.String?
   @objc override dynamic public init()
   @objc deinit
 }
@@ -74,7 +75,7 @@ import ipworks3ds_sdk
 }
 @_hasMissingDesignatedInitializers @objc public class OPPThreeDSTransaction : ObjectiveC.NSObject {
   @objc public func getAuthRequestParams() throws -> Swift.String
-  @objc public func doChallenge(authResponse: Swift.String, navigationController: UIKit.UINavigationController, challengeCallback: OPPWAMobile.OPPThreeDSChallengeCallback) throws
+  @objc public func doChallenge(authResponse: Swift.String, navigationController: UIKit.UINavigationController, threeDSRequestorAppURL: Swift.String?, challengeCallback: OPPWAMobile.OPPThreeDSChallengeCallback) throws
   @objc public func getProgressView() throws -> ipworks3ds_sdk.ProgressView
   @objc public func close() throws
   @objc deinit

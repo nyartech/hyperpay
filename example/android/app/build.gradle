@@ -55,6 +55,6 @@ flutter {
 }
 
 dependencies {
-    implementation (name:'oppwa.mobile-4.5.0-release', ext:'aar')
+    implementation (name:'oppwa.mobile-4.6.0-release', ext:'aar')
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
