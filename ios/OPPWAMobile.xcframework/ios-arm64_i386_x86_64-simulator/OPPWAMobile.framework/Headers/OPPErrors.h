@@ -110,7 +110,11 @@ typedef NS_ENUM(NSInteger, OPPErrorCode) {
     OPPErrorCodeVippsLink = 5003,
     
     /// 3-D Secure 2 transaction error.
-    OPPErrorCodeThreeDS2Failure = 6000
+    OPPErrorCodeThreeDS2Failure = 6000,
+    
+    /// Card Scanning general error.
+    OPPErrorCodeCardScanningGeneralError = 7000
+
 };
 
 /**

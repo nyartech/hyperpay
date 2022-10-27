@@ -271,6 +271,8 @@ SWIFT_CLASS("_TtC11OPPWAMobile16OPPThreeDSConfig")
 @property (nonatomic, copy) NSArray<NSString *> * _Nullable deviceParameterBlacklist;
 /// UI configuration information that is used to specify the UI layout and theme of the challenge screens, for example, font style and font size.
 @property (nonatomic, strong) UiCustomization * _Nonnull uiCustomization;
+/// Merchant app URL used by Authentication app to call the Merchant app after OOB authentication has occurred.
+@property (nonatomic, copy) NSString * _Nullable threeDSRequestorAppURL;
 /// Creates an object representing configuration information to be applied at <code>OPPThreeDSService</code>.
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
@@ -471,6 +473,8 @@ SWIFT_CLASS("_TtC11OPPWAMobile21OPPThreeDSTransaction")
 ///
 /// \param navigationController The navigation controller to start challenge
 ///
+/// \param threeDSRequestorAppURL The requestor app URL string, required for OOB authentication.
+///
 /// \param challengeCallback The instance of <code>OPPThreeDSChallengeCallback</code> that is calling protocol method.
 ///
 ///
@@ -484,7 +488,7 @@ SWIFT_CLASS("_TtC11OPPWAMobile21OPPThreeDSTransaction")
 ///     <code>SDKRuntimeException</code> if some internal error occurred.
 ///   </li>
 /// </ul>
-- (BOOL)doChallengeWithAuthResponse:(NSString * _Nonnull)authResponse navigationController:(UINavigationController * _Nonnull)navigationController challengeCallback:(id <OPPThreeDSChallengeCallback> _Nonnull)challengeCallback error:(NSError * _Nullable * _Nullable)error;
+- (BOOL)doChallengeWithAuthResponse:(NSString * _Nonnull)authResponse navigationController:(UINavigationController * _Nonnull)navigationController threeDSRequestorAppURL:(NSString * _Nullable)threeDSRequestorAppURL challengeCallback:(id <OPPThreeDSChallengeCallback> _Nonnull)challengeCallback error:(NSError * _Nullable * _Nullable)error;
 /// Returns the processing screen which displays the Directory Server logo, and a graphical element to indicate that an activity is being processed.
 ///
 /// throws:
@@ -816,6 +820,8 @@ SWIFT_CLASS("_TtC11OPPWAMobile16OPPThreeDSConfig")
 @property (nonatomic, copy) NSArray<NSString *> * _Nullable deviceParameterBlacklist;
 /// UI configuration information that is used to specify the UI layout and theme of the challenge screens, for example, font style and font size.
 @property (nonatomic, strong) UiCustomization * _Nonnull uiCustomization;
+/// Merchant app URL used by Authentication app to call the Merchant app after OOB authentication has occurred.
+@property (nonatomic, copy) NSString * _Nullable threeDSRequestorAppURL;
 /// Creates an object representing configuration information to be applied at <code>OPPThreeDSService</code>.
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
@@ -1016,6 +1022,8 @@ SWIFT_CLASS("_TtC11OPPWAMobile21OPPThreeDSTransaction")
 ///
 /// \param navigationController The navigation controller to start challenge
 ///
+/// \param threeDSRequestorAppURL The requestor app URL string, required for OOB authentication.
+///
 /// \param challengeCallback The instance of <code>OPPThreeDSChallengeCallback</code> that is calling protocol method.
 ///
 ///
@@ -1029,7 +1037,7 @@ SWIFT_CLASS("_TtC11OPPWAMobile21OPPThreeDSTransaction")
 ///     <code>SDKRuntimeException</code> if some internal error occurred.
 ///   </li>
 /// </ul>
-- (BOOL)doChallengeWithAuthResponse:(NSString * _Nonnull)authResponse navigationController:(UINavigationController * _Nonnull)navigationController challengeCallback:(id <OPPThreeDSChallengeCallback> _Nonnull)challengeCallback error:(NSError * _Nullable * _Nullable)error;
+- (BOOL)doChallengeWithAuthResponse:(NSString * _Nonnull)authResponse navigationController:(UINavigationController * _Nonnull)navigationController threeDSRequestorAppURL:(NSString * _Nullable)threeDSRequestorAppURL challengeCallback:(id <OPPThreeDSChallengeCallback> _Nonnull)challengeCallback error:(NSError * _Nullable * _Nullable)error;
 /// Returns the processing screen which displays the Directory Server logo, and a graphical element to indicate that an activity is being processed.
 ///
 /// throws:
@@ -1361,6 +1369,8 @@ SWIFT_CLASS("_TtC11OPPWAMobile16OPPThreeDSConfig")
 @property (nonatomic, copy) NSArray<NSString *> * _Nullable deviceParameterBlacklist;
 /// UI configuration information that is used to specify the UI layout and theme of the challenge screens, for example, font style and font size.
 @property (nonatomic, strong) UiCustomization * _Nonnull uiCustomization;
+/// Merchant app URL used by Authentication app to call the Merchant app after OOB authentication has occurred.
+@property (nonatomic, copy) NSString * _Nullable threeDSRequestorAppURL;
 /// Creates an object representing configuration information to be applied at <code>OPPThreeDSService</code>.
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
@@ -1561,6 +1571,8 @@ SWIFT_CLASS("_TtC11OPPWAMobile21OPPThreeDSTransaction")
 ///
 /// \param navigationController The navigation controller to start challenge
 ///
+/// \param threeDSRequestorAppURL The requestor app URL string, required for OOB authentication.
+///
 /// \param challengeCallback The instance of <code>OPPThreeDSChallengeCallback</code> that is calling protocol method.
 ///
 ///
@@ -1574,7 +1586,7 @@ SWIFT_CLASS("_TtC11OPPWAMobile21OPPThreeDSTransaction")
 ///     <code>SDKRuntimeException</code> if some internal error occurred.
 ///   </li>
 /// </ul>
-- (BOOL)doChallengeWithAuthResponse:(NSString * _Nonnull)authResponse navigationController:(UINavigationController * _Nonnull)navigationController challengeCallback:(id <OPPThreeDSChallengeCallback> _Nonnull)challengeCallback error:(NSError * _Nullable * _Nullable)error;
+- (BOOL)doChallengeWithAuthResponse:(NSString * _Nonnull)authResponse navigationController:(UINavigationController * _Nonnull)navigationController threeDSRequestorAppURL:(NSString * _Nullable)threeDSRequestorAppURL challengeCallback:(id <OPPThreeDSChallengeCallback> _Nonnull)challengeCallback error:(NSError * _Nullable * _Nullable)error;
 /// Returns the processing screen which displays the Directory Server logo, and a graphical element to indicate that an activity is being processed.
 ///
 /// throws:

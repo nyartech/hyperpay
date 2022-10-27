@@ -48,6 +48,10 @@
 		<data>
 		j7Wc0S0eoZFvjdpvZfwe94pmvLY=
 		</data>
+		<key>OPPCardScanningViewController.nib</key>
+		<data>
+		JPxdcJa0eW9j+F2dQ/r6gmB5NGs=
+		</data>
 		<key>OPPCardsTableViewCell.nib</key>
 		<data>
 		854wvuXFJ/Wm10RwBJ6/8Fjmjoo=
@@ -946,7 +950,7 @@
 		</data>
 		<key>version.plist</key>
 		<data>
-		TZ2FSR43FNsqaH5N5e3zNZw/VW4=
+		+9N6uRBh7iqvlGmbIceiKlosglM=
 		</data>
 		<key>visa.png</key>
 		<data>
@@ -1127,6 +1131,17 @@
 			<key>hash2</key>
 			<data>
 			YD4kDF5oxBCGFcb0BPMBqFSGziAVKKJTtfHoi4nx5d0=
+			</data>
+		</dict>
+		<key>OPPCardScanningViewController.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			JPxdcJa0eW9j+F2dQ/r6gmB5NGs=
+			</data>
+			<key>hash2</key>
+			<data>
+			wVS8fKZgvSuE8S2E+6zrjwz3cEqXAXhe4hA89f3gNiU=
 			</data>
 		</dict>
 		<key>OPPCardsTableViewCell.nib</key>
@@ -3221,11 +3236,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			TZ2FSR43FNsqaH5N5e3zNZw/VW4=
+			+9N6uRBh7iqvlGmbIceiKlosglM=
 			</data>
 			<key>hash2</key>
 			<data>
-			ZuOueKdtQnPRfYgZ7+uLnQVPdSNwCpReha26sUqg/e0=
+			RSMlNpaO9lzJIQFwyMxDpt0+nrF39fHH7amQ1VSQrMY=
 			</data>
 		</dict>
 		<key>visa.png</key>
