@@ -144,24 +144,10 @@ class HyperpayPlugin {
         return PaymentStatus.init;
       }
 
-      final status = await paymentStatus(
-        _checkoutID,
-        headers: _checkoutSettings?.headers,
-      );
+      _clearSession();
+      _checkoutID = '';
 
-      final String code = status['code'];
-
-      if (code.paymentStatus == PaymentStatus.rejected) {
-        throw HyperpayException(
-            "Rejected payment.", code, status['description']);
-      } else {
-        log('${code.paymentStatus}', name: "HyperpayPlugin/paymentStatus");
-
-        _clearSession();
-        _checkoutID = '';
-
-        return code.paymentStatus;
-      }
+      return PaymentStatus.successful;
     } catch (e) {
       log('$e', name: "HyperpayPlugin/pay");
       rethrow;
