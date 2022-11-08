@@ -72,6 +72,11 @@ typedef NS_ENUM(NSInteger, OPPThreeDS2Status) {
 @property (nonatomic, copy, readonly, nullable) NSString *callbackURL;
 
 /**
+ The challenge completion callback URL string to inform Mastercard Payment Gateway Services that the challenge has been completed.
+ */
+@property (nonatomic, copy, readonly, nullable) NSString *challengeCompletionCallbackUrl;
+
+/**
  Text provided by the ACS/Issuer to Cardholder during a Frictionless or Decoupled transaction.
  */
 @property (nonatomic, copy, readonly, nullable) NSString *cardHolderInfo;

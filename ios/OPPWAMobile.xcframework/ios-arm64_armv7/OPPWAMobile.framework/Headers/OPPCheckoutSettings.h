@@ -185,5 +185,10 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic, nullable) OPPBillingAddress *billingAddress;
 
+/**
+ A flag that specifies whether payment brands order is used for tokens on payment method selection screen. Default is `NO`.
+ */
+@property (nonatomic, getter=isPaymentBrandsOrderUsedForTokens) BOOL paymentBrandsOrderUsedForTokens;
+
 @end
 NS_ASSUME_NONNULL_END

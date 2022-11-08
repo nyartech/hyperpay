@@ -112,6 +112,9 @@ typedef NS_ENUM(NSInteger, OPPErrorCode) {
     /// 3-D Secure 2 transaction error.
     OPPErrorCodeThreeDS2Failure = 6000,
     
+    /// 3-D Secure 2 transaction was cancelled.
+    OPPErrorCodeThreeDS2ChallengeCanceled = 6001,
+    
     /// Card Scanning general error.
     OPPErrorCodeCardScanningGeneralError = 7000
 
@@ -198,6 +201,10 @@ typedef NS_ENUM(NSInteger, OPPErrorCode) {
  
  ###3-D Secure 2 errors:
  - 6000: 3-D Secure 2 transaction error.
+ - 6001: 3-D Secure 2 transaction was cancelled.
+ 
+ ###Credit card number scanning error:
+ - 7000: Card Scanning general error.
  */
 
 @interface OPPErrors : NSObject
