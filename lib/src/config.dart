@@ -25,5 +25,4 @@ class HyperpayConfig {
   late Uri checkoutEndpoint;
   late Uri statusEndpoint;
   PaymentMode paymentMode = PaymentMode.none;
-
 }
