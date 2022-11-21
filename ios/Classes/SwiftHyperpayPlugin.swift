@@ -12,7 +12,7 @@ import SafariServices
 /// Handle calls from the Flutter side.
 ///
 /// Currently supported brands: VISA, MastrCard, MADA, and Apple Pay.
-public class SwiftHyperpayPlugin: FlutterViewController, FlutterPlugin, SFSafariViewControllerDelegate, UIAdaptivePresentationControllerDelegate, PKPaymentAuthorizationViewControllerDelegate, OPPThreeDSEventListener, UINavigationControllerDelegate {
+public class SwiftHyperpayPlugin: UINavigationController, FlutterPlugin, SFSafariViewControllerDelegate, UIAdaptivePresentationControllerDelegate, PKPaymentAuthorizationViewControllerDelegate, OPPThreeDSEventListener, UINavigationControllerDelegate {
     
     var provider:OPPPaymentProvider = OPPPaymentProvider(mode: OPPProviderMode.test)
     var brand:Brand = Brand.UNKNOWN
@@ -45,18 +45,19 @@ public class SwiftHyperpayPlugin: FlutterViewController, FlutterPlugin, SFSafari
     let shopperResultURLSuffix = ".payments://result";
     
     public func onThreeDSChallengeRequired(completion: @escaping (UINavigationController) -> Void) {
-        let rootViewController = UIApplication.shared.keyWindow?.rootViewController as? FlutterViewController
-        let controller = UINavigationController()
+        let rootViewController = UIApplication.shared.delegate?.window??.rootViewController as! UINavigationController
+
+        let nc = UINavigationController()
+        nc.delegate = self
+//        rootViewController.present(nc, animated: true)
+        rootViewController.present(nc, animated: true)
         
-        controller.delegate = self
-        
-        rootViewController?.present(controller, animated:true)
-        
-        completion(controller)
+        completion(nc)
     }
     
     public func onThreeDSConfigRequired(completion: @escaping (OPPThreeDSConfig) -> Void) {
         let config = OPPThreeDSConfig()
+        config.appBundleID = Bundle.main.bundleIdentifier!
         completion(config)
     }
     
@@ -90,6 +91,12 @@ public class SwiftHyperpayPlugin: FlutterViewController, FlutterPlugin, SFSafari
         let channel = FlutterMethodChannel(name: "plugins.nyartech.com/hyperpay", binaryMessenger: registrar.messenger())
         let instance = SwiftHyperpayPlugin()
         let buttonFactory = ApplePayButtonViewFactory(messenger: registrar.messenger())
+        
+        let controller = UIApplication.shared.delegate?.window??.rootViewController as? FlutterViewController
+        let navigationController = UINavigationController(rootViewController: controller!)
+        UIApplication.shared.delegate?.window??.rootViewController = navigationController
+        navigationController.setNavigationBarHidden(true, animated: false)
+        UIApplication.shared.delegate?.window??.makeKeyAndVisible()
         
         registrar.register(buttonFactory, withId: "plugins.nyartech.com/hyperpay/apple_pay_button")
         registrar.addMethodCallDelegate(instance, channel: channel)
@@ -127,6 +134,16 @@ public class SwiftHyperpayPlugin: FlutterViewController, FlutterPlugin, SFSafari
             
             if(paymentMode == "LIVE") {
                 self.provider.mode = OPPProviderMode.live
+            } else {
+                let visaSchemeConfig = OPPThreeDSSchemeConfig(dsRefId: "TEST_VISA_DS_ID",
+                                                              dsEncryptCert: DS_ENCRYPT_CERT,
+                                                              dsCaRootCert: DS_ROOT_CA_CERT)
+                
+                OPPThreeDSService.sharedInstance.setCustomSchemeConfig(["VISA": visaSchemeConfig])
+
+                let paymentBrands = ["VISA"]
+                
+                OPPThreeDSService.sharedInstance.initialize(transactionMode: .test, paymentBrands: paymentBrands)
             }
 
             self.provider.threeDSEventListener = self
@@ -216,12 +233,25 @@ public class SwiftHyperpayPlugin: FlutterViewController, FlutterPlugin, SFSafari
                 if(error != nil) {
                     let errorCode = (error! as NSError).code
                     if(errorCode == 2003){
-                        let rootViewController = UIApplication.shared.delegate?.window??.rootViewController
-                        rootViewController?.dismiss(animated: true)
+                        UIApplication.shared.delegate?.window??.rootViewController?.dismiss(animated: true)
+                        self.paymentResult!("canceled")
+                    } else {
+                        self.paymentResult!(
+                            FlutterError(
+                                code: "0.2",
+                                message: error?.localizedDescription,
+                                details: ""
+                            )
+                        )
+                    }
+                } else {
+                    // Redirect from the 3DSecure page
+                    if (transaction.threeDS2MethodRedirectURL != nil)
+                    {
+                        UIApplication.shared.delegate?.window??.rootViewController?.dismiss(animated: true)
+                        self.paymentResult!("success")
                     }
                     
-                    self.paymentResult!("canceled")
-                } else {
                     if transaction.type == .asynchronous {
                         
                         self.safariVC = SFSafariViewController(url: self.transaction!.redirectURL!)
@@ -229,6 +259,9 @@ public class SwiftHyperpayPlugin: FlutterViewController, FlutterPlugin, SFSafari
                         UIApplication.shared.windows.first?.rootViewController!.present(self.safariVC!, animated: true, completion: nil)
                         
                     } else if transaction.type == .synchronous {
+                        if(transaction.redirectURL != nil){
+                            UIApplication.shared.delegate?.window??.rootViewController?.dismiss(animated: true)
+                        }
                         // Send request to your server to obtain transaction status
                         self.paymentResult!("success")
                     } else {
