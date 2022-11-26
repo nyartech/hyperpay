@@ -274,7 +274,7 @@ class HyperpayPlugin : FlutterPlugin, MethodCallHandler, ITransactionListener, A
         try {
             if (transaction.transactionType == TransactionType.SYNC) {
                 // Send request to your server to obtain transaction status
-                success("Transaction completed as synchronous.")
+                success("synchronous")
             } else {
                 val uri = Uri.parse(transaction.redirectUrl)
                 redirectData = ""

@@ -231,7 +231,7 @@ public class SwiftHyperpayPlugin: UINavigationController, FlutterPlugin, SFSafar
                     return
                 }
                                 
-                // The code 2003 is for when the user abort the process by pressing "Cancel".
+                // The code 6000 is for when the user abort the process by pressing "Cancel".
                 if(error != nil) {
                     let errorCode = (error! as NSError).code
                     if(errorCode == 6000){
