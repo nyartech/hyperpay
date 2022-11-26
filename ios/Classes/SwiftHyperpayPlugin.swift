@@ -261,11 +261,8 @@ public class SwiftHyperpayPlugin: UINavigationController, FlutterPlugin, SFSafar
                         UIApplication.shared.windows.first?.rootViewController!.present(self.safariVC!, animated: true, completion: nil)
                         
                     } else if transaction.type == .synchronous {
-                        if(transaction.redirectURL != nil){
-                            UIApplication.shared.delegate?.window??.rootViewController?.dismiss(animated: true)
-                        }
-                        // Send request to your server to obtain transaction status
-                        self.paymentResult!("success")
+                        // Send request to your server to obtain transaction status.
+                        self.paymentResult!("synchronous")
                     } else {
                         // Handle the error
                         self.paymentResult!(
@@ -333,7 +330,6 @@ public class SwiftHyperpayPlugin: UINavigationController, FlutterPlugin, SFSafar
     }
     
     /// This function checks the provided card params and return a PlatformException to Flutter if any are not valid.
-    ///
     private func checkCreditCardValid(result: @escaping FlutterResult) {
         if !OPPCardPaymentParams.isNumberValid(self.cardNumber, luhnCheck: true) {
             result(
