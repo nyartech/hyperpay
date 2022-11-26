@@ -49,10 +49,12 @@ public class SwiftHyperpayPlugin: UINavigationController, FlutterPlugin, SFSafar
 
         let nc = UINavigationController()
         nc.delegate = self
-//        rootViewController.present(nc, animated: true)
-        rootViewController.present(nc, animated: true)
         
-        completion(nc)
+        DispatchQueue.main.async {
+            rootViewController.present(nc, animated: true) {
+                completion(nc)
+            }
+        }
     }
     
     public func onThreeDSConfigRequired(completion: @escaping (OPPThreeDSConfig) -> Void) {
@@ -232,7 +234,7 @@ public class SwiftHyperpayPlugin: UINavigationController, FlutterPlugin, SFSafar
                 // The code 2003 is for when the user abort the process by pressing "Cancel".
                 if(error != nil) {
                     let errorCode = (error! as NSError).code
-                    if(errorCode == 2003){
+                    if(errorCode == 6000){
                         UIApplication.shared.delegate?.window??.rootViewController?.dismiss(animated: true)
                         self.paymentResult!("canceled")
                     } else {
@@ -246,7 +248,7 @@ public class SwiftHyperpayPlugin: UINavigationController, FlutterPlugin, SFSafar
                     }
                 } else {
                     // Redirect from the 3DSecure page
-                    if (transaction.threeDS2MethodRedirectURL != nil)
+                    if (transaction.threeDS2Info != nil)
                     {
                         UIApplication.shared.delegate?.window??.rootViewController?.dismiss(animated: true)
                         self.paymentResult!("success")
