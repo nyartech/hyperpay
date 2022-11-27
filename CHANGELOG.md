@@ -1,3 +1,34 @@
+## 1.0.0-dev.5
+
+* Fix: bumping to SDK version 4.6.0
+* BREAKING: `pay` method no longer checks for the pament status automatically, you need to call `paymentStatus` yourself.
+* BREAKING: the iOS SDK is now depended on from a git repository, to make the size of the plugin smaller.
+  1. Open Podfile, and update it:
+  ```ruby
+  target 'Runner' do
+    use_frameworks!
+    use_modular_headers!
+
+    flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
+
+    # The line is new, add it to your app's Podfile
+    pod 'oppwamobile', :git => 'https://github.com/nyartech/oppwamobile-ios-sdk.git'
+
+    $static_framework = ['hyperpay']
+
+    pre_install do |installer|
+      Pod::Installer::Xcode::TargetValidator.send(:define_method, :verify_no_static_framework_transitive_dependencies) {}
+      installer.pod_targets.each do |pod|
+          if $static_framework.include?(pod.name)
+            def pod.build_type;
+              Pod::BuildType.static_library
+            end
+          end
+        end
+    end
+  end
+  ```
+
 ## 1.0.0-dev.3
 
 * Fix: bumping to SDK version 4.5.0
