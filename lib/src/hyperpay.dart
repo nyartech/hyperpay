@@ -225,8 +225,7 @@ class HyperpayPlugin {
     }
   }
 
-  /// Check for payment status using a checkout ID, this method is called
-  /// once right after a transaction.
+  /// Check for payment status using a [checkoutID].
   Future<Map<String, dynamic>> paymentStatus(String checkoutID,
       {Map<String, String>? headers}) async {
     try {
@@ -234,14 +233,15 @@ class HyperpayPlugin {
         'entityID': _checkoutSettings?.brand.entityID(config),
         'checkoutID': checkoutID,
       };
+
       final Response response = await post(
         _config.statusEndpoint,
         headers: headers,
-        body: (_checkoutSettings?.headers['Content-Type'] ?? '') ==
-                'application/json'
+        body: _checkoutSettings?.headers['Content-Type'] == 'application/json'
             ? json.encode(body)
             : body,
       );
+
       Map<String, dynamic> _resBody = {};
 
       try {
