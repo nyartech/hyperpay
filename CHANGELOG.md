@@ -1,3 +1,7 @@
+## 1.0.0-dev.6
+
+* Upgrade to HyperPay SDK version 4.8.0.
+
 ## 1.0.0-dev.5
 
 * Fix: bumping to SDK version 4.6.0

@@ -23,5 +23,5 @@ A new flutter plugin project.
   s.swift_version = '5.0'
   s.frameworks  = 'PassKit'
 
-  s.dependency 'oppwamobile', '~> 4.6.0'
+  s.dependency 'oppwamobile', '~> 4.8.0'
 end
