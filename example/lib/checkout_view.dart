@@ -36,7 +36,14 @@ class _CheckoutViewState extends State<CheckoutView> {
   }
 
   setup() async {
-    hyperpay = await HyperpayPlugin.setup(config: TestConfig());
+    hyperpay = await HyperpayPlugin.setup(config: LiveConfig());
+
+
+    holderNameController.text = "Mayur Panchal";
+    cardNumberController.text = "41476710000989255";
+    expiryController.text = "11/26";
+    cvvController.text = "605";
+
   }
 
   /// Initialize HyperPay session
@@ -51,7 +58,7 @@ class _CheckoutViewState extends State<CheckoutView> {
         'Content-Type': 'application/json',
       },
       additionalParams: {
-        'merchantTransactionId': '#123456',
+        'merchantTransactionId': '#12345612',
         'merchantCustomerId': '#0845983457',
         'givenName': 'harvey',
         'surname': 'grey',
@@ -86,6 +93,8 @@ class _CheckoutViewState extends State<CheckoutView> {
         expiryMonth: expiryController.text.split('/')[0],
         expiryYear: '20' + expiryController.text.split('/')[1],
       );
+
+
 
       try {
         // Start transaction
