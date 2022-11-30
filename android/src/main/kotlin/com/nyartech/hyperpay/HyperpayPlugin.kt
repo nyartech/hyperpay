@@ -28,7 +28,7 @@ import com.oppwa.mobile.connect.provider.*
 
 
 /** HyperpayPlugin */
-class HyperpayPlugin : FlutterPlugin, MethodCallHandler, ITransactionListener, ActivityAware {
+class HyperpayPlugin : FlutterPlugin, MethodCallHandler, ITransactionListener, ActivityAware, ThreeDSWorkflowListener {
     private val TAG = "HyperpayPlugin"
     private val CUSTOM_TAB_PACKAGE_NAME = "com.android.chrome"
 
@@ -157,6 +157,9 @@ class HyperpayPlugin : FlutterPlugin, MethodCallHandler, ITransactionListener, A
 
                     paymentProvider = OppPaymentProvider(mActivity!!.application, providerMode);
 
+                    // Set the 3DS listener
+                    paymentProvider!!.setThreeDSWorkflowListener{mActivity}
+
                     // Bind CustomTabs service with the current app activity
                     CustomTabsClient.bindCustomTabsService(mActivity!!, CUSTOM_TAB_PACKAGE_NAME, cctConnection);
 
@@ -271,7 +274,7 @@ class HyperpayPlugin : FlutterPlugin, MethodCallHandler, ITransactionListener, A
         try {
             if (transaction.transactionType == TransactionType.SYNC) {
                 // Send request to your server to obtain transaction status
-                success("Transaction completed as synchronous.")
+                success("synchronous")
             } else {
                 val uri = Uri.parse(transaction.redirectUrl)
                 redirectData = ""
@@ -312,4 +315,7 @@ class HyperpayPlugin : FlutterPlugin, MethodCallHandler, ITransactionListener, A
         )
     }
 
+    override fun onThreeDSChallengeRequired(): Activity {
+        return mActivity!!
+    }
 }

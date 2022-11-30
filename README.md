@@ -31,6 +31,8 @@ target 'Runner' do
   use_modular_headers!
 
   flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
+  # Add from here
+  pod 'oppwamobile', :git => 'https://github.com/nyartech/oppwamobile-ios-sdk.git'
 
   $static_framework = ['hyperpay']
 
@@ -44,6 +46,7 @@ target 'Runner' do
         end
       end
   end
+  # To here
 end
 ```
 
