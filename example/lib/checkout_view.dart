@@ -37,13 +37,6 @@ class _CheckoutViewState extends State<CheckoutView> {
 
   setup() async {
     hyperpay = await HyperpayPlugin.setup(config: LiveConfig());
-
-
-    holderNameController.text = "Mayur Panchal";
-    cardNumberController.text = "41476710000989255";
-    expiryController.text = "11/26";
-    cvvController.text = "605";
-
   }
 
   /// Initialize HyperPay session
