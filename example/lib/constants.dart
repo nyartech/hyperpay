@@ -2,9 +2,9 @@ import 'package:hyperpay/hyperpay.dart';
 
 class TestConfig implements HyperpayConfig {
   @override
-  String? creditcardEntityID = '8ac7a4c8758e14880175937acdf00ff6';
+  String? creditcardEntityID = '';
   @override
-  String? madaEntityID = '8ac7a4c8758e14880175937bc5550ffc';
+  String? madaEntityID = '';
   @override
   String? applePayEntityID = '';
   @override
@@ -17,9 +17,9 @@ class TestConfig implements HyperpayConfig {
 
 class LiveConfig implements HyperpayConfig {
   @override
-  String? creditcardEntityID = '8acda4ca75da9d130175ef7452ff37e6';
+  String? creditcardEntityID = '';
   @override
-  String? madaEntityID = '8acda4ca75da9d130175ef74e0db37ea';
+  String? madaEntityID = '';
   @override
   String? applePayEntityID = '';
   @override
@@ -32,7 +32,7 @@ class LiveConfig implements HyperpayConfig {
 // Setup using your own endpoints.
 // https://wordpresshyperpay.docs.oppwa.com/tutorials/mobile-sdk/integration/server.
 
-String _host = 'europe-west3-mawidy.cloudfunctions.net';
+String _host = '';
 
 Uri _checkoutEndpoint = Uri(
   scheme: 'https',
