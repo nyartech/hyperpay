@@ -93,12 +93,22 @@ public class SwiftHyperpayPlugin: UINavigationController, FlutterPlugin, SFSafar
         let channel = FlutterMethodChannel(name: "plugins.nyartech.com/hyperpay", binaryMessenger: registrar.messenger())
         let instance = SwiftHyperpayPlugin()
         let buttonFactory = ApplePayButtonViewFactory(messenger: registrar.messenger())
+
+        if let delegate = UIApplication.shared.connectedScenes.flatMap { ($0 as? UIWindowScene)?.windows ?? [] }.first { $0.isKeyWindow }  {
+
+            let controller = delegate.window?.rootViewController as? FlutterViewController
+
+            let navigationController = UINavigationController(rootViewController: controller!)
+
+
+            delegate.window?.rootViewController?.view.removeFromSuperview()
+            delegate.window?.rootViewController = navigationController
+
+            navigationController.setNavigationBarHidden(true, animated: false)
         
-        let controller = UIApplication.shared.delegate?.window??.rootViewController as? FlutterViewController
-        let navigationController = UINavigationController(rootViewController: controller!)
-        UIApplication.shared.delegate?.window??.rootViewController = navigationController
-        navigationController.setNavigationBarHidden(true, animated: false)
-        UIApplication.shared.delegate?.window??.makeKeyAndVisible()
+             delegate.window?.makeKeyAndVisible()
+    
+        }
         
         registrar.register(buttonFactory, withId: "plugins.nyartech.com/hyperpay/apple_pay_button")
         registrar.addMethodCallDelegate(instance, channel: channel)
