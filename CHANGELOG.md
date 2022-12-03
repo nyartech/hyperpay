@@ -1,3 +1,7 @@
+## 1.0.0-dev.7
+
+* Fix: iOS issue with UINavigationController where the plugin doesn't work with other plugins.
+
 ## 1.0.0-dev.6
 
 * Upgrade to HyperPay SDK version 4.8.0.
