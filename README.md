@@ -2,6 +2,8 @@
 
 <img src="https://user-images.githubusercontent.com/2434978/130263399-3a812e3a-5794-4428-be3f-32b551752160.png" width="500" />
 
+**DISCLAIMER: this plugin isn't maintained anymore.**
+
 
 This plugin is a wrapper around [HyperPay iOS and Android SDK](https://wordpresshyperpay.docs.oppwa.com/tutorials/mobile-sdk), it's still in **alpha** release, and supports limited set of functionality and brands.
 
