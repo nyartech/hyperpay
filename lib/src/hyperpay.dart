@@ -180,7 +180,7 @@ class HyperpayPlugin {
   /// on the server such that the mobile applications can request
   /// a [checkoutId] from the server and then submits a custom
   /// payment form to this funcion while taking into account
-  /// [BrandType] and [CardInfo] entered by user
+  /// [brand] and [card] entered by user
   ///
   /// [easyPay] does not provide a feedback on the status of payment,
   /// since all config is moved to the server; it is the server
