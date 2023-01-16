@@ -6,3 +6,4 @@
 
 build/
 example/pubspec.lock
+coverage/lcov.info

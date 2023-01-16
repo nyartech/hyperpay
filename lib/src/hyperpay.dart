@@ -173,6 +173,42 @@ class HyperpayPlugin {
     }
   }
 
+  /// Performs client side payment where payment configuration is
+  /// kept hidden on the server
+  ///
+  /// In contrast to [pay], [easyPay] assumes that the config is
+  /// on the server such that the mobile applications can request
+  /// a [checkoutId] from the server and then submits a custom
+  /// payment form to this funcion while taking into account
+  /// [BrandType] and [CardInfo] entered by user
+  ///
+  /// [easyPay] does not provide a feedback on the status of payment,
+  /// since all config is moved to the server; it is the server
+  /// that should provide a separate api for the mobile application
+  /// to request information about the status of a particular transaction.
+  ///
+  Future<void> easyPay({
+    required String checkoutId,
+    required BrandType brand,
+    required CardInfo card,
+  }) async {
+    try {
+      await _channel.invokeMethod(
+        'start_payment_transaction',
+        {
+          'checkoutID': checkoutId,
+          'brand': brand,
+          'card': card.toMap(),
+        },
+      );
+      log('Transaction submitted, validate its status with the server',
+          name: "HyperpayPlugin/pay");
+    } catch (e) {
+      log('$e', name: "HyperpayPlugin/pay");
+      rethrow;
+    }
+  }
+
   /// Perform a transaction natively with Apple Pay.
   ///
   /// This method will throw a [NOT_SUPPORTED] error on any platform other than iOS.
