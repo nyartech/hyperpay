@@ -197,7 +197,7 @@ class HyperpayPlugin {
         'start_payment_transaction',
         {
           'checkoutID': checkoutId,
-          'brand': brand,
+          'brand': brand.name.toUpperCase(),
           'card': card.toMap(),
         },
       );
