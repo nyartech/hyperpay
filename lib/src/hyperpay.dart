@@ -187,7 +187,7 @@ class HyperpayPlugin {
   /// that should provide a separate api for the mobile application
   /// to request information about the status of a particular transaction.
   ///
-  Future<void> easyPay({
+  static Future<void> easyPay({
     required String checkoutId,
     required BrandType brand,
     required CardInfo card,
