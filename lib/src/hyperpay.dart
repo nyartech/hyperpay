@@ -63,6 +63,7 @@ class HyperpayPlugin {
       final body = {
         'entityID': _checkoutSettings?.brand.entityID(config),
         'amount': _checkoutSettings?.amount.toStringAsFixed(2),
+        'createRegistration': true,
         ..._checkoutSettings?.additionalParams ?? {},
       };
       final Response response = await post(
@@ -127,6 +128,53 @@ class HyperpayPlugin {
   /// [HyperPay webhooks](https://wordpresshyperpay.docs.oppwa.com/tutorials/webhooks),
   /// and perform the requird action after payment (e.g. issue receipt) on your server.
   Future<PaymentStatus> pay(CardInfo card) async {
+    try {
+      final result = await _channel.invokeMethod(
+        'start_payment_transaction',
+        {
+          'checkoutID': _checkoutID,
+          'brand': _checkoutSettings?.brand.name.toUpperCase(),
+          'card': card.toMap(),
+        },
+      );
+
+      log('$result', name: "HyperpayPlugin/platformResponse");
+
+      if (result == 'canceled') {
+        // Checkout session is still going on.
+        return PaymentStatus.init;
+      } else if (result == 'synchronous') {
+        final status = await paymentStatus(
+          _checkoutID,
+          headers: _checkoutSettings?.headers,
+        );
+
+        final String code = status['code'];
+
+        if (code.paymentStatus == PaymentStatus.rejected) {
+          throw HyperpayException(
+              "Rejected payment.", code, status['description']);
+        } else {
+          log('${code.paymentStatus}', name: "HyperpayPlugin/paymentStatus");
+
+          _clearSession();
+          _checkoutID = '';
+
+          return code.paymentStatus;
+        }
+      }
+
+      _clearSession();
+      _checkoutID = '';
+
+      return PaymentStatus.successful;
+    } catch (e) {
+      log('$e', name: "HyperpayPlugin/pay");
+      rethrow;
+    }
+  }
+
+    Future<PaymentStatus> payWithToken(CardInfo card) async {
     try {
       final result = await _channel.invokeMethod(
         'start_payment_transaction',
@@ -265,6 +313,27 @@ class HyperpayPlugin {
         );
       }
     } catch (exception) {
+      rethrow;
+    }
+  }
+
+  Future<List<TokenCardValue>> getPaymentData() async {
+    try {
+      final result = await _channel.invokeMethod(
+        'payment_data',
+        {
+          'checkoutID': _checkoutID,
+        },
+      );
+
+      log('$result', name: "HyperpayPlugin/platformResponse");
+
+      return result
+          .map<TokenCardValue>((j) => TokenCardValue.fromMap(j))
+          .toList();
+
+    } catch (e) {
+      log('$e', name: "HyperpayPlugin/payWithApplePay");
       rethrow;
     }
   }

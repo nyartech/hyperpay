@@ -24,7 +24,9 @@ import io.flutter.embedding.engine.plugins.lifecycle.HiddenLifecycleReference
 import com.oppwa.mobile.connect.exception.*
 import com.oppwa.mobile.connect.payment.*
 import com.oppwa.mobile.connect.payment.card.*
+import com.oppwa.mobile.connect.payment.token.TokenPaymentParams
 import com.oppwa.mobile.connect.provider.*
+import kotlin.math.log
 
 
 /** HyperpayPlugin */
@@ -46,6 +48,7 @@ class HyperpayPlugin : FlutterPlugin, MethodCallHandler, ITransactionListener, A
 
     // Get the checkout ID from the endpoint on your server
     private var checkoutID = ""
+    private var tokenID = ""
 
     private var paymentMode = ""
 
@@ -221,6 +224,41 @@ class HyperpayPlugin : FlutterPlugin, MethodCallHandler, ITransactionListener, A
                     }
                 }
             }
+            "start_token_payment_transaction" -> {
+                channelResult = result
+
+                val args: Map<String, Any> = call.arguments as Map<String, Any>
+                checkoutID = (args["checkoutID"] as String?)!!
+                tokenID = (args["tokenID"] as String?)!!
+
+                val paymentParams =
+                    TokenPaymentParams(checkoutID, tokenID, brand.name)
+                //Set shopper result URL
+                paymentParams.shopperResultUrl = "$shopperResultUrl://result"
+                try {
+                    val transaction = Transaction(paymentParams)
+                    paymentProvider?.registerTransaction(transaction, this)
+                } catch (e: PaymentException) {
+                    result.error(
+                        "0.2",
+                        e.localizedMessage,
+                        ""
+                    )
+                }
+            }
+            "payment_data" -> {
+                val args: Map<String, Any> = call.arguments as Map<String, Any>
+                checkoutID = (args["checkoutID"] as String?)!!
+                try {
+                    paymentProvider?.requestCheckoutInfo(checkoutID, this)
+                } catch (e: PaymentException) {
+                    result.error(
+                            "0.2",
+                            e.localizedMessage,
+                            ""
+                    )
+                }
+            }
             else -> {
                 result.notImplemented()
             }
@@ -268,6 +306,18 @@ class HyperpayPlugin : FlutterPlugin, MethodCallHandler, ITransactionListener, A
 
     override fun onDetachedFromEngine(@NonNull binding: FlutterPlugin.FlutterPluginBinding) {
         channel.setMethodCallHandler(null)
+    }
+
+    override fun paymentConfigRequestSucceeded(checkoutInfo: CheckoutInfo) {
+        /* get the tokens */
+        val tokens = checkoutInfo.tokens
+        Log.w(TAG, "Tokens: $tokens")
+        if(tokens != null) {
+            success(tokens.map { {
+                "tokenID" to it.tokenId
+                "last4Digits" to (it.card?.last4Digits ?: "")
+            } })
+        }
     }
 
     override fun transactionCompleted(transaction: Transaction) {
