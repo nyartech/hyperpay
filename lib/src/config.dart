@@ -24,5 +24,6 @@ class HyperpayConfig {
   String? applePayEntityID;
   late Uri checkoutEndpoint;
   late Uri statusEndpoint;
+  late Uri tokensEndpoint;
   PaymentMode paymentMode = PaymentMode.none;
 }

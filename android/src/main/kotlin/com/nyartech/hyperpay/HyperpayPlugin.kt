@@ -198,7 +198,7 @@ class HyperpayPlugin : FlutterPlugin, MethodCallHandler, ITransactionListener, A
                     else -> {
                         checkCreditCardValid(result)
 
-                        val paymentParams: PaymentParams = CardPaymentParams(
+                        val paymentParams = CardPaymentParams(
                                 checkoutID,
                                 brand.name,
                                 cardNumber,
@@ -207,7 +207,8 @@ class HyperpayPlugin : FlutterPlugin, MethodCallHandler, ITransactionListener, A
                                 expiryYear,
                                 cvv
                         )
-
+                        paymentParams.isTokenizationEnabled = true
+                        Log.w(TAG, "Tokens: true")
                         //Set shopper result URL
                         paymentParams.shopperResultUrl = "$shopperResultUrl://result"
 

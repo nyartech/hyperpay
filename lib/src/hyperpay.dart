@@ -63,7 +63,6 @@ class HyperpayPlugin {
       final body = {
         'entityID': _checkoutSettings?.brand.entityID(config),
         'amount': _checkoutSettings?.amount.toStringAsFixed(2),
-        'createRegistration': true,
         ..._checkoutSettings?.additionalParams ?? {},
       };
       final Response response = await post(
@@ -174,14 +173,15 @@ class HyperpayPlugin {
     }
   }
 
-    Future<PaymentStatus> payWithToken(CardInfo card) async {
+  Future<PaymentStatus> payWithToken(List<String> token) async {
     try {
+      
       final result = await _channel.invokeMethod(
-        'start_payment_transaction',
+        'start_token_payment_transaction',
         {
           'checkoutID': _checkoutID,
           'brand': _checkoutSettings?.brand.name.toUpperCase(),
-          'card': card.toMap(),
+          'tokenID': token,
         },
       );
 
@@ -331,7 +331,6 @@ class HyperpayPlugin {
       return result
           .map<TokenCardValue>((j) => TokenCardValue.fromMap(j))
           .toList();
-
     } catch (e) {
       log('$e', name: "HyperpayPlugin/payWithApplePay");
       rethrow;
