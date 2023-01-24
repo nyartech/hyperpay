@@ -282,6 +282,8 @@ class HyperpayPlugin {
         'checkoutID': checkoutID,
       };
 
+      log('$body', name: "HyperpayPlugin/platformResponse");
+
       final Response response = await post(
         _config.statusEndpoint,
         headers: headers,
