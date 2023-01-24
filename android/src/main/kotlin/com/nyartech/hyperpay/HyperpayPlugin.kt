@@ -230,6 +230,7 @@ class HyperpayPlugin : FlutterPlugin, MethodCallHandler, ITransactionListener, A
 
                 val args: Map<String, Any> = call.arguments as Map<String, Any>
                 checkoutID = (args["checkoutID"] as String?)!!
+                brand = Brand.valueOf(args["brand"].toString())
                 tokenID = (args["tokenID"] as String?)!!
 
                 val paymentParams =
@@ -238,7 +239,7 @@ class HyperpayPlugin : FlutterPlugin, MethodCallHandler, ITransactionListener, A
                 paymentParams.shopperResultUrl = "$shopperResultUrl://result"
                 try {
                     val transaction = Transaction(paymentParams)
-                    paymentProvider?.registerTransaction(transaction, this)
+                    paymentProvider?.submitTransaction(transaction, this)
                 } catch (e: PaymentException) {
                     result.error(
                         "0.2",

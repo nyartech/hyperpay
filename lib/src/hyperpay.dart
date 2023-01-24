@@ -173,7 +173,7 @@ class HyperpayPlugin {
     }
   }
 
-  Future<PaymentStatus> payWithToken(List<String> token) async {
+  Future<PaymentStatus> payWithToken(String token) async {
     try {
       
       final result = await _channel.invokeMethod(
