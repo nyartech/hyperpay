@@ -227,26 +227,29 @@ class HyperpayPlugin : FlutterPlugin, MethodCallHandler, ITransactionListener, A
             }
             "start_token_payment_transaction" -> {
                 channelResult = result
+                Log.d(TAG, "channelResult: $channelResult")
 
                 val args: Map<String, Any> = call.arguments as Map<String, Any>
+                Log.d(TAG, "args: $args")
+
                 checkoutID = (args["checkoutID"] as String?)!!
                 brand = Brand.valueOf(args["brand"].toString())
                 tokenID = (args["tokenID"] as String?)!!
-                Log.w(TAG, "checkoutID: $checkoutID")
-                Log.w(TAG, "brand: $brand")
-                Log.w(TAG, "TokenId: $tokenID")
+                Log.d(TAG, "checkoutID: $checkoutID")
+                Log.d(TAG, "brand: $brand")
+                Log.d(TAG, "TokenId: $tokenID")
                 val paymentParams =
                     TokenPaymentParams(checkoutID, tokenID, brand.name)
                 //Set shopper result URL
                 paymentParams.shopperResultUrl = "$shopperResultUrl://result"
 
-                Log.w(TAG, "ShoperResultUrl: $shopperResultUrl://result")
+                Log.d(TAG, "ShoperResultUrl: $shopperResultUrl://result")
 
-                Log.w(TAG, "paymentParams: $paymentParams")
+                Log.d(TAG, "paymentParams: $paymentParams")
 
                 try {
                     val transaction = Transaction(paymentParams)
-                    Log.w(TAG, "Tokens: $transaction")
+                    Log.d(TAG, "Tokens: $transaction")
 
                     paymentProvider?.submitTransaction(transaction, this)
                 } catch (e: PaymentException) {
