@@ -235,17 +235,13 @@ class HyperpayPlugin : FlutterPlugin, MethodCallHandler, ITransactionListener, A
                 checkoutID = (args["checkoutID"] as String?)!!
                 brand = Brand.valueOf(args["brand"].toString())
                 tokenID = (args["tokenID"] as String?)!!
-                Log.d(TAG, "checkoutID: $checkoutID")
-                Log.d(TAG, "brand: $brand")
-                Log.d(TAG, "TokenId: $tokenID")
+                cvv = (args["cvv"] as String?)!!
+
                 val paymentParams =
-                    TokenPaymentParams(checkoutID, tokenID, brand.name)
+                    TokenPaymentParams(checkoutID, tokenID, brand.name, cvv)
+
                 //Set shopper result URL
                 paymentParams.shopperResultUrl = "$shopperResultUrl://result"
-
-                Log.d(TAG, "ShoperResultUrl: $shopperResultUrl://result")
-
-                Log.d(TAG, "paymentParams: $paymentParams")
 
                 try {
                     val transaction = Transaction(paymentParams)
@@ -257,19 +253,6 @@ class HyperpayPlugin : FlutterPlugin, MethodCallHandler, ITransactionListener, A
                         "0.2",
                         e.localizedMessage,
                         ""
-                    )
-                }
-            }
-            "payment_data" -> {
-                val args: Map<String, Any> = call.arguments as Map<String, Any>
-                checkoutID = (args["checkoutID"] as String?)!!
-                try {
-                    paymentProvider?.requestCheckoutInfo(checkoutID, this)
-                } catch (e: PaymentException) {
-                    result.error(
-                            "0.2",
-                            e.localizedMessage,
-                            ""
                     )
                 }
             }

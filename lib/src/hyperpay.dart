@@ -173,7 +173,7 @@ class HyperpayPlugin {
     }
   }
 
-  Future<PaymentStatus> payWithToken(String token) async {
+  Future<PaymentStatus> payWithToken(String token, String cvv) async {
     try {
       
       final result = await _channel.invokeMethod(
@@ -182,6 +182,7 @@ class HyperpayPlugin {
           'checkoutID': _checkoutID,
           'brand': _checkoutSettings?.brand.name.toUpperCase(),
           'tokenID': token,
+          'cvv': cvv,
         },
       );
 
@@ -315,26 +316,6 @@ class HyperpayPlugin {
         );
       }
     } catch (exception) {
-      rethrow;
-    }
-  }
-
-  Future<List<TokenCardValue>> getPaymentData() async {
-    try {
-      final result = await _channel.invokeMethod(
-        'payment_data',
-        {
-          'checkoutID': _checkoutID,
-        },
-      );
-
-      log('$result', name: "HyperpayPlugin/platformResponse");
-
-      return result
-          .map<TokenCardValue>((j) => TokenCardValue.fromMap(j))
-          .toList();
-    } catch (e) {
-      log('$e', name: "HyperpayPlugin/payWithApplePay");
       rethrow;
     }
   }
