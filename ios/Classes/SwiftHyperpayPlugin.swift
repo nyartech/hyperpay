@@ -326,6 +326,11 @@ public class SwiftHyperpayPlugin: UINavigationController, FlutterPlugin, SFSafar
                 cardPaymentBrand: self.brand.rawValue,
                 cvv: self.cvv
             )
+
+            NSLog(self.checkoutID);
+            NSLog(self.tokenID);
+            NSLog(self.brand.rawValue);
+            NSLog(self.cvv);
             
             params.shopperResultURL = Bundle.main.bundleIdentifier! + shopperResultURLSuffix
             
