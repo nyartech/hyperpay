@@ -323,7 +323,7 @@ public class SwiftHyperpayPlugin: UINavigationController, FlutterPlugin, SFSafar
             let params = try OPPTokenPaymentParams(
                 checkoutID: self.checkoutID,
                 tokenID: self.tokenID,
-                cardPaymentBrand: self.brand,
+                cardPaymentBrand: self.brand.rawValue,
                 cvv: self.cvv
             )
             
