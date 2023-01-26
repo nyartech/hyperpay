@@ -62,6 +62,7 @@ class HyperpayPlugin : FlutterPlugin, MethodCallHandler, ITransactionListener, A
 
     private var shopperResultUrl: String = ""
 
+    private var paymentParams1 = TokenPaymentParams? = null;
     private var mCustomTabsClient: CustomTabsClient? = null;
     private var mCustomTabsIntent: CustomTabsIntent? = null;
     private var hiddenLifecycleReference: HiddenLifecycleReference? = null;
@@ -237,14 +238,20 @@ class HyperpayPlugin : FlutterPlugin, MethodCallHandler, ITransactionListener, A
                 tokenID = (args["tokenID"] as String?)!!
                 cvv = (args["cvv"] as String?)!!
 
-                val paymentParams =
-                    TokenPaymentParams(checkoutID, tokenID, brand.name, cvv)
+                if(cvv == '') {
+                    paymentParams1 = TokenPaymentParams(checkoutID, tokenID, brand.name)
+                } else {
+                    paymentParams1 =
+                        TokenPaymentParams(checkoutID, tokenID, brand.name, cvv)
+                }
+
+
 
                 //Set shopper result URL
                 paymentParams.shopperResultUrl = "$shopperResultUrl://result"
 
                 try {
-                    val transaction = Transaction(paymentParams)
+                    val transaction = Transaction(paymentParams1!)
                     Log.d(TAG, "Tokens: $transaction")
 
                     paymentProvider?.submitTransaction(transaction, this)
