@@ -321,11 +321,16 @@ public class SwiftHyperpayPlugin: UINavigationController, FlutterPlugin, SFSafar
     private func onTokenCard() { 
         do {
             let params = try OPPTokenPaymentParams(
-                checkoutID: checkoutID, 
-                tokenID: tokenID, 
-                paymentBrand: brand,
-                cvv: cvv
+                checkoutID: self.checkoutID,
+                tokenID: self.tokenID,
+                cardPaymentBrand: self.brand.rawValue,
+                cvv: self.cvv
             )
+
+            NSLog(self.checkoutID);
+            NSLog(self.tokenID);
+            NSLog(self.brand.rawValue);
+            NSLog(self.cvv);
             
             params.shopperResultURL = Bundle.main.bundleIdentifier! + shopperResultURLSuffix
             
