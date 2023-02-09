@@ -175,7 +175,6 @@ class HyperpayPlugin {
 
   Future<PaymentStatus> payWithToken(String token, String cvv) async {
     try {
-      
       final result = await _channel.invokeMethod(
         'start_token_payment_transaction',
         {
@@ -281,6 +280,7 @@ class HyperpayPlugin {
       final body = {
         'entityID': _checkoutSettings?.brand.entityID(config),
         'checkoutID': checkoutID,
+        if (_checkoutSettings != null) ..._checkoutSettings!.additionalParams
       };
 
       log('$body', name: "HyperpayPlugin/platformResponse");
