@@ -317,11 +317,20 @@ class HyperpayPlugin : FlutterPlugin, MethodCallHandler, ITransactionListener, A
         }
     }
 
+    override fun paymentConfigRequestSucceeded(checkoutInfo: CheckoutInfo) {
+        Log.w(TAG, "checkoutInfo.resourcePath: ${checkoutInfo.resourcePath}")
+        success(checkoutInfo.resourcePath)
+    }
+
     override fun transactionCompleted(transaction: Transaction) {
         try {
             if (transaction.transactionType == TransactionType.SYNC) {
                 // Send request to your server to obtain transaction status
-                success("synchronous")
+                try {
+                    paymentProvider.requestCheckoutInfo(CHECKOUT_ID, transactionListener)
+                } catch (e: PaymentException) {
+                    error("${e.message}️")
+                }
             } else {
                 val uri = Uri.parse(transaction.redirectUrl)
                 redirectData = ""
