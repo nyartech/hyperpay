@@ -312,7 +312,7 @@ class HyperpayPlugin : FlutterPlugin, MethodCallHandler, ITransactionListener, A
 
     override fun transactionCompleted(transaction: Transaction) {
         try {
-            Log.w(TAG, "Transaction: ${transaction.transactionType}")
+            Log.w(TAG, "Transaction: ${transaction}")
             if (transaction.transactionType == TransactionType.SYNC) {
                 // Send request to your server to obtain transaction status
                 try {
@@ -322,6 +322,9 @@ class HyperpayPlugin : FlutterPlugin, MethodCallHandler, ITransactionListener, A
                 }
             } else {
                 val uri = Uri.parse(transaction.redirectUrl)
+                Log.w(TAG, "Uri: $uri")
+                Log.w(TAG, "redirectUrl: ${transaction.redirectUrl}")
+
                 redirectData = ""
 
                 val session = mCustomTabsClient?.newSession(object : CustomTabsCallback() {
