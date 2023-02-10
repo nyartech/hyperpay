@@ -145,6 +145,7 @@ class HyperpayPlugin {
       } else if (result == 'synchronous') {
         final status = await paymentStatus(
           _checkoutID,
+          result,
           headers: _checkoutSettings?.headers,
         );
 
@@ -193,6 +194,7 @@ class HyperpayPlugin {
       } else if (result == 'synchronous') {
         final status = await paymentStatus(
           _checkoutID,
+          result,
           headers: _checkoutSettings?.headers,
         );
 
@@ -251,6 +253,7 @@ class HyperpayPlugin {
 
       final status = await paymentStatus(
         _checkoutID,
+        result,
         headers: _checkoutSettings?.headers,
       );
 
@@ -274,7 +277,8 @@ class HyperpayPlugin {
   }
 
   /// Check for payment status using a [checkoutID].
-  Future<Map<String, dynamic>> paymentStatus(String checkoutID,
+  Future<Map<String, dynamic>> paymentStatus(
+      String checkoutID, String resourcePath,
       {Map<String, String>? headers}) async {
     try {
       final body = {
