@@ -306,28 +306,17 @@ class HyperpayPlugin : FlutterPlugin, MethodCallHandler, ITransactionListener, A
     }
 
     override fun paymentConfigRequestSucceeded(checkoutInfo: CheckoutInfo) {
-        /* get the tokens */
-        val tokens = checkoutInfo.tokens
-        Log.w(TAG, "Tokens: $tokens")
-        if(tokens != null) {
-            success(tokens.map { {
-                "tokenID" to it.tokenId
-                "last4Digits" to (it.card?.last4Digits ?: "")
-            } })
-        }
-    }
-
-    override fun paymentConfigRequestSucceeded(checkoutInfo: CheckoutInfo) {
         Log.w(TAG, "checkoutInfo.resourcePath: ${checkoutInfo.resourcePath}")
         success(checkoutInfo.resourcePath)
     }
 
     override fun transactionCompleted(transaction: Transaction) {
         try {
+            Log.w(TAG, "Transaction: ${transaction.transactionType}")
             if (transaction.transactionType == TransactionType.SYNC) {
                 // Send request to your server to obtain transaction status
                 try {
-                    paymentProvider?.requestCheckoutInfo(CHECKOUT_ID, transactionListener)
+                    paymentProvider?.requestCheckoutInfo(checkoutID, this)
                 } catch (e: PaymentException) {
                     error("${e.message}️")
                 }
