@@ -327,7 +327,7 @@ class HyperpayPlugin : FlutterPlugin, MethodCallHandler, ITransactionListener, A
             if (transaction.transactionType == TransactionType.SYNC) {
                 // Send request to your server to obtain transaction status
                 try {
-                    paymentProvider.requestCheckoutInfo(CHECKOUT_ID, transactionListener)
+                    paymentProvider?.requestCheckoutInfo(CHECKOUT_ID, transactionListener)
                 } catch (e: PaymentException) {
                     error("${e.message}️")
                 }
