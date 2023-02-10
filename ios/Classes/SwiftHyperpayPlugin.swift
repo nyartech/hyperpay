@@ -83,7 +83,19 @@ public class SwiftHyperpayPlugin: UINavigationController, FlutterPlugin, SFSafar
                     self.paymentResult?(error?.localizedDescription)
                 } else {
                     completion(.success)
-                    self.paymentResult?("success")
+                    self.provider.requestCheckoutInfo(withCheckoutID: checkoutId, completionHandler: { (checkoutInfo, error) in
+                        guard let resourcePath = checkoutInfo?.resourcePath else {
+                            self.paymentResult!(
+                                FlutterError(
+                                    code: "0.2",
+                                    message: error?.localizedDescription,
+                                    details: ""
+                                )
+                            )
+                            return
+                        }
+                        self.paymentResult!(resourcePath)
+                    })
                 }
             })
         }
@@ -282,7 +294,19 @@ public class SwiftHyperpayPlugin: UINavigationController, FlutterPlugin, SFSafar
                     if (transaction.threeDS2Info != nil)
                     {
                         UIApplication.shared.delegate?.window??.rootViewController?.dismiss(animated: true)
-                        self.paymentResult!("success")
+                        self.provider.requestCheckoutInfo(withCheckoutID: checkoutId, completionHandler: { (checkoutInfo, error) in
+                            guard let resourcePath = checkoutInfo?.resourcePath else {
+                                self.paymentResult!(
+                                    FlutterError(
+                                        code: "0.2",
+                                        message: error?.localizedDescription,
+                                        details: ""
+                                    )
+                                )
+                                return
+                            }
+                            self.paymentResult!(resourcePath)
+                        })
                     }
                     
                     if transaction.type == .asynchronous {
@@ -292,8 +316,19 @@ public class SwiftHyperpayPlugin: UINavigationController, FlutterPlugin, SFSafar
                         UIApplication.shared.windows.first?.rootViewController!.present(self.safariVC!, animated: true, completion: nil)
                         
                     } else if transaction.type == .synchronous {
-                        // Send request to your server to obtain transaction status.
-                        self.paymentResult!("synchronous")
+                        self.provider.requestCheckoutInfo(withCheckoutID: checkoutId, completionHandler: { (checkoutInfo, error) in
+                            guard let resourcePath = checkoutInfo?.resourcePath else {
+                                self.paymentResult!(
+                                    FlutterError(
+                                        code: "0.2",
+                                        message: error?.localizedDescription,
+                                        details: ""
+                                    )
+                                )
+                                return
+                            }
+                            self.paymentResult!(resourcePath)
+                        })
                     } else {
                         // Handle the error
                         self.paymentResult!(
@@ -369,7 +404,19 @@ public class SwiftHyperpayPlugin: UINavigationController, FlutterPlugin, SFSafar
                     if (transaction.threeDS2Info != nil)
                     {
                         UIApplication.shared.delegate?.window??.rootViewController?.dismiss(animated: true)
-                        self.paymentResult!("success")
+                        self.provider.requestCheckoutInfo(withCheckoutID: checkoutId, completionHandler: { (checkoutInfo, error) in
+                            guard let resourcePath = checkoutInfo?.resourcePath else {
+                                self.paymentResult!(
+                                    FlutterError(
+                                        code: "0.2",
+                                        message: error?.localizedDescription,
+                                        details: ""
+                                    )
+                                )
+                                return
+                            }
+                            self.paymentResult!(resourcePath)
+                        })
                     }
                     
                     if transaction.type == .asynchronous {
@@ -379,8 +426,20 @@ public class SwiftHyperpayPlugin: UINavigationController, FlutterPlugin, SFSafar
                         UIApplication.shared.windows.first?.rootViewController!.present(self.safariVC!, animated: true, completion: nil)
                         
                     } else if transaction.type == .synchronous {
-                        // Send request to your server to obtain transaction status.
-                        self.paymentResult!("synchronous")
+                        self.provider.requestCheckoutInfo(withCheckoutID: checkoutId, completionHandler: { (checkoutInfo, error) in
+                            guard let resourcePath = checkoutInfo?.resourcePath else {
+                                self.paymentResult!(
+                                    FlutterError(
+                                        code: "0.2",
+                                        message: error?.localizedDescription,
+                                        details: ""
+                                    )
+                                )
+                                return
+                            }
+                            self.paymentResult!(resourcePath)
+                        })
+
                     } else {
                         // Handle the error
                         self.paymentResult!(
@@ -441,7 +500,19 @@ public class SwiftHyperpayPlugin: UINavigationController, FlutterPlugin, SFSafar
         
         self.safariVC?.dismiss(animated: true) {
             DispatchQueue.main.async {
-                result("success")
+                self.provider.requestCheckoutInfo(withCheckoutID: checkoutId, completionHandler: { (checkoutInfo, error) in
+                    guard let resourcePath = checkoutInfo?.resourcePath else {
+                        self.paymentResult!(
+                            FlutterError(
+                                code: "0.2",
+                                message: error?.localizedDescription,
+                                details: ""
+                            )
+                        )
+                        return
+                    }
+                    self.paymentResult!(resourcePath)
+                })
             }
         }
         
