@@ -142,7 +142,7 @@ class HyperpayPlugin {
       if (result == 'canceled') {
         // Checkout session is still going on.
         return PaymentStatus.init;
-      } else if (result == 'synchronous') {
+      } else {
         final status = await paymentStatus(
           _checkoutID,
           result,
@@ -191,7 +191,7 @@ class HyperpayPlugin {
       if (result == 'canceled') {
         // Checkout session is still going on.
         return PaymentStatus.init;
-      } else if (result == 'synchronous') {
+      } else {
         final status = await paymentStatus(
           _checkoutID,
           result,
@@ -284,6 +284,7 @@ class HyperpayPlugin {
       final body = {
         'entityID': _checkoutSettings?.brand.entityID(config),
         'checkoutID': checkoutID,
+        'resourcePath': resourcePath,
         if (_checkoutSettings != null) ..._checkoutSettings!.additionalParams
       };
 
