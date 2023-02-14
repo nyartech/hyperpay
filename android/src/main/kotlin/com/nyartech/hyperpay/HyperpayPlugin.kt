@@ -98,7 +98,12 @@ class HyperpayPlugin : FlutterPlugin, MethodCallHandler, ITransactionListener, A
                 redirectData = it.scheme.toString()
 
                 Log.d(TAG, "Success, redirecting to app...")
-                success("success")
+                Log.d(TAG, "Success, $redirectData")
+                try {
+                    paymentProvider?.requestCheckoutInfo(checkoutID, this)
+                } catch (e: PaymentException) {
+                    error("${e.message}️")
+                }
             }
             true
         }
