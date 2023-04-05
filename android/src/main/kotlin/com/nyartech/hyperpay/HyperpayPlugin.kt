@@ -25,6 +25,8 @@ import com.oppwa.mobile.connect.exception.*
 import com.oppwa.mobile.connect.payment.*
 import com.oppwa.mobile.connect.payment.card.*
 import com.oppwa.mobile.connect.provider.*
+import com.oppwa.mobile.connect.provider.ITransactionListener
+
 
 
 /** HyperpayPlugin */
