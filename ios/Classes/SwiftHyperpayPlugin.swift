@@ -96,7 +96,7 @@ public class SwiftHyperpayPlugin: UINavigationController, FlutterPlugin, SFSafar
 
         if let delegate = UIApplication.shared.connectedScenes.flatMap { ($0 as? UIWindowScene)?.windows ?? [] }.first { $0.isKeyWindow }  {
 
-            let controller = delegate.window?.rootViewController as? FlutterViewController
+            let controller = FlutterViewController(project: nil, nibName: nil, bundle: nil)
 
             let navigationController = UINavigationController(rootViewController: controller!)
 
